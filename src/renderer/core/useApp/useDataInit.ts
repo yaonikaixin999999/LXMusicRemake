@@ -10,6 +10,7 @@ import { onBeforeUnmount } from '@common/utils/vueTools'
 import { appSetting } from '@renderer/store/setting'
 import { playMusicInfo } from '@renderer/store/player/state'
 import { initDislikeInfo, registerRemoteDislikeAction } from '@renderer/core/dislikeList'
+import { disposePlatformAccounts, initializePlatformAccounts } from '@renderer/ui/services/platformAccounts'
 
 const initPrevPlayInfo = async() => {
   const info = await getPlayInfo()
@@ -38,6 +39,7 @@ export default () => {
   onBeforeUnmount(() => {
     if (unregister) unregister()
     if (unregisterDislikeEvent) unregisterDislikeEvent()
+    disposePlatformAccounts()
   })
 
   return async() => {
@@ -51,6 +53,7 @@ export default () => {
       window.app_event.myListUpdate(ids)
     })
     window.lxData.userLists = await getUserLists() // 获取用户列表
+    void initializePlatformAccounts()
     unregisterDislikeEvent = registerRemoteDislikeAction()
     await initDislikeInfo() // 获取不喜欢列表
     await initPrevPlayInfo().catch(err => {

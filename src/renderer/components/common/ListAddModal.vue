@@ -24,6 +24,7 @@ import { addListMusics, moveListMusics, createUserList, getMusicExistListIds } f
 import useKeyDown from '@renderer/utils/compositions/useKeyDown'
 import { useI18n } from '@root/lang'
 import { dialog } from '@renderer/plugins/Dialog'
+import { setFavorite } from '@renderer/ui/services/platformAccounts'
 
 export default {
   props: {
@@ -152,6 +153,7 @@ export default {
     },
     handleClick(index) {
       if (this.isMove) void moveListMusics(this.fromListId, this.lists[index].id, [this.currentMusicInfo])
+      else if (this.lists[index].id === loveList.id) void setFavorite(this.currentMusicInfo, true)
       else void addListMusics(this.lists[index].id, [this.currentMusicInfo])
 
       this.lists[index].isExist = true

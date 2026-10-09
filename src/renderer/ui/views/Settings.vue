@@ -19,6 +19,8 @@
             <button type="button" class="studio-settings-button primary" @click="appearancePanelOpen = true">外观定制 <UiIcon name="arrowUpRight" /></button>
           </div>
 
+          <PlatformAccounts v-if="category.id === 'accounts'" />
+
           <template v-if="category.id === 'sources'">
             <div class="studio-settings-feature"><div><h3>{{ userApi.status ? '音源连接正常' : currentSource ? '音源连接状态' : '添加你的音乐音源' }}</h3><p>{{ currentSource ? `${currentSource.name} · ${sourceStatus}` : '导入已有的 LX 音源脚本后，即可使用对应接口播放音乐。' }}</p></div><button type="button" class="studio-settings-button primary" :disabled="busy" @click="importSource()">导入脚本</button></div>
             <div class="studio-settings-inline-form"><input v-model="sourceUrl" type="url" placeholder="https://… 音源脚本地址" aria-label="在线音源脚本地址"><button type="button" class="studio-settings-button" :disabled="busy || !sourceUrl" @click="importOnlineSource">从链接导入</button></div>
@@ -78,20 +80,21 @@
           </template>
 
           <template v-if="category.id === 'about'">
-            <div class="studio-settings-about"><span>LX</span><h2>LX Studio</h2><p>版本 {{ versionInfo.version }} · 独立桌面客户端</p><p>音乐无界，热爱不止。</p></div>
-            <p class="studio-settings-hint">LX Studio 基于落雪无痕的 LX Music 开源项目重新设计界面，保留其原生播放器和音乐服务。遵循 Apache-2.0 开源许可。本产品独立安装，不使用原项目的自动更新渠道。</p>
+            <div class="studio-settings-about"><span>LL</span><h2>LinkLine</h2><p>版本 {{ versionInfo.version }} · 独立桌面客户端</p><p>音乐无界，热爱不止。</p></div>
+            <p class="studio-settings-hint">LinkLine 基于落雪无痕的 LX Music 开源项目重新设计界面，保留其原生播放器和音乐服务。遵循 Apache-2.0 开源许可。本产品独立安装，不使用原项目的自动更新渠道。</p>
             <div class="studio-settings-actions spaced"><button type="button" class="studio-settings-button" @click="openUrl('https://github.com/lyswhut/lx-music-desktop')">原项目源码<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="openUrl('https://lyswhut.github.io/lx-music-doc/desktop')">使用说明<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="licenseOpen = true">开源许可</button></div>
           </template>
         </section>
       </main>
     </div>
     <UiModal :show="Boolean(confirmation)" :title="confirmation?.title ?? ''" @close="answerConfirmation(false)"><p>{{ confirmation?.message }}</p><template #footer><button type="button" class="ui-dialog-button" @click="answerConfirmation(false)">取消</button><button type="button" class="ui-dialog-button" :class="confirmation?.danger ? 'ui-dialog-button-danger' : 'ui-dialog-button-primary'" @click="answerConfirmation(true)">确认</button></template></UiModal>
-    <UiModal :show="licenseOpen" title="开源许可与归属" @close="licenseOpen = false"><p>LX Studio 的播放器、音源接口和资料管理基于 LX Music Desktop。</p><p class="studio-settings-license">LX Music Desktop<br>Copyright © lyswhut / 落雪无痕<br>Licensed under the Apache License, Version 2.0.</p><p>修改后的界面代码与第三方依赖保留各自原始版权和许可声明。完整许可文件随应用一起分发。</p><template #footer><button type="button" class="ui-dialog-button" @click="openUrl('https://www.apache.org/licenses/LICENSE-2.0')">查看 Apache-2.0<UiIcon name="arrowUpRight" /></button><button type="button" class="ui-dialog-button ui-dialog-button-primary" @click="licenseOpen = false">关闭</button></template></UiModal>
+    <UiModal :show="licenseOpen" title="开源许可与归属" @close="licenseOpen = false"><p>LinkLine 的播放器、音源接口和资料管理基于 LX Music Desktop。</p><p class="studio-settings-license">LX Music Desktop<br>Copyright © lyswhut / 落雪无痕<br>Licensed under the Apache License, Version 2.0.</p><p>修改后的界面代码与第三方依赖保留各自原始版权和许可声明。完整许可文件随应用一起分发。</p><template #footer><button type="button" class="ui-dialog-button" @click="openUrl('https://www.apache.org/licenses/LICENSE-2.0')">查看 Apache-2.0<UiIcon name="arrowUpRight" /></button><button type="button" class="ui-dialog-button ui-dialog-button-primary" @click="licenseOpen = false">关闭</button></template></UiModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { appearancePanelOpen } from '@renderer/composables/useAppearance'
 import { appSetting } from '@renderer/store/setting'
 import { openAPI } from '@renderer/store'
@@ -104,14 +107,18 @@ import { startTimeoutStop, stopTimeoutStop, useTimeout } from '@renderer/core/pl
 import UiModal from '@renderer/ui/components/UiModal.vue'
 import UiSelect from '@renderer/ui/components/UiSelect.vue'
 import UiIcon from '@renderer/ui/components/UiIcon.vue'
+import PlatformAccounts from '@renderer/ui/components/PlatformAccounts.vue'
 import { categories, settingFields, type Option, type SettingField } from '@renderer/ui/settings/schema'
 import { useSettings } from '@renderer/ui/settings/useSettings'
 import { useHotkeys } from '@renderer/ui/settings/useHotkeys'
 
 const settings = useSettings()
 const { busy, notice, failed, fonts, devices, syncDevices, caches, rules, confirmation, answerConfirmation, run, setPreference, chooseDirectory, refreshDevices, importSource, removeSource, useSource, exportBackup, importBackup, exportText, refreshCaches, clearData, refreshSyncDevices, removeSyncDevice, saveRules, sync, versionInfo, userApi } = settings
+const route = useRoute()
+const router = useRouter()
+const resolveCategory = (id: unknown) => typeof id === 'string' && categories.some(category => category.id === id) ? id : 'accounts'
 const query = ref('')
-const active = ref('general')
+const active = ref(resolveCategory(route.query.category))
 const content = ref<HTMLElement | null>(null)
 const sourceUrl = ref('')
 const authCode = ref('')
@@ -135,7 +142,17 @@ const syncStatus = computed(() => {
   return status.status ? '设备同步正在运行' : status.message || '设备同步未启动'
 })
 const fieldId = (field: SettingField) => `pref-${field.key.replaceAll('.', '-')}`
-function selectCategory(id: string) { active.value = id; query.value = ''; content.value?.scrollTo({ top: 0 }) }
+function selectCategory(id: string) {
+  active.value = resolveCategory(id)
+  query.value = ''
+  content.value?.scrollTo({ top: 0 })
+  if (route.query.category !== active.value) void router.replace({ path: '/setting', query: { ...route.query, category: active.value } })
+}
+watch(() => route.query.category, id => {
+  active.value = resolveCategory(id)
+  query.value = ''
+  content.value?.scrollTo({ top: 0 })
+})
 function fieldsFor(id: string) {
   const category = categories.find(item => item.id === id)
   const matchesCategory = `${category?.name} ${category?.description} ${category?.keywords}`.toLowerCase().includes(keyword.value)

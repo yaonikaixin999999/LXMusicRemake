@@ -1,20 +1,22 @@
 <template>
   <div ref="stage" class="lyric-stage" :class="classes" :style="styles" @wheel="handleWheel" @pointerdown="holdScroll">
     <div v-show="lyric.lines.length" ref="flow" class="lyric-stage-flow" />
-    <div v-if="!lyric.lines.length" class="lyric-stage-empty"><span>♫</span><strong>{{ musicInfo.id ? musicInfo.name : '让音乐，陪伴此刻' }}</strong><p>{{ musicInfo.id ? '这首音乐暂时没有歌词' : '播放一首歌，歌词会出现在这里' }}</p></div>
+    <div v-if="!lyric.lines.length" class="lyric-stage-empty"><span><UiIcon name="music" /></span><strong>{{ musicInfo.id ? musicInfo.name : '让音乐，陪伴此刻' }}</strong><p>{{ musicInfo.id ? '这首音乐暂时没有歌词' : '播放一首歌，歌词会出现在这里' }}</p></div>
   </div>
 </template>
 
 <script setup lang="ts">
+import UiIcon from '@renderer/ui/components/UiIcon.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { lyric } from '@lyric/store/lyric'
 import { musicInfo, setting } from '@lyric/store/state'
+import { resolvedAppearanceMode } from '../../renderer/composables/useAppearance'
 const stage = ref<HTMLDivElement | null>(null)
 const flow = ref<HTMLDivElement | null>(null)
 const space = ref(120)
 const vertical = computed(() => setting['desktopLyric.direction'] === 'vertical')
 const classes = computed(() => ({ vertical: vertical.value, zoom: setting['desktopLyric.style.isZoomActiveLrc'], ellipsis: setting['desktopLyric.style.ellipsis'], 'bold-font': setting['desktopLyric.style.isFontWeightFont'], 'bold-line': setting['desktopLyric.style.isFontWeightLine'], 'bold-extended': setting['desktopLyric.style.isFontWeightExtended'] }))
-const styles = computed(() => ({ fontFamily: setting['desktopLyric.style.font'] || 'inherit', fontSize: `${setting['desktopLyric.style.fontSize']}px`, textAlign: setting['desktopLyric.style.align'], opacity: setting['desktopLyric.style.opacity'] / 100, '--lyric-gap': `${setting['desktopLyric.style.lineGap']}px`, '--lyric-space': `${space.value}px` }))
+const styles = computed(() => ({ fontFamily: setting['desktopLyric.style.font'] || 'inherit', fontSize: `${setting['desktopLyric.style.fontSize']}px`, textAlign: setting['desktopLyric.style.align'], '--lyric-opacity': `${setting['desktopLyric.style.opacity'] / 100}`, '--lyric-gap': `${setting['desktopLyric.style.lineGap']}px`, '--lyric-space': `${space.value}px`, '--lyric-display-unplay': !setting['desktopLyric.isLock'] && resolvedAppearanceMode.value === 'light' && /^(?:rgba?\(255,\s*255,\s*255(?:,\s*1)?\)|#fff(?:fff)?)$/i.test(setting['desktopLyric.style.lyricUnplayColor']) ? 'var(--modern-text)' : 'var(--color-lyric-unplay)' }))
 let observer: ResizeObserver | null = null
 let delay: ReturnType<typeof setTimeout> | null = null
 let resume: ReturnType<typeof setTimeout> | null = null
@@ -36,6 +38,8 @@ async function mountLines() {
   for (const line of lyric.lines) fragment.appendChild(line.dom_line)
   flow.value.replaceChildren(fragment)
   manuallyScrolling = false
+  await nextTick()
+  resize()
   scrollActive(false)
 }
 function scheduleScroll() {
@@ -54,13 +58,14 @@ onBeforeUnmount(() => { observer?.disconnect(); if (delay) clearTimeout(delay); 
 </script>
 
 <style lang="less">
-.lyric-stage { position: absolute; inset: 48px 0 20px; overflow: auto; overscroll-behavior: contain; color: var(--color-lyric-unplay); scrollbar-width: none; mask-image: linear-gradient(transparent, #000 13%, #000 85%, transparent); &::-webkit-scrollbar { width: 0; height: 0; } }
+.lyric-stage { position: absolute; inset: 48px 0 0; overflow: auto; overscroll-behavior: contain; color: var(--lyric-display-unplay); scrollbar-width: none; mask-image: linear-gradient(transparent, #000 6%, #000 94%, transparent); &::-webkit-scrollbar { width: 0; height: 0; } }
 .lyric-window.locked .lyric-stage { inset: 0; }
-.lyric-stage-flow { padding: var(--lyric-space) 20px; box-sizing: border-box; min-height: 100%; }
-.lyric-stage .line-content { line-height: 1.55; margin: var(--lyric-gap) 0; overflow-wrap: break-word; opacity: .55; transition: opacity .25s, font-size .25s; &.active { opacity: 1; } .font-lrc { color: var(--color-lyric-unplay); text-shadow: 0 1px 4px var(--color-lyric-shadow); } .shadow { color: transparent; } .extended { display: inline-block; margin-top: 4px; font-size: .68em; line-height: 1.4; } &.line-mode.active .font-lrc, &.font-mode.played .font-lrc { color: var(--color-lyric-played); } &.font-mode > .line > .font-lrc > span { background-color: var(--color-lyric-unplay); background-image: linear-gradient(to right, var(--color-lyric-played), var(--color-lyric-played)); background-size: 0 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding: .1em; margin: -.1em; text-shadow: none; } }
+.lyric-stage-flow { padding: var(--lyric-space) 20px; box-sizing: border-box; min-height: 100%; opacity: var(--lyric-opacity, 1); }
+.lyric-stage .line-content { line-height: 1.55; margin: var(--lyric-gap) 0; overflow-wrap: break-word; transition: font-size .25s; .line { max-width: 100%; } .font-lrc { color: var(--lyric-display-unplay); text-shadow: 0 1px 4px var(--color-lyric-shadow); } .shadow { color: transparent; } .extended { display: inline-block; margin-top: 4px; font-size: .68em; line-height: 1.4; opacity: .8; } &.line-mode.active .font-lrc, &.font-mode.played .font-lrc { color: var(--color-lyric-played); } &.font-mode > .line > .font-lrc > span { background-color: var(--lyric-display-unplay); background-image: linear-gradient(to right, var(--color-lyric-played), var(--color-lyric-played)); background-size: 0 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding: .1em; margin: -.1em; text-shadow: none; } }
 .lyric-stage.vertical { writing-mode: vertical-rl; mask-image: linear-gradient(to left, transparent, #000 13%, #000 85%, transparent); .lyric-stage-flow { padding: 18px var(--lyric-space); min-width: 100%; min-height: 100%; } .line-content { margin: 0 var(--lyric-gap); max-height: 100%; .extended { margin: 0 4px 0 0; } &.font-mode > .line > .font-lrc > span { background-image: linear-gradient(to bottom, var(--color-lyric-played), var(--color-lyric-played)); background-size: 100% 0; } } }
 .lyric-stage.zoom .line-content.active > .line { font-size: 1.16em; }
 .lyric-stage.bold-font .font-mode > .line, .lyric-stage.bold-line .line-mode > .line, .lyric-stage.bold-extended .extended { font-weight: 600; }
 .lyric-stage.ellipsis .font-lrc { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: calc(100vw - 50px); }
-.lyric-stage-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--color-lyric-unplay); text-align: center; writing-mode: horizontal-tb; padding: 25px; > span { width: 45px; height: 45px; display: grid; place-items: center; border-radius: 14px; background: var(--modern-accent-soft); color: var(--modern-accent-ink); font-size: 25px; margin-bottom: 2px; } strong { font-size: .85em; font-weight: 500; } p { font-size: .55em; opacity: .5; } }
+.lyric-stage-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--modern-text); text-align: center; writing-mode: horizontal-tb; padding: 25px; > span { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; background: var(--modern-accent-soft); color: var(--modern-accent-ink); font-size: 25px; margin-bottom: 2px; } strong { font-size: .85em; font-weight: 500; } p { font-size: .55em; opacity: .7; } }
+@media (max-width: 500px) { .lyric-stage { top: 82px; } }
 </style>

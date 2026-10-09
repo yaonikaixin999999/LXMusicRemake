@@ -9,15 +9,15 @@ const afterPack = require('./build-after-pack')
 * @see https://www.electron.build/configuration/configuration
 */
 const options = {
-  appId: 'com.lxstudio.desktop',
-  productName: 'LX Studio',
+  appId: 'com.linkline.desktop',
+  productName: 'LinkLine',
   npmRebuild: false,
   beforePack,
   afterPack,
   protocols: {
-    name: 'lx-studio-protocol',
+    name: 'linkline-protocol',
     schemes: [
-      'lxstudio',
+      'linkline',
     ],
   },
   directories: {
@@ -53,7 +53,7 @@ const options = {
 const winOptions = {
   win: {
     icon: './resources/icons/studio.ico',
-    legalTrademarks: 'LX Studio; upstream LX Music by lyswhut',
+    legalTrademarks: 'LinkLine; upstream LX Music by lyswhut',
     // artifactName: '${productName}-v${version}-${env.ARCH}-${env.TARGET}.${ext}',
   },
   nsis: {
@@ -62,7 +62,7 @@ const winOptions = {
     allowToChangeInstallationDirectory: true,
     // differentialPackage: true,
     license: './licenses/license.rtf',
-    shortcutName: 'LX Studio',
+    shortcutName: 'LinkLine',
   },
 }
 /**
@@ -81,11 +81,11 @@ const linuxOptions = {
       // https://specifications.freedesktop.org/desktop-entry-spec/latest/example.html
       // https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html#desktop-files
       entry: {
-        Name: 'LX Music',
-        'Name[zh_CN]': 'LX Music',
-        'Name[zh_TW]': 'LX Music',
+        Name: 'LinkLine',
+        'Name[zh_CN]': 'LinkLine',
+        'Name[zh_TW]': 'LinkLine',
         Encoding: 'UTF-8',
-        MimeType: 'x-scheme-handler/lxmusic',
+        MimeType: 'x-scheme-handler/linkline',
         StartupNotify: 'false',
       },
     },
@@ -122,7 +122,7 @@ const macOptions = {
         path: '/Applications',
       },
     ],
-    title: 'LX Music v${version}',
+    title: 'LinkLine v${version}',
   },
 }
 

@@ -1,0 +1,1753 @@
+{
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-player-data\\1791559380944",
+  "results": [
+    {
+      "check": "responsive player and topbar",
+      "mode": "middle",
+      "width": 720,
+      "height": 480,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          720,
+          481
+        ],
+        "player": {
+          "x": 77,
+          "y": 369,
+          "width": 631,
+          "height": 96,
+          "top": 369,
+          "right": 708,
+          "bottom": 465,
+          "left": 77
+        },
+        "play": {
+          "x": 374.5,
+          "y": 386.5,
+          "width": 36,
+          "height": 36,
+          "top": 386.5,
+          "right": 410.5,
+          "bottom": 422.5,
+          "left": 374.5
+        },
+        "seek": {
+          "x": 265.453125,
+          "y": 429.5,
+          "width": 254.09375,
+          "height": 18,
+          "top": 429.5,
+          "right": 519.546875,
+          "bottom": 447.5,
+          "left": 265.453125
+        },
+        "range": {
+          "x": 304.453125,
+          "y": 429.5,
+          "width": 176.09375,
+          "height": 18,
+          "top": 429.5,
+          "right": 480.546875,
+          "bottom": 447.5,
+          "left": 304.453125
+        },
+        "track": {
+          "x": 90,
+          "y": 394,
+          "width": 167.453125,
+          "height": 46,
+          "top": 394,
+          "right": 257.453125,
+          "bottom": 440,
+          "left": 90
+        },
+        "center": {
+          "x": 265.453125,
+          "y": 386.5,
+          "width": 254.09375,
+          "height": 61,
+          "top": 386.5,
+          "right": 519.546875,
+          "bottom": 447.5,
+          "left": 265.453125
+        },
+        "tools": {
+          "x": 527.546875,
+          "y": 402,
+          "width": 167.453125,
+          "height": 30,
+          "top": 402,
+          "right": 695,
+          "bottom": 432,
+          "left": 527.546875
+        },
+        "search": {
+          "x": 392,
+          "y": 17,
+          "width": 170,
+          "height": 31,
+          "top": 17,
+          "right": 562,
+          "bottom": 48,
+          "left": 392
+        },
+        "controls": {
+          "x": 606,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 708,
+          "bottom": 48.5,
+          "left": 606
+        },
+        "appearance": {
+          "x": 569,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 599,
+          "bottom": 47.5,
+          "left": 569
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "middle",
+      "width": 900,
+      "height": 600,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          899,
+          600
+        ],
+        "player": {
+          "x": 192,
+          "y": 488,
+          "width": 687,
+          "height": 96,
+          "top": 488,
+          "right": 879,
+          "bottom": 584,
+          "left": 192
+        },
+        "play": {
+          "x": 517.4921875,
+          "y": 505.5,
+          "width": 36,
+          "height": 36,
+          "top": 505.5,
+          "right": 553.4921875,
+          "bottom": 541.5,
+          "left": 517.4921875
+        },
+        "seek": {
+          "x": 398.3671875,
+          "y": 548.5,
+          "width": 274.2578125,
+          "height": 18,
+          "top": 548.5,
+          "right": 672.625,
+          "bottom": 566.5,
+          "left": 398.3671875
+        },
+        "range": {
+          "x": 437.3671875,
+          "y": 548.5,
+          "width": 196.2578125,
+          "height": 18,
+          "top": 548.5,
+          "right": 633.625,
+          "bottom": 566.5,
+          "left": 437.3671875
+        },
+        "track": {
+          "x": 209,
+          "y": 513,
+          "width": 177.3671875,
+          "height": 46,
+          "top": 513,
+          "right": 386.3671875,
+          "bottom": 559,
+          "left": 209
+        },
+        "center": {
+          "x": 398.3671875,
+          "y": 505.5,
+          "width": 274.2578125,
+          "height": 61,
+          "top": 505.5,
+          "right": 672.625,
+          "bottom": 566.5,
+          "left": 398.3671875
+        },
+        "tools": {
+          "x": 684.625,
+          "y": 521,
+          "width": 177.375,
+          "height": 30,
+          "top": 521,
+          "right": 862,
+          "bottom": 551,
+          "left": 684.625
+        },
+        "search": {
+          "x": 538,
+          "y": 17,
+          "width": 185,
+          "height": 31,
+          "top": 17,
+          "right": 723,
+          "bottom": 48,
+          "left": 538
+        },
+        "controls": {
+          "x": 777,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 879,
+          "bottom": 48.5,
+          "left": 777
+        },
+        "appearance": {
+          "x": 735,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 765,
+          "bottom": 47.5,
+          "left": 735
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "middle",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1113,
+          718
+        ],
+        "player": {
+          "x": 220,
+          "y": 606,
+          "width": 873,
+          "height": 96,
+          "top": 606,
+          "right": 1093,
+          "bottom": 702,
+          "left": 220
+        },
+        "play": {
+          "x": 638.5,
+          "y": 623.5,
+          "width": 36,
+          "height": 36,
+          "top": 623.5,
+          "right": 674.5,
+          "bottom": 659.5,
+          "left": 638.5
+        },
+        "seek": {
+          "x": 480.3125,
+          "y": 666.5,
+          "width": 352.375,
+          "height": 18,
+          "top": 666.5,
+          "right": 832.6875,
+          "bottom": 684.5,
+          "left": 480.3125
+        },
+        "range": {
+          "x": 519.3125,
+          "y": 666.5,
+          "width": 274.375,
+          "height": 18,
+          "top": 666.5,
+          "right": 793.6875,
+          "bottom": 684.5,
+          "left": 519.3125
+        },
+        "track": {
+          "x": 237,
+          "y": 631,
+          "width": 231.3125,
+          "height": 46,
+          "top": 631,
+          "right": 468.3125,
+          "bottom": 677,
+          "left": 237
+        },
+        "center": {
+          "x": 480.3125,
+          "y": 623.5,
+          "width": 352.375,
+          "height": 61,
+          "top": 623.5,
+          "right": 832.6875,
+          "bottom": 684.5,
+          "left": 480.3125
+        },
+        "tools": {
+          "x": 844.6875,
+          "y": 639,
+          "width": 231.3125,
+          "height": 30,
+          "top": 639,
+          "right": 1076,
+          "bottom": 669,
+          "left": 844.6875
+        },
+        "search": {
+          "x": 707,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 937,
+          "bottom": 48,
+          "left": 707
+        },
+        "controls": {
+          "x": 991,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1093,
+          "bottom": 48.5,
+          "left": 991
+        },
+        "appearance": {
+          "x": 949,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 979,
+          "bottom": 47.5,
+          "left": 949
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "middle",
+      "width": 1500,
+      "height": 850,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1499,
+          850
+        ],
+        "player": {
+          "x": 220,
+          "y": 738,
+          "width": 1259,
+          "height": 96,
+          "top": 738,
+          "right": 1479,
+          "bottom": 834,
+          "left": 220
+        },
+        "play": {
+          "x": 831.5,
+          "y": 755.5,
+          "width": 36,
+          "height": 36,
+          "top": 755.5,
+          "right": 867.5,
+          "bottom": 791.5,
+          "left": 831.5
+        },
+        "seek": {
+          "x": 592.25,
+          "y": 798.5,
+          "width": 514.5,
+          "height": 18,
+          "top": 798.5,
+          "right": 1106.75,
+          "bottom": 816.5,
+          "left": 592.25
+        },
+        "range": {
+          "x": 631.25,
+          "y": 798.5,
+          "width": 436.5,
+          "height": 18,
+          "top": 798.5,
+          "right": 1067.75,
+          "bottom": 816.5,
+          "left": 631.25
+        },
+        "track": {
+          "x": 237,
+          "y": 763,
+          "width": 343.25,
+          "height": 46,
+          "top": 763,
+          "right": 580.25,
+          "bottom": 809,
+          "left": 237
+        },
+        "center": {
+          "x": 592.25,
+          "y": 755.5,
+          "width": 514.5,
+          "height": 61,
+          "top": 755.5,
+          "right": 1106.75,
+          "bottom": 816.5,
+          "left": 592.25
+        },
+        "tools": {
+          "x": 1118.75,
+          "y": 771,
+          "width": 343.25,
+          "height": 30,
+          "top": 771,
+          "right": 1462,
+          "bottom": 801,
+          "left": 1118.75
+        },
+        "search": {
+          "x": 1093,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 1323,
+          "bottom": 48,
+          "left": 1093
+        },
+        "controls": {
+          "x": 1377,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1479,
+          "bottom": 48.5,
+          "left": 1377
+        },
+        "appearance": {
+          "x": 1335,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 1365,
+          "bottom": 47.5,
+          "left": 1335
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "mini",
+      "width": 720,
+      "height": 480,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          720,
+          481
+        ],
+        "player": {
+          "x": 77,
+          "y": 369,
+          "width": 631,
+          "height": 96,
+          "top": 369,
+          "right": 708,
+          "bottom": 465,
+          "left": 77
+        },
+        "play": {
+          "x": 374.5,
+          "y": 386.5,
+          "width": 36,
+          "height": 36,
+          "top": 386.5,
+          "right": 410.5,
+          "bottom": 422.5,
+          "left": 374.5
+        },
+        "seek": {
+          "x": 265.453125,
+          "y": 429.5,
+          "width": 254.09375,
+          "height": 18,
+          "top": 429.5,
+          "right": 519.546875,
+          "bottom": 447.5,
+          "left": 265.453125
+        },
+        "range": {
+          "x": 304.453125,
+          "y": 429.5,
+          "width": 176.09375,
+          "height": 18,
+          "top": 429.5,
+          "right": 480.546875,
+          "bottom": 447.5,
+          "left": 304.453125
+        },
+        "track": {
+          "x": 90,
+          "y": 394,
+          "width": 167.453125,
+          "height": 46,
+          "top": 394,
+          "right": 257.453125,
+          "bottom": 440,
+          "left": 90
+        },
+        "center": {
+          "x": 265.453125,
+          "y": 386.5,
+          "width": 254.09375,
+          "height": 61,
+          "top": 386.5,
+          "right": 519.546875,
+          "bottom": 447.5,
+          "left": 265.453125
+        },
+        "tools": {
+          "x": 527.546875,
+          "y": 402,
+          "width": 167.453125,
+          "height": 30,
+          "top": 402,
+          "right": 695,
+          "bottom": 432,
+          "left": 527.546875
+        },
+        "search": {
+          "x": 392,
+          "y": 17,
+          "width": 170,
+          "height": 31,
+          "top": 17,
+          "right": 562,
+          "bottom": 48,
+          "left": 392
+        },
+        "controls": {
+          "x": 606,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 708,
+          "bottom": 48.5,
+          "left": 606
+        },
+        "appearance": {
+          "x": 569,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 599,
+          "bottom": 47.5,
+          "left": 569
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "mini",
+      "width": 900,
+      "height": 600,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          899,
+          600
+        ],
+        "player": {
+          "x": 192,
+          "y": 488,
+          "width": 687,
+          "height": 96,
+          "top": 488,
+          "right": 879,
+          "bottom": 584,
+          "left": 192
+        },
+        "play": {
+          "x": 517.4921875,
+          "y": 505.5,
+          "width": 36,
+          "height": 36,
+          "top": 505.5,
+          "right": 553.4921875,
+          "bottom": 541.5,
+          "left": 517.4921875
+        },
+        "seek": {
+          "x": 398.3671875,
+          "y": 548.5,
+          "width": 274.2578125,
+          "height": 18,
+          "top": 548.5,
+          "right": 672.625,
+          "bottom": 566.5,
+          "left": 398.3671875
+        },
+        "range": {
+          "x": 437.3671875,
+          "y": 548.5,
+          "width": 196.2578125,
+          "height": 18,
+          "top": 548.5,
+          "right": 633.625,
+          "bottom": 566.5,
+          "left": 437.3671875
+        },
+        "track": {
+          "x": 209,
+          "y": 513,
+          "width": 177.3671875,
+          "height": 46,
+          "top": 513,
+          "right": 386.3671875,
+          "bottom": 559,
+          "left": 209
+        },
+        "center": {
+          "x": 398.3671875,
+          "y": 505.5,
+          "width": 274.2578125,
+          "height": 61,
+          "top": 505.5,
+          "right": 672.625,
+          "bottom": 566.5,
+          "left": 398.3671875
+        },
+        "tools": {
+          "x": 684.625,
+          "y": 521,
+          "width": 177.375,
+          "height": 30,
+          "top": 521,
+          "right": 862,
+          "bottom": 551,
+          "left": 684.625
+        },
+        "search": {
+          "x": 538,
+          "y": 17,
+          "width": 185,
+          "height": 31,
+          "top": 17,
+          "right": 723,
+          "bottom": 48,
+          "left": 538
+        },
+        "controls": {
+          "x": 777,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 879,
+          "bottom": 48.5,
+          "left": 777
+        },
+        "appearance": {
+          "x": 735,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 765,
+          "bottom": 47.5,
+          "left": 735
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "mini",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1113,
+          718
+        ],
+        "player": {
+          "x": 220,
+          "y": 606,
+          "width": 873,
+          "height": 96,
+          "top": 606,
+          "right": 1093,
+          "bottom": 702,
+          "left": 220
+        },
+        "play": {
+          "x": 638.5,
+          "y": 623.5,
+          "width": 36,
+          "height": 36,
+          "top": 623.5,
+          "right": 674.5,
+          "bottom": 659.5,
+          "left": 638.5
+        },
+        "seek": {
+          "x": 506.5,
+          "y": 666.5,
+          "width": 300,
+          "height": 18,
+          "top": 666.5,
+          "right": 806.5,
+          "bottom": 684.5,
+          "left": 506.5
+        },
+        "range": {
+          "x": 545.5,
+          "y": 666.5,
+          "width": 222,
+          "height": 18,
+          "top": 666.5,
+          "right": 767.5,
+          "bottom": 684.5,
+          "left": 545.5
+        },
+        "track": {
+          "x": 237,
+          "y": 631,
+          "width": 231.3125,
+          "height": 46,
+          "top": 631,
+          "right": 468.3125,
+          "bottom": 677,
+          "left": 237
+        },
+        "center": {
+          "x": 480.3125,
+          "y": 623.5,
+          "width": 352.375,
+          "height": 61,
+          "top": 623.5,
+          "right": 832.6875,
+          "bottom": 684.5,
+          "left": 480.3125
+        },
+        "tools": {
+          "x": 844.6875,
+          "y": 639,
+          "width": 231.3125,
+          "height": 30,
+          "top": 639,
+          "right": 1076,
+          "bottom": 669,
+          "left": 844.6875
+        },
+        "search": {
+          "x": 707,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 937,
+          "bottom": 48,
+          "left": 707
+        },
+        "controls": {
+          "x": 991,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1093,
+          "bottom": 48.5,
+          "left": 991
+        },
+        "appearance": {
+          "x": 949,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 979,
+          "bottom": 47.5,
+          "left": 949
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "mini",
+      "width": 1500,
+      "height": 850,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1499,
+          850
+        ],
+        "player": {
+          "x": 220,
+          "y": 738,
+          "width": 1259,
+          "height": 96,
+          "top": 738,
+          "right": 1479,
+          "bottom": 834,
+          "left": 220
+        },
+        "play": {
+          "x": 831.5,
+          "y": 755.5,
+          "width": 36,
+          "height": 36,
+          "top": 755.5,
+          "right": 867.5,
+          "bottom": 791.5,
+          "left": 831.5
+        },
+        "seek": {
+          "x": 699.5,
+          "y": 798.5,
+          "width": 300,
+          "height": 18,
+          "top": 798.5,
+          "right": 999.5,
+          "bottom": 816.5,
+          "left": 699.5
+        },
+        "range": {
+          "x": 738.5,
+          "y": 798.5,
+          "width": 222,
+          "height": 18,
+          "top": 798.5,
+          "right": 960.5,
+          "bottom": 816.5,
+          "left": 738.5
+        },
+        "track": {
+          "x": 237,
+          "y": 763,
+          "width": 343.25,
+          "height": 46,
+          "top": 763,
+          "right": 580.25,
+          "bottom": 809,
+          "left": 237
+        },
+        "center": {
+          "x": 592.25,
+          "y": 755.5,
+          "width": 514.5,
+          "height": 61,
+          "top": 755.5,
+          "right": 1106.75,
+          "bottom": 816.5,
+          "left": 592.25
+        },
+        "tools": {
+          "x": 1118.75,
+          "y": 771,
+          "width": 343.25,
+          "height": 30,
+          "top": 771,
+          "right": 1462,
+          "bottom": 801,
+          "left": 1118.75
+        },
+        "search": {
+          "x": 1093,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 1323,
+          "bottom": 48,
+          "left": 1093
+        },
+        "controls": {
+          "x": 1377,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1479,
+          "bottom": 48.5,
+          "left": 1377
+        },
+        "appearance": {
+          "x": 1335,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 1365,
+          "bottom": 47.5,
+          "left": 1335
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "full",
+      "width": 720,
+      "height": 480,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          720,
+          481
+        ],
+        "player": {
+          "x": 77,
+          "y": 355,
+          "width": 631,
+          "height": 110,
+          "top": 355,
+          "right": 708,
+          "bottom": 465,
+          "left": 77
+        },
+        "play": {
+          "x": 374.5,
+          "y": 384.5,
+          "width": 36,
+          "height": 36,
+          "top": 384.5,
+          "right": 410.5,
+          "bottom": 420.5,
+          "left": 374.5
+        },
+        "seek": {
+          "x": 94,
+          "y": 439,
+          "width": 597,
+          "height": 18,
+          "top": 439,
+          "right": 691,
+          "bottom": 457,
+          "left": 94
+        },
+        "range": {
+          "x": 133,
+          "y": 439,
+          "width": 519,
+          "height": 18,
+          "top": 439,
+          "right": 652,
+          "bottom": 457,
+          "left": 133
+        },
+        "track": {
+          "x": 90,
+          "y": 379.5,
+          "width": 167.453125,
+          "height": 46,
+          "top": 379.5,
+          "right": 257.453125,
+          "bottom": 425.5,
+          "left": 90
+        },
+        "center": {
+          "x": 265.453125,
+          "y": 384.5,
+          "width": 254.09375,
+          "height": 36,
+          "top": 384.5,
+          "right": 519.546875,
+          "bottom": 420.5,
+          "left": 265.453125
+        },
+        "tools": {
+          "x": 527.546875,
+          "y": 387.5,
+          "width": 167.453125,
+          "height": 30,
+          "top": 387.5,
+          "right": 695,
+          "bottom": 417.5,
+          "left": 527.546875
+        },
+        "search": {
+          "x": 392,
+          "y": 17,
+          "width": 170,
+          "height": 31,
+          "top": 17,
+          "right": 562,
+          "bottom": 48,
+          "left": 392
+        },
+        "controls": {
+          "x": 606,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 708,
+          "bottom": 48.5,
+          "left": 606
+        },
+        "appearance": {
+          "x": 569,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 599,
+          "bottom": 47.5,
+          "left": 569
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "full",
+      "width": 900,
+      "height": 600,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          899,
+          600
+        ],
+        "player": {
+          "x": 192,
+          "y": 474,
+          "width": 687,
+          "height": 110,
+          "top": 474,
+          "right": 879,
+          "bottom": 584,
+          "left": 192
+        },
+        "play": {
+          "x": 517.4921875,
+          "y": 503.5,
+          "width": 36,
+          "height": 36,
+          "top": 503.5,
+          "right": 553.4921875,
+          "bottom": 539.5,
+          "left": 517.4921875
+        },
+        "seek": {
+          "x": 209,
+          "y": 558,
+          "width": 653,
+          "height": 18,
+          "top": 558,
+          "right": 862,
+          "bottom": 576,
+          "left": 209
+        },
+        "range": {
+          "x": 248,
+          "y": 558,
+          "width": 575,
+          "height": 18,
+          "top": 558,
+          "right": 823,
+          "bottom": 576,
+          "left": 248
+        },
+        "track": {
+          "x": 209,
+          "y": 498.5,
+          "width": 177.3671875,
+          "height": 46,
+          "top": 498.5,
+          "right": 386.3671875,
+          "bottom": 544.5,
+          "left": 209
+        },
+        "center": {
+          "x": 398.3671875,
+          "y": 503.5,
+          "width": 274.2578125,
+          "height": 36,
+          "top": 503.5,
+          "right": 672.625,
+          "bottom": 539.5,
+          "left": 398.3671875
+        },
+        "tools": {
+          "x": 684.625,
+          "y": 506.5,
+          "width": 177.375,
+          "height": 30,
+          "top": 506.5,
+          "right": 862,
+          "bottom": 536.5,
+          "left": 684.625
+        },
+        "search": {
+          "x": 538,
+          "y": 17,
+          "width": 185,
+          "height": 31,
+          "top": 17,
+          "right": 723,
+          "bottom": 48,
+          "left": 538
+        },
+        "controls": {
+          "x": 777,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 879,
+          "bottom": 48.5,
+          "left": 777
+        },
+        "appearance": {
+          "x": 735,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 765,
+          "bottom": 47.5,
+          "left": 735
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "full",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1113,
+          718
+        ],
+        "player": {
+          "x": 220,
+          "y": 592,
+          "width": 873,
+          "height": 110,
+          "top": 592,
+          "right": 1093,
+          "bottom": 702,
+          "left": 220
+        },
+        "play": {
+          "x": 638.5,
+          "y": 621.5,
+          "width": 36,
+          "height": 36,
+          "top": 621.5,
+          "right": 674.5,
+          "bottom": 657.5,
+          "left": 638.5
+        },
+        "seek": {
+          "x": 237,
+          "y": 676,
+          "width": 839,
+          "height": 18,
+          "top": 676,
+          "right": 1076,
+          "bottom": 694,
+          "left": 237
+        },
+        "range": {
+          "x": 276,
+          "y": 676,
+          "width": 761,
+          "height": 18,
+          "top": 676,
+          "right": 1037,
+          "bottom": 694,
+          "left": 276
+        },
+        "track": {
+          "x": 237,
+          "y": 616.5,
+          "width": 231.3125,
+          "height": 46,
+          "top": 616.5,
+          "right": 468.3125,
+          "bottom": 662.5,
+          "left": 237
+        },
+        "center": {
+          "x": 480.3125,
+          "y": 621.5,
+          "width": 352.375,
+          "height": 36,
+          "top": 621.5,
+          "right": 832.6875,
+          "bottom": 657.5,
+          "left": 480.3125
+        },
+        "tools": {
+          "x": 844.6875,
+          "y": 624.5,
+          "width": 231.3125,
+          "height": 30,
+          "top": 624.5,
+          "right": 1076,
+          "bottom": 654.5,
+          "left": 844.6875
+        },
+        "search": {
+          "x": 707,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 937,
+          "bottom": 48,
+          "left": 707
+        },
+        "controls": {
+          "x": 991,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1093,
+          "bottom": 48.5,
+          "left": 991
+        },
+        "appearance": {
+          "x": 949,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 979,
+          "bottom": 47.5,
+          "left": 949
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "responsive player and topbar",
+      "mode": "full",
+      "width": 1500,
+      "height": 850,
+      "pass": true,
+      "geometry": {
+        "viewport": [
+          1499,
+          850
+        ],
+        "player": {
+          "x": 220,
+          "y": 724,
+          "width": 1259,
+          "height": 110,
+          "top": 724,
+          "right": 1479,
+          "bottom": 834,
+          "left": 220
+        },
+        "play": {
+          "x": 831.5,
+          "y": 753.5,
+          "width": 36,
+          "height": 36,
+          "top": 753.5,
+          "right": 867.5,
+          "bottom": 789.5,
+          "left": 831.5
+        },
+        "seek": {
+          "x": 237,
+          "y": 808,
+          "width": 1225,
+          "height": 18,
+          "top": 808,
+          "right": 1462,
+          "bottom": 826,
+          "left": 237
+        },
+        "range": {
+          "x": 276,
+          "y": 808,
+          "width": 1147,
+          "height": 18,
+          "top": 808,
+          "right": 1423,
+          "bottom": 826,
+          "left": 276
+        },
+        "track": {
+          "x": 237,
+          "y": 748.5,
+          "width": 343.25,
+          "height": 46,
+          "top": 748.5,
+          "right": 580.25,
+          "bottom": 794.5,
+          "left": 237
+        },
+        "center": {
+          "x": 592.25,
+          "y": 753.5,
+          "width": 514.5,
+          "height": 36,
+          "top": 753.5,
+          "right": 1106.75,
+          "bottom": 789.5,
+          "left": 592.25
+        },
+        "tools": {
+          "x": 1118.75,
+          "y": 756.5,
+          "width": 343.25,
+          "height": 30,
+          "top": 756.5,
+          "right": 1462,
+          "bottom": 786.5,
+          "left": 1118.75
+        },
+        "search": {
+          "x": 1093,
+          "y": 17,
+          "width": 230,
+          "height": 31,
+          "top": 17,
+          "right": 1323,
+          "bottom": 48,
+          "left": 1093
+        },
+        "controls": {
+          "x": 1377,
+          "y": 16.5,
+          "width": 102,
+          "height": 32,
+          "top": 16.5,
+          "right": 1479,
+          "bottom": 48.5,
+          "left": 1377
+        },
+        "appearance": {
+          "x": 1335,
+          "y": 17.5,
+          "width": 30,
+          "height": 30,
+          "top": 17.5,
+          "right": 1365,
+          "bottom": 47.5,
+          "left": 1335
+        },
+        "icons": [
+          {
+            "label": "最小化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "最大化",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "关闭窗口",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "上一首",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "播放",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "label": "下一首",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "local import, actual audio playback, pause, keyboard seek and volume native linkage",
+      "pass": true,
+      "seekSeconds": 10,
+      "volume": 0.37
+    }
+  ],
+  "errors": [],
+  "failure": null
+}

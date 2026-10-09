@@ -1,0 +1,393 @@
+{
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-sidebar-height-data\\1791551688799",
+  "before": {
+    "viewport": {
+      "width": 827,
+      "height": 541
+    },
+    "elements": [
+      {
+        "selector": "html",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "body",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "#root",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "#container",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-shell",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 172,
+          "height": 541,
+          "top": 0,
+          "right": 172,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-brand",
+        "rect": {
+          "x": 14,
+          "y": 24,
+          "width": 143,
+          "height": 85.984375,
+          "top": 24,
+          "right": 157,
+          "bottom": 109.984375,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 86,
+        "scrollHeight": 86,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar > nav",
+        "rect": {
+          "x": 14,
+          "y": 197.78125,
+          "width": 143,
+          "height": 166.828125,
+          "top": 197.78125,
+          "right": 157,
+          "bottom": 364.609375,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 167,
+        "scrollHeight": 230,
+        "overflow": "auto"
+      },
+      {
+        "selector": ".ui-sidebar-footer",
+        "rect": {
+          "x": 14,
+          "y": 408.40625,
+          "width": 143,
+          "height": 118.59375,
+          "top": 408.40625,
+          "right": 157,
+          "bottom": 527,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 118,
+        "scrollHeight": 118,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar-footer button",
+        "rect": {
+          "x": 14,
+          "y": 465.40625,
+          "width": 143,
+          "height": 40,
+          "top": 465.40625,
+          "right": 157,
+          "bottom": 505.40625,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 40,
+        "scrollHeight": 40,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-topbar",
+        "rect": {
+          "x": 172,
+          "y": 0,
+          "width": 655,
+          "height": 65,
+          "top": 0,
+          "right": 827,
+          "bottom": 65,
+          "left": 172
+        },
+        "scrollTop": 0,
+        "clientHeight": 65,
+        "scrollHeight": 65,
+        "overflow": "visible"
+      }
+    ]
+  },
+  "after": {
+    "viewport": {
+      "width": 827,
+      "height": 541
+    },
+    "elements": [
+      {
+        "selector": "html",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "body",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "#root",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "hidden"
+      },
+      {
+        "selector": "#container",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-shell",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 827,
+          "height": 541,
+          "top": 0,
+          "right": 827,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 172,
+          "height": 541,
+          "top": 0,
+          "right": 172,
+          "bottom": 541,
+          "left": 0
+        },
+        "scrollTop": 0,
+        "clientHeight": 541,
+        "scrollHeight": 541,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-brand",
+        "rect": {
+          "x": 14,
+          "y": 24,
+          "width": 143,
+          "height": 85.984375,
+          "top": 24,
+          "right": 157,
+          "bottom": 109.984375,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 86,
+        "scrollHeight": 86,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar > nav",
+        "rect": {
+          "x": 14,
+          "y": 197.78125,
+          "width": 143,
+          "height": 166.828125,
+          "top": 197.78125,
+          "right": 157,
+          "bottom": 364.609375,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 167,
+        "scrollHeight": 230,
+        "overflow": "auto"
+      },
+      {
+        "selector": ".ui-sidebar-footer",
+        "rect": {
+          "x": 14,
+          "y": 408.40625,
+          "width": 143,
+          "height": 118.59375,
+          "top": 408.40625,
+          "right": 157,
+          "bottom": 527,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 118,
+        "scrollHeight": 118,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-sidebar-footer button",
+        "rect": {
+          "x": 14,
+          "y": 465.40625,
+          "width": 143,
+          "height": 40,
+          "top": 465.40625,
+          "right": 157,
+          "bottom": 505.40625,
+          "left": 14
+        },
+        "scrollTop": 0,
+        "clientHeight": 40,
+        "scrollHeight": 40,
+        "overflow": "visible"
+      },
+      {
+        "selector": ".ui-topbar",
+        "rect": {
+          "x": 172,
+          "y": 0,
+          "width": 655,
+          "height": 65,
+          "top": 0,
+          "right": 827,
+          "bottom": 65,
+          "left": 172
+        },
+        "scrollTop": 0,
+        "clientHeight": 65,
+        "scrollHeight": 65,
+        "overflow": "visible"
+      }
+    ]
+  }
+}

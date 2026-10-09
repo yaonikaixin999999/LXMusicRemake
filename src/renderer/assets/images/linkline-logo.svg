@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title>LinkLine C - connected waveform</title>
+  <desc>A clean blue sound waveform carried by one continuous line</desc>
+  <rect width="256" height="256" rx="56" fill="#fff"/>
+  <path d="M35 136h29l16-42 25 86 29-126 28 105 20-55 18 32h21" fill="none" stroke="#57a1ff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="35" cy="136" r="10" fill="#145dcc"/>
+  <circle cx="221" cy="136" r="10" fill="#145dcc"/>
+  <path d="M161 168v31a20 20 0 1 1-15-19v-47l48-14v17l-33 10" fill="#145dcc"/>
+</svg>

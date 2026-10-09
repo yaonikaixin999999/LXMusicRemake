@@ -1,6 +1,6 @@
 // 设置窗口位置、大小
-export let minWidth = 38
-export let minHeight = 38
+export const minWidth = 320
+export const minHeight = 180
 
 
 // const updateBounds = (bounds: Bounds) => {
@@ -15,8 +15,14 @@ export let minHeight = 38
  * @returns
  */
 export const getLyricWindowBounds = (bounds: Electron.Rectangle, { x, y, w, h }: LX.DesktopLyric.NewBounds): Electron.Rectangle => {
-  if (w < minWidth) w = minWidth
-  if (h < minHeight) h = minHeight
+  if (w < minWidth) {
+    if (x > 0 && w < bounds.width) x = Math.min(x, bounds.width - minWidth)
+    w = minWidth
+  }
+  if (h < minHeight) {
+    if (y > 0 && h < bounds.height) y = Math.min(y, bounds.height - minHeight)
+    h = minHeight
+  }
 
   if (global.lx.appSetting['desktopLyric.isLockScreen']) {
     if (!global.envParams.workAreaSize) return bounds
@@ -96,6 +102,8 @@ export const buildLyricConfig = (appSetting: Partial<LX.AppSetting>): Partial<LX
 }
 
 export const initWindowSize = (x: LX.AppSetting['desktopLyric.x'], y: LX.AppSetting['desktopLyric.y'], width: LX.AppSetting['desktopLyric.width'], height: LX.AppSetting['desktopLyric.height']) => {
+  width = Math.max(minWidth, width)
+  height = Math.max(minHeight, height)
   if (x == null || y == null) {
     if (width < minWidth) width = minWidth
     if (height < minHeight) height = minHeight

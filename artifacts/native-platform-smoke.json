@@ -1,0 +1,60 @@
+[
+  {
+    "name": "netease-search",
+    "status": 200,
+    "code": 200,
+    "count": 5,
+    "firstName": "晴天(深情版)",
+    "hasProfile": false
+  },
+  {
+    "name": "netease-detail",
+    "status": 200,
+    "code": 200,
+    "count": 1,
+    "firstName": "晴天",
+    "privileges": [
+      {
+        "id": 186016,
+        "st": -200,
+        "fee": 0,
+        "maxbr": 999000
+      }
+    ],
+    "hasProfile": false
+  },
+  {
+    "name": "netease-account-anonymous",
+    "status": 200,
+    "code": 200,
+    "count": 0,
+    "firstName": "",
+    "hasProfile": false
+  },
+  {
+    "name": "ipc-empty-accounts",
+    "snapshot": {
+      "accounts": [
+        {
+          "platform": "qq",
+          "name": "QQ 音乐",
+          "connected": false,
+          "profile": null,
+          "lastSync": null,
+          "count": 0,
+          "error": ""
+        },
+        {
+          "platform": "netease",
+          "name": "网易云音乐",
+          "connected": false,
+          "profile": null,
+          "lastSync": null,
+          "count": 0,
+          "error": ""
+        }
+      ],
+      "favorites": []
+    }
+  }
+]

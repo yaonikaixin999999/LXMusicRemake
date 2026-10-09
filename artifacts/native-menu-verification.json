@@ -1,0 +1,260 @@
+{
+  "runId": "1791545766401",
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-menu-data\\1791545766401",
+  "results": [
+    {
+      "check": "Sync mode menu: light appearance and bounds",
+      "pass": true,
+      "trigger": {
+        "x": 822,
+        "y": 294.8828125,
+        "width": 230,
+        "height": 36
+      },
+      "menu": {
+        "x": 822,
+        "y": 336.8828125,
+        "width": 230,
+        "height": 82,
+        "top": 336.8828125,
+        "right": 1052,
+        "bottom": 418.8828125,
+        "left": 822
+      },
+      "viewport": {
+        "width": 1113,
+        "height": 718
+      },
+      "parent": "BODY",
+      "background": "rgb(255, 255, 255)",
+      "borderRadius": "12px",
+      "boxShadow": "rgba(0, 0, 0, 0.133) 0px 12px 36px 0px",
+      "zIndex": "2500",
+      "scrollHeight": 80,
+      "clientHeight": 80
+    },
+    {
+      "check": "Sync mode menu: dark appearance and bounds",
+      "pass": true,
+      "trigger": {
+        "x": 822,
+        "y": 294.8828125,
+        "width": 230,
+        "height": 36
+      },
+      "menu": {
+        "x": 822,
+        "y": 336.8828125,
+        "width": 230,
+        "height": 82,
+        "top": 336.8828125,
+        "right": 1052,
+        "bottom": 418.8828125,
+        "left": 822
+      },
+      "viewport": {
+        "width": 1113,
+        "height": 718
+      },
+      "parent": "BODY",
+      "background": "rgb(34, 37, 37)",
+      "borderRadius": "12px",
+      "boxShadow": "rgba(0, 0, 0, 0.133) 0px 12px 36px 0px",
+      "zIndex": "2500",
+      "scrollHeight": 80,
+      "clientHeight": 80
+    },
+    {
+      "check": "Mouse selection persists actual native sync mode",
+      "pass": true,
+      "rendererMode": "client",
+      "nativeMode": "client"
+    },
+    {
+      "check": "ArrowUp / ArrowDown / Enter selects and returns focus",
+      "pass": true
+    },
+    {
+      "check": "Escape closes without changing selected value; outside click closes",
+      "pass": true
+    },
+    {
+      "check": "Tab closes and advances focus to following control",
+      "pass": true
+    },
+    {
+      "check": "Bottom player mode menu opens upward and remains fully visible",
+      "pass": true,
+      "trigger": {
+        "x": 912,
+        "y": 639,
+        "width": 80,
+        "height": 30
+      },
+      "menu": {
+        "x": 912,
+        "y": 446,
+        "width": 150,
+        "height": 187,
+        "top": 446,
+        "right": 1062,
+        "bottom": 633,
+        "left": 912
+      },
+      "viewport": {
+        "width": 1113,
+        "height": 718
+      },
+      "parent": "BODY",
+      "background": "rgb(34, 37, 37)",
+      "borderRadius": "12px",
+      "boxShadow": "rgba(0, 0, 0, 0.133) 0px 12px 36px 0px",
+      "zIndex": "2500",
+      "scrollHeight": 185,
+      "clientHeight": 185,
+      "optionLabels": [
+        {
+          "text": "列表循环",
+          "width": 44,
+          "height": 13.1953125,
+          "lineHeight": "13.2px"
+        },
+        {
+          "text": "随机播放",
+          "width": 44,
+          "height": 13.1953125,
+          "lineHeight": "13.2px"
+        },
+        {
+          "text": "单曲循环",
+          "width": 44,
+          "height": 13.1953125,
+          "lineHeight": "13.2px"
+        },
+        {
+          "text": "顺序播放",
+          "width": 44,
+          "height": 13.1953125,
+          "lineHeight": "13.2px"
+        },
+        {
+          "text": "播放一首",
+          "width": 44,
+          "height": 13.1953125,
+          "lineHeight": "13.2px"
+        }
+      ]
+    },
+    {
+      "check": "Bottom player mode labels stay on one line at narrow desktop size",
+      "pass": true,
+      "trigger": {
+        "x": 691,
+        "y": 462,
+        "width": 71,
+        "height": 30
+      },
+      "menu": {
+        "x": 669,
+        "y": 269,
+        "width": 150,
+        "height": 187,
+        "top": 269,
+        "right": 819,
+        "bottom": 456,
+        "left": 669
+      },
+      "viewport": {
+        "width": 827,
+        "height": 541
+      },
+      "parent": "BODY",
+      "background": "rgb(34, 37, 37)",
+      "borderRadius": "12px",
+      "boxShadow": "rgba(0, 0, 0, 0.133) 0px 12px 36px 0px",
+      "zIndex": "2500",
+      "scrollHeight": 185,
+      "clientHeight": 185,
+      "labels": [
+        {
+          "text": "列表循环",
+          "height": 13.1953125,
+          "fontSize": 11,
+          "width": 44
+        },
+        {
+          "text": "随机播放",
+          "height": 13.1953125,
+          "fontSize": 11,
+          "width": 44
+        },
+        {
+          "text": "单曲循环",
+          "height": 13.1953125,
+          "fontSize": 11,
+          "width": 44
+        },
+        {
+          "text": "顺序播放",
+          "height": 13.1953125,
+          "fontSize": 11,
+          "width": 44
+        },
+        {
+          "text": "播放一首",
+          "height": 13.1953125,
+          "fontSize": 11,
+          "width": 44
+        }
+      ]
+    },
+    {
+      "check": "Song list grouped categories from controlled HTTP SDK response",
+      "pass": true,
+      "groups": [
+        "语言",
+        "心情"
+      ],
+      "hash": "#/songList/list?source=kw&tagId=2002-10000&sortId=new&page=1",
+      "fixture": "Controlled localhost HTTP proxy; no claim of external platform availability",
+      "trigger": {
+        "x": 372,
+        "y": 315.09375,
+        "width": 150,
+        "height": 36
+      },
+      "menu": {
+        "x": 372,
+        "y": 357.09375,
+        "width": 150,
+        "height": 237,
+        "top": 357.09375,
+        "right": 522,
+        "bottom": 594.09375,
+        "left": 372
+      },
+      "viewport": {
+        "width": 1113,
+        "height": 718
+      },
+      "parent": "BODY",
+      "background": "rgb(34, 37, 37)",
+      "borderRadius": "12px",
+      "boxShadow": "rgba(0, 0, 0, 0.133) 0px 12px 36px 0px",
+      "zIndex": "2500",
+      "scrollHeight": 235,
+      "clientHeight": 235
+    },
+    {
+      "check": "No renderer exceptions during native menu tests",
+      "pass": true
+    }
+  ],
+  "rendererErrors": [],
+  "fixtureRequests": [
+    "/api/pc/classify/playlist/getRcmTagList?loginUid=0&loginSid=0&appUid=76039576",
+    "/api/pc/classify/playlist/getTagList?cmd=rcm_keyword_playlist&user=0&prod=kwplayer_pc_9.0.5.0&vipver=9.0.5.0&source=kwplayer_pc_9.0.5.0&loginUid=0&loginSid=0&appUid=76039576",
+    "/api/pc/classify/playlist/getRcmPlayList?loginUid=0&loginSid=0&appUid=76039576&&pn=1&rn=36&order=new",
+    "/api/pc/classify/playlist/getTagPlayList?loginUid=0&loginSid=0&appUid=76039576&pn=1&id=2002&rn=36"
+  ]
+}

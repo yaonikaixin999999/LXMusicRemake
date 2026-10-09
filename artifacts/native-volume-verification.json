@@ -1,0 +1,335 @@
+{
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-volume-data\\1791554332163",
+  "results": [
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 720,
+      "height": 480,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 720,
+          "height": 481
+        },
+        "trigger": {
+          "x": 668,
+          "y": 402,
+          "width": 27,
+          "height": 30
+        },
+        "panel": {
+          "x": 636,
+          "y": 155,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 665,
+          "y": 193.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 900,
+      "height": 600,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 899,
+          "height": 600
+        },
+        "trigger": {
+          "x": 835,
+          "y": 521,
+          "width": 27,
+          "height": 30
+        },
+        "panel": {
+          "x": 810.5,
+          "y": 274,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 839.5,
+          "y": 312.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 1113,
+          "height": 718
+        },
+        "trigger": {
+          "x": 1046,
+          "y": 639,
+          "width": 30,
+          "height": 30
+        },
+        "panel": {
+          "x": 1023,
+          "y": 392,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 1052,
+          "y": 430.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 1500,
+      "height": 850,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 1499,
+          "height": 850
+        },
+        "trigger": {
+          "x": 1432,
+          "y": 771,
+          "width": 30,
+          "height": 30
+        },
+        "panel": {
+          "x": 1409,
+          "y": 524,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 1438,
+          "y": 562.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 720,
+      "height": 480,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 720,
+          "height": 481
+        },
+        "trigger": {
+          "x": 668,
+          "y": 402,
+          "width": 27,
+          "height": 30
+        },
+        "panel": {
+          "x": 636,
+          "y": 155,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 665,
+          "y": 193.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 900,
+      "height": 600,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 899,
+          "height": 600
+        },
+        "trigger": {
+          "x": 835,
+          "y": 521,
+          "width": 27,
+          "height": 30
+        },
+        "panel": {
+          "x": 810.5,
+          "y": 274,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 839.5,
+          "y": 312.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 1113,
+          "height": 718
+        },
+        "trigger": {
+          "x": 1046,
+          "y": 639,
+          "width": 30,
+          "height": 30
+        },
+        "panel": {
+          "x": 1023,
+          "y": 392,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 1052,
+          "y": 430.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "shell",
+      "width": 1500,
+      "height": 850,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 1499,
+          "height": 850
+        },
+        "trigger": {
+          "x": 1432,
+          "y": 771,
+          "width": 30,
+          "height": 30
+        },
+        "panel": {
+          "x": 1409,
+          "y": 524,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 1438,
+          "y": 562.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "floating vertical volume panel and keyboard/mute/native settings linkage",
+      "context": "player-detail",
+      "width": 1114,
+      "height": 718,
+      "pass": true,
+      "geometry": {
+        "viewport": {
+          "width": 1113,
+          "height": 718
+        },
+        "trigger": {
+          "x": 1046,
+          "y": 639,
+          "width": 30,
+          "height": 30
+        },
+        "panel": {
+          "x": 1023,
+          "y": 392,
+          "width": 76,
+          "height": 239.3984375
+        },
+        "range": {
+          "x": 1052,
+          "y": 430.3984375,
+          "width": 18,
+          "height": 150
+        }
+      },
+      "afterKeyboard": {
+        "volume": 0.37,
+        "isMute": false
+      },
+      "outsideFocus": "音量设置"
+    },
+    {
+      "check": "volume panel remains available in PlayerDetail",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "failure": null
+}

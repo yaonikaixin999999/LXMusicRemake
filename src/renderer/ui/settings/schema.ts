@@ -18,6 +18,7 @@ export interface SettingField {
 }
 
 export const categories = [
+  { id: 'accounts', name: '平台账号与红心', description: 'QQ 音乐与网易云音乐', keywords: '登录 账号 密码 扫码 QR 红心 收藏 平台 同步 QQ 网易云' },
   { id: 'general', name: '常规与外观', description: '窗口、字体、语言与主题，调整熟悉的音乐空间。', keywords: '主题 颜色 圆角 外观 窗口' },
   { id: 'sources', name: '音源管理', description: '导入并选择你使用的音乐接口，管理其更新提醒。', keywords: '接口 脚本 API 导入 音源' },
   { id: 'playback', name: '播放', description: '音质、播放顺序、恢复进度与定时停止。', keywords: '定时 睡眠 音质' },
@@ -145,7 +146,7 @@ export function parseSettingValue(field: SettingField, text: string): LX.AppSett
   return text
 }
 
-/** Normalize imported backups to the settings exposed by LX Studio. */
+/** Normalize imported backups to the settings exposed by LinkLine. */
 export function validateSettingBackup(input: unknown): Partial<LX.AppSetting> {
   const source = input && typeof input === 'object' && !Array.isArray(input) ? input as Record<string, unknown> : {}
   const result: Partial<LX.AppSetting> = {}

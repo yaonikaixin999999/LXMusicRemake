@@ -1,5 +1,5 @@
 import { isLinux } from '@common/utils'
-import { closeWindow, createWindow, getBounds, isExistWindow, alwaysOnTopTools, setBounds, setIgnoreMouseEvents, setSkipTaskbar } from './main'
+import { closeWindow, createWindow, getBounds, isExistWindow, alwaysOnTopTools, setBounds, applyMousePolicy, setSkipTaskbar } from './main'
 import { sendConfigChange, sendMouseLeave } from './rendererEvent'
 import { buildLyricConfig, getLyricWindowBounds, initWindowSize, watchConfigKeys } from './utils'
 import { mouseCheckTools } from './mouseCheckTools'
@@ -21,17 +21,17 @@ export const setLrcConfig = (keys: Array<keyof LX.AppSetting>, setting: Partial<
     if (keys.includes('desktopLyric.isLock') && isLock != global.lx.appSetting['desktopLyric.isLock']) {
       isLock = global.lx.appSetting['desktopLyric.isLock']
       if (global.lx.appSetting['desktopLyric.isLock']) {
-        setIgnoreMouseEvents(true, { forward: !isLinux && global.lx.appSetting['desktopLyric.isHoverHide'] })
+        applyMousePolicy()
         mouseCheckTools.runCheck(sendMouseLeave)
       } else {
-        setIgnoreMouseEvents(false, { forward: !isLinux && global.lx.appSetting['desktopLyric.isHoverHide'] })
+        applyMousePolicy()
         mouseCheckTools.cacnelCheck()
       }
     }
     if (keys.includes('desktopLyric.isHoverHide') && isHoverHide != global.lx.appSetting['desktopLyric.isHoverHide']) {
       isHoverHide = global.lx.appSetting['desktopLyric.isHoverHide']
       if (!isLinux) {
-        setIgnoreMouseEvents(global.lx.appSetting['desktopLyric.isLock'], { forward: isHoverHide })
+        applyMousePolicy()
         if (isHoverHide) {
           mouseCheckTools.runCheck(sendMouseLeave)
         } else {

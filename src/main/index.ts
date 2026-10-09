@@ -13,6 +13,8 @@ import {
 import { isLinux } from '@common/utils'
 import { initAppSetting } from '@main/app'
 import registerModules from '@main/modules'
+import path from 'node:path'
+import { prepareUserDataDirectory } from './utils/userDataDirectory'
 
 // 初始化应用
 const init = () => {
@@ -24,8 +26,19 @@ const init = () => {
   })
 }
 
-app.setName('LX Studio')
-app.setPath('userData', runtimeEnv.LX_STUDIO_DATA_DIR ?? `${app.getPath('appData')}/LX Studio`)
+app.setName('LinkLine')
+const dataDirectory = prepareUserDataDirectory({
+  appDataPath: app.getPath('appData'),
+  env: runtimeEnv,
+  portablePath: process.platform === 'win32' ? path.join(path.dirname(app.getPath('exe')), 'portable') : undefined,
+  acquireLegacyLock: legacyPath => {
+    app.setPath('userData', legacyPath)
+    return app.requestSingleInstanceLock()
+  },
+  releaseLegacyLock: () => { app.releaseSingleInstanceLock() },
+})
+if (dataDirectory.appDataPath) app.setPath('appData', dataDirectory.appDataPath)
+app.setPath('userData', dataDirectory.userDataPath)
 initGlobalData()
 initSingleInstanceHandle()
 applyElectronEnvParams()

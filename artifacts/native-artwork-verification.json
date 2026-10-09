@@ -1,0 +1,669 @@
+{
+  "runId": "1791551464555",
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-artwork-data\\1791551464555",
+  "results": [
+    {
+      "check": "Empty picUrl invokes real KW SDK and displays loaded artwork in visible TrackTable rows",
+      "pass": true,
+      "importedPicUrl": "",
+      "endpoint": {
+        "method": "GET",
+        "host": "artistpicserver.kuwo.cn",
+        "path": "/pic.web",
+        "query": {
+          "corp": "kuwo",
+          "type": "rid_pic",
+          "pictype": "500",
+          "size": "500",
+          "rid": "artwork_1791551464555_0"
+        },
+        "time": "2026-10-09T13:11:07.671Z"
+      },
+      "image": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_0.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      }
+    },
+    {
+      "check": "API failure renders a styled music placeholder and no broken image",
+      "pass": true,
+      "requests": 1,
+      "placeholder": true
+    },
+    {
+      "check": "Failed image URL refreshes once through SDK and loads replacement artwork",
+      "pass": true,
+      "endpointRequests": 2,
+      "replacement": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_2.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      }
+    },
+    {
+      "check": "Offscreen rows defer cover requests until scrolled into view; concurrent SDK requests are bounded",
+      "pass": true,
+      "totalTracks": 60,
+      "initialEndpointRequests": 5,
+      "maximumConcurrentRequests": 4,
+      "lastImage": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_59.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      },
+      "geometry": [
+        {
+          "stage": "before",
+          "scrollTop": 0,
+          "scrollHeight": 3480,
+          "clientHeight": 214,
+          "rect": {
+            "x": 431,
+            "y": 327,
+            "width": 635,
+            "height": 214,
+            "top": 327,
+            "right": 1066,
+            "bottom": 541,
+            "left": 431
+          },
+          "lastRect": {
+            "x": 431,
+            "y": 3749,
+            "width": 620,
+            "height": 58,
+            "top": 3749,
+            "right": 1051,
+            "bottom": 3807,
+            "left": 431
+          }
+        },
+        {
+          "stage": "immediatelyAfterScroll",
+          "scrollTop": 3266,
+          "scrollHeight": 3480,
+          "clientHeight": 214,
+          "rect": {
+            "x": 431,
+            "y": 327,
+            "width": 635,
+            "height": 214,
+            "top": 327,
+            "right": 1066,
+            "bottom": 541,
+            "left": 431
+          },
+          "lastRect": {
+            "x": 431,
+            "y": 483,
+            "width": 620,
+            "height": 58,
+            "top": 483,
+            "right": 1051,
+            "bottom": 541,
+            "left": 431
+          }
+        },
+        {
+          "stage": "afterRequestsResolve",
+          "scrollTop": 3266,
+          "scrollHeight": 3480,
+          "clientHeight": 214,
+          "rect": {
+            "x": 431,
+            "y": 327,
+            "width": 635,
+            "height": 214,
+            "top": 327,
+            "right": 1066,
+            "bottom": 541,
+            "left": 431
+          },
+          "lastRect": {
+            "x": 431,
+            "y": 483,
+            "width": 620,
+            "height": 58,
+            "top": 483,
+            "right": 1051,
+            "bottom": 541,
+            "left": 431
+          }
+        }
+      ]
+    },
+    {
+      "check": "Resolved artwork is reused by PlayerBar and player detail without extra cover request",
+      "pass": true,
+      "endpointRequests": 1,
+      "player": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_0.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      },
+      "detail": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_0.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      },
+      "detailPlayer": {
+        "src": "http://127.0.0.1:59815/cover/artwork_1791551464555_0.svg",
+        "naturalWidth": 160,
+        "naturalHeight": 160
+      }
+    },
+    {
+      "check": "Resolved cover survives leaving and reentering the music library",
+      "pass": true,
+      "endpointRequests": 1,
+      "cachedCoverReused": true
+    },
+    {
+      "check": "No renderer runtime exceptions during native artwork integration",
+      "pass": true,
+      "errors": 0
+    },
+    {
+      "check": "Final narrow player mode menu has single line labels, left label and right arrow",
+      "pass": true,
+      "snapshots": [
+        {
+          "mode": "light",
+          "trigger": {
+            "rect": {
+              "x": 691,
+              "y": 382.5,
+              "width": 71,
+              "height": 30,
+              "top": 382.5,
+              "right": 762,
+              "bottom": 412.5,
+              "left": 691
+            },
+            "label": {
+              "x": 697,
+              "y": 392.1015625,
+              "width": 36,
+              "height": 10.796875,
+              "top": 392.1015625,
+              "right": 733,
+              "bottom": 402.8984375,
+              "left": 697
+            },
+            "arrow": {
+              "x": 744,
+              "y": 391.5,
+              "width": 12,
+              "height": 12,
+              "top": 391.5,
+              "right": 756,
+              "bottom": 403.5,
+              "left": 744
+            },
+            "justifyContent": "space-between"
+          },
+          "menu": {
+            "rect": {
+              "x": 669,
+              "y": 189.5,
+              "width": 150,
+              "height": 187,
+              "top": 189.5,
+              "right": 819,
+              "bottom": 376.5,
+              "left": 669
+            },
+            "width": 827,
+            "height": 541,
+            "options": [
+              {
+                "text": "列表循环",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "随机播放",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "单曲循环",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "顺序播放",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "播放一首",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              }
+            ]
+          }
+        },
+        {
+          "mode": "dark",
+          "trigger": {
+            "rect": {
+              "x": 691,
+              "y": 382.5,
+              "width": 71,
+              "height": 30,
+              "top": 382.5,
+              "right": 762,
+              "bottom": 412.5,
+              "left": 691
+            },
+            "label": {
+              "x": 697,
+              "y": 392.1015625,
+              "width": 36,
+              "height": 10.796875,
+              "top": 392.1015625,
+              "right": 733,
+              "bottom": 402.8984375,
+              "left": 697
+            },
+            "arrow": {
+              "x": 744,
+              "y": 391.5,
+              "width": 12,
+              "height": 12,
+              "top": 391.5,
+              "right": 756,
+              "bottom": 403.5,
+              "left": 744
+            },
+            "justifyContent": "space-between"
+          },
+          "menu": {
+            "rect": {
+              "x": 669,
+              "y": 189.5,
+              "width": 150,
+              "height": 187,
+              "top": 189.5,
+              "right": 819,
+              "bottom": 376.5,
+              "left": 669
+            },
+            "width": 827,
+            "height": 541,
+            "options": [
+              {
+                "text": "列表循环",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "随机播放",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "单曲循环",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "顺序播放",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              },
+              {
+                "text": "播放一首",
+                "height": 13.1953125,
+                "lineHeight": 13.2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rendererErrors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_2"
+      },
+      "time": "2026-10-09T13:11:07.669Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_1"
+      },
+      "time": "2026-10-09T13:11:07.670Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_3"
+      },
+      "time": "2026-10-09T13:11:07.671Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_0"
+      },
+      "time": "2026-10-09T13:11:07.671Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/broken.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:07.915Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_3.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:07.915Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:07.916Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_2"
+      },
+      "time": "2026-10-09T13:11:07.939Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_2.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:08.130Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_57"
+      },
+      "time": "2026-10-09T13:11:09.131Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_56"
+      },
+      "time": "2026-10-09T13:11:09.131Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_59"
+      },
+      "time": "2026-10-09T13:11:09.132Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_58"
+      },
+      "time": "2026-10-09T13:11:09.132Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_57.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:09.330Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_56.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:09.330Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_59.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:09.330Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_58.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:09.354Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:10.146Z"
+    },
+    {
+      "method": "GET",
+      "host": "mlyric.kuwo.cn",
+      "path": "/mobi.s",
+      "query": {
+        "f": "web",
+        "type": "lyric",
+        "lrcx": "1",
+        "rid": "artwork_1791551464555_0",
+        "encode": "utf8"
+      },
+      "time": "2026-10-09T13:11:10.163Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:10.173Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/resolve",
+      "query": {
+        "song": "artwork_1791551464555_0"
+      },
+      "time": "2026-10-09T13:11:10.180Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/audio.mp3",
+      "query": {},
+      "time": "2026-10-09T13:11:10.195Z"
+    },
+    {
+      "method": "GET",
+      "host": "songsearch.kugou.com",
+      "path": "/song_search_v2",
+      "query": {
+        "platform": "AndroidFilter",
+        "iscorrection": "1",
+        "keyword": "QA Cover Primary 1791551464555 Native cover SDK QA",
+        "hifiquality": "0",
+        "pagesize": "25",
+        "PrivilegeFilter": "0",
+        "page": "1"
+      },
+      "time": "2026-10-09T13:11:10.195Z"
+    },
+    {
+      "method": "POST",
+      "host": "interface.music.163.com",
+      "path": "/eapi/batch",
+      "query": {},
+      "time": "2026-10-09T13:11:10.196Z"
+    },
+    {
+      "method": "GET",
+      "host": "songsearch.kugou.com",
+      "path": "/song_search_v2",
+      "query": {
+        "platform": "AndroidFilter",
+        "iscorrection": "1",
+        "keyword": "QA Cover Primary 1791551464555 Native cover SDK QA",
+        "hifiquality": "0",
+        "pagesize": "25",
+        "PrivilegeFilter": "0",
+        "page": "1"
+      },
+      "time": "2026-10-09T13:11:10.212Z"
+    },
+    {
+      "method": "POST",
+      "host": "interface.music.163.com",
+      "path": "/eapi/batch",
+      "query": {},
+      "time": "2026-10-09T13:11:10.213Z"
+    },
+    {
+      "method": "POST",
+      "host": "interface.music.163.com",
+      "path": "/eapi/batch",
+      "query": {},
+      "time": "2026-10-09T13:11:10.229Z"
+    },
+    {
+      "method": "GET",
+      "host": "songsearch.kugou.com",
+      "path": "/song_search_v2",
+      "query": {
+        "platform": "AndroidFilter",
+        "iscorrection": "1",
+        "keyword": "QA Cover Primary 1791551464555 Native cover SDK QA",
+        "hifiquality": "0",
+        "pagesize": "25",
+        "PrivilegeFilter": "0",
+        "page": "1"
+      },
+      "time": "2026-10-09T13:11:10.231Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:10.421Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:11.318Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_2.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:12.364Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_3.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:12.364Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_0.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:12.364Z"
+    },
+    {
+      "method": "GET",
+      "host": "artistpicserver.kuwo.cn",
+      "path": "/pic.web",
+      "query": {
+        "corp": "kuwo",
+        "type": "rid_pic",
+        "pictype": "500",
+        "size": "500",
+        "rid": "artwork_1791551464555_4"
+      },
+      "time": "2026-10-09T13:11:12.397Z"
+    },
+    {
+      "method": "GET",
+      "host": "127.0.0.1:59815",
+      "path": "/cover/artwork_1791551464555_4.svg",
+      "query": {},
+      "time": "2026-10-09T13:11:12.595Z"
+    }
+  ],
+  "maxActivePictures": 4
+}

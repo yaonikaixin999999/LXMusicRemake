@@ -24,12 +24,13 @@ export default function useDesktopDrag() {
   }
   function start(event: PointerEvent) {
     const target = event.target
-    if (event.button !== 0 || setting['desktopLyric.isLock'] || !(target instanceof HTMLElement) || target.closest('button, input, select, .lyric-stage-flow')) return
+    if (event.button !== 0 || setting['desktopLyric.isLock'] || !(target instanceof Element) || !target.closest('.lyric-toolbar-title') || target.closest('button, input, select')) return
     event.preventDefault()
     stop()
     active = true
     previousX = event.screenX
     previousY = event.screenY
+    ;(event.currentTarget as Element).setPointerCapture(event.pointerId)
     setWindowResizeable(false)
     document.addEventListener('pointermove', move)
     document.addEventListener('pointerup', stop)

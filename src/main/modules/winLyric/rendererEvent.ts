@@ -2,7 +2,7 @@ import { registerRendererEvents as common } from '@main/modules/commonRenderers/
 import { mainOn, mainHandle } from '@common/mainIpc'
 import { WIN_LYRIC_RENDERER_EVENT_NAME } from '@common/ipcNames'
 import { buildLyricConfig, getLyricWindowBounds } from './utils'
-import { sendNewDesktopLyricClient } from '@main/modules/winMain'
+import { sendNewDesktopLyricClient, sendTaskbarButtonClick } from '@main/modules/winMain'
 import { getBounds, getMainFrame, sendEvent, setBounds, setResizeable } from './main'
 import { MessageChannelMain } from 'electron'
 import { mouseCheckTools } from './mouseCheckTools'
@@ -26,8 +26,15 @@ export default () => {
     return buildLyricConfig(global.lx.appSetting) as LX.DesktopLyric.Config
   })
 
-  mainOn<LX.DesktopLyric.NewBounds>(WIN_LYRIC_RENDERER_EVENT_NAME.set_win_bounds, ({ params: options }) => {
-    setBounds(getLyricWindowBounds(getBounds()!, options))
+  mainOn<LX.DesktopLyric.NewBounds>(WIN_LYRIC_RENDERER_EVENT_NAME.set_win_bounds, ({ event, params: options }) => {
+    const bounds = getBounds()
+    if (event.senderFrame !== getMainFrame() || !bounds || global.lx.appSetting['desktopLyric.isLock'] || ![options.x, options.y, options.w, options.h].every(Number.isFinite)) return
+    setBounds(getLyricWindowBounds(bounds, options))
+  })
+
+  mainOn<'prev' | 'next' | 'play' | 'pause'>(WIN_LYRIC_RENDERER_EVENT_NAME.player_control, ({ event, params: action }) => {
+    if (event.senderFrame !== getMainFrame() || !['prev', 'next', 'play', 'pause'].includes(action)) return
+    sendTaskbarButtonClick(action)
   })
 
   mainOn<boolean>(WIN_LYRIC_RENDERER_EVENT_NAME.set_win_resizeable, ({ params: resizable }) => {

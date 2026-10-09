@@ -70,12 +70,21 @@ build
 dist
 /dist-preview/
 
-# Local QA output; retain the four reports referenced by doc/modern-ui.md
+# Local QA output; retain reports referenced by doc/modern-ui.md
 /artifacts/*
 !/artifacts/native-appearance-verification.json
 !/artifacts/native-verification.json
 !/artifacts/native-online-verification.json
 !/artifacts/native-hotkeys-verification.json
+!/artifacts/native-window-verification.json
+!/artifacts/native-player-verification.json
+!/artifacts/native-menu-verification.json
+!/artifacts/native-artwork-verification.json
+!/artifacts/native-sidebar-height-verification.json
+!/artifacts/native-volume-verification.json
+!/artifacts/native-platform-smoke.json
+!/artifacts/platform-renderer-service-verification.json
+!/artifacts/native-platform-ui.json
 
 publish/assets
 

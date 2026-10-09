@@ -17,8 +17,7 @@ import { getMusicUrl, getPicPath, getLyricInfo } from '../music/index'
 import { filterList } from './utils'
 import { requestMsg } from '@renderer/utils/message'
 import { getRandom } from '@renderer/utils/index'
-import { addListMusics, removeListMusics } from '@renderer/store/list/action'
-import { loveList } from '@renderer/store/list/state'
+import { requestFavorite } from '@renderer/ui/services/platformAccounts'
 import { addDislikeInfo } from '@renderer/core/dislikeList'
 // import { checkMusicFileAvailable } from '@renderer/utils/music'
 
@@ -624,7 +623,7 @@ export const togglePlay = () => {
  */
 export const collectMusic = () => {
   if (!playMusicInfo.musicInfo) return
-  void addListMusics(loveList.id, ['progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo])
+  requestFavorite('progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo, true)
 }
 
 /**
@@ -632,7 +631,7 @@ export const collectMusic = () => {
  */
 export const uncollectMusic = () => {
   if (!playMusicInfo.musicInfo) return
-  void removeListMusics({ listId: loveList.id, ids: ['progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo.id : playMusicInfo.musicInfo.id] })
+  requestFavorite('progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo, false)
 }
 
 /**

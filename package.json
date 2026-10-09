@@ -1,7 +1,7 @@
 {
-  "name": "lx-studio",
+  "name": "linkline",
   "version": "1.0.0",
-  "description": "LX Studio — 全新音乐桌面前端，基于 LX Music 服务",
+  "description": "LinkLine — 全新音乐桌面前端，基于 LX Music 服务",
   "main": "./dist/main.js",
   "scripts": {
     "start": "electron .",
@@ -77,16 +77,16 @@
   },
   "macLanguagesInfoPlistStrings": {
     "en": {
-      "CFBundleDisplayName": "LX Music",
-      "CFBundleName": "LX Music"
+      "CFBundleDisplayName": "LinkLine",
+      "CFBundleName": "LinkLine"
     },
     "zh_CN": {
-      "CFBundleDisplayName": "LX Music",
-      "CFBundleName": "LX Music"
+      "CFBundleDisplayName": "LinkLine",
+      "CFBundleName": "LinkLine"
     },
     "zh_TW": {
-      "CFBundleDisplayName": "LX Music",
-      "CFBundleName": "LX Music"
+      "CFBundleDisplayName": "LinkLine",
+      "CFBundleName": "LinkLine"
     }
   },
   "repository": {
@@ -181,6 +181,7 @@
     "message2call": "^0.1.3",
     "music-metadata": "^11.15.0",
     "needle": "github:lyswhut/needle#93299ac841b7e9a9f82ca7279b88aaaeda404060",
+    "NeteaseCloudMusicApi": "4.32.0",
     "node-id3": "^0.2.9",
     "sortablejs": "^1.15.7",
     "tunnel": "^0.0.6",

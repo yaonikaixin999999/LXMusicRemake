@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, screen } from 'electron'
 import { debounce, getPlatform, isLinux, isWin } from '@common/utils'
 import { initWindowSize, minHeight, minWidth } from './utils'
 import { mainSend } from '@common/mainIpc'
@@ -10,6 +10,25 @@ import { encodePath } from '@common/utils/electron'
 
 let browserWindow: Electron.BrowserWindow | null = null
 let isWinBoundsUpdateing = false
+let lockedMouseTimer: NodeJS.Timeout | undefined
+
+// A small unlock target remains interactive while the lyrics pass clicks through.
+export const applyMousePolicy = () => {
+  clearInterval(lockedMouseTimer)
+  lockedMouseTimer = undefined
+  if (!browserWindow) return
+  const win = browserWindow
+  if (!global.lx.appSetting['desktopLyric.isLock']) { win.setIgnoreMouseEvents(false); return }
+  const update = () => {
+    if (win.isDestroyed()) return
+    const { x, y, width } = win.getBounds()
+    const point = screen.getCursorScreenPoint()
+    const overUnlock = point.x >= x + width - 50 && point.x <= x + width - 10 && point.y >= y + 10 && point.y <= y + 50
+    win.setIgnoreMouseEvents(!overUnlock, { forward: !isLinux })
+  }
+  update()
+  lockedMouseTimer = setInterval(update, 80)
+}
 
 const saveBoundsConfig = debounce((config: Partial<LX.AppSetting>) => {
   global.lx.event_app.update_config(config)
@@ -27,6 +46,9 @@ const winEvent = () => {
   // })
 
   browserWindow.on('closed', () => {
+    clearInterval(lockedMouseTimer)
+    lockedMouseTimer = undefined
+    alwaysOnTopTools.clearLoop()
     browserWindow = null
   })
 
@@ -74,9 +96,7 @@ const winEvent = () => {
 
   browserWindow.once('ready-to-show', () => {
     showWindow()
-    if (global.lx.appSetting['desktopLyric.isLock']) {
-      browserWindow!.setIgnoreMouseEvents(true, { forward: !isLinux && global.lx.appSetting['desktopLyric.isHoverHide'] })
-    }
+    applyMousePolicy()
     // linux下每次重开时貌似要重新设置置顶
     // if (isLinux && global.lx.appSetting['desktopLyric.isAlwaysOnTop']) {
     //   browserWindow!.setAlwaysOnTop(global.lx.appSetting['desktopLyric.isAlwaysOnTop'], 'screen-saver')
@@ -123,7 +143,7 @@ export const createWindow = () => {
     hasShadow: false,
     // enableRemoteModule: false,
     // icon: join(global.__static, isWin ? 'icons/256x256.ico' : 'icons/512x512.png'),
-    resizable: isWin,
+    resizable: false,
     minimizable: false,
     maximizable: false,
     fullscreenable: false,

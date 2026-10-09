@@ -26,11 +26,9 @@ const handleDesktopLyricMessage = (event: LX.DesktopLyric.LyricActions) => {
       lyrics.rlyric = event.data.rlrc
       lyrics.lxlyric = event.data.lxlrc
       setLyric()
-      if (event.data.isPlay) {
-        setImmediate(() => {
-          getStatus()
-        })
-      }
+      setIsPlay(event.data.isPlay)
+      play(event.data.played_time)
+      if (!event.data.isPlay) pause()
       break
     case 'set_lyric':
       lyrics.lyric = event.data.lrc ?? ''
@@ -38,11 +36,12 @@ const handleDesktopLyricMessage = (event: LX.DesktopLyric.LyricActions) => {
       lyrics.rlyric = event.data.rlrc
       lyrics.lxlyric = event.data.lxlrc
       setLyric()
+      getStatus()
       break
     case 'set_status':
       setIsPlay(event.data.isPlay)
-      if (event.data.isPlay) play(event.data.played_time)
-      else pause()
+      play(event.data.played_time)
+      if (!event.data.isPlay) pause()
       break
     case 'set_offset':
       setLyricOffset(event.data)
@@ -61,6 +60,7 @@ const handleDesktopLyricMessage = (event: LX.DesktopLyric.LyricActions) => {
     case 'set_stop':
       setIsPlay(false)
       stop()
+      setMusicInfo({ id: null, name: '', singer: '', album: null })
       break
     default:
       for (const listener of listeners) {
@@ -73,6 +73,7 @@ const handleDesktopLyricMessage = (event: LX.DesktopLyric.LyricActions) => {
 export const init = () => {
   onProvideMainWindowChannel(({ event }) => {
     const [port] = event.ports
+    mainWindowPort?.close()
     mainWindowPort = port
 
     // ... register a handler to receive results ...
@@ -86,6 +87,7 @@ export const init = () => {
       console.log('onmessageerror', event)
     }
 
+    port.start()
     getInfo()
   })
 }

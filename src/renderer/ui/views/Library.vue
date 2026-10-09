@@ -26,7 +26,7 @@
       <div v-if="selected.size" class="ui-library-selection"><span>已选择 {{ selected.size }} 首</span><button type="button" @click="openTrackAction('add', selectedTracks)">加入歌单</button><button type="button" @click="favoriteMany(selectedTracks)">收藏</button><button type="button" @click="openTrackAction('download', selectedTracks)">下载</button><button type="button" @click="requestRemove(selectedTracks)">移除</button><button type="button" @click="selected = new Set()">取消选择</button></div>
       <div class="ui-library-results">
         <TrackTable :list="pageTracks" :list-id="listId" :loading="loading" :error="error" :offset="(page - 1) * PAGE_SIZE" removable :empty-title="query ? '没有找到匹配的歌曲' : '给这个歌单加入第一首音乐'" @play="playTrack" @add="addTrack" @download="downloadTrack" @remove="removeTrack" @retry="loadTracks">
-          <template #actions="{ track }: { track: LX.Music.MusicInfo }"><button type="button" class="ui-library-row-btn" :class="{ loved: favoriteIds.has(track.id) }" :aria-label="favoriteIds.has(track.id) ? '取消收藏' : '收藏歌曲'" @click="toggleFavorite(track)"><UiIcon name="heart" :filled="favoriteIds.has(track.id)" /></button><button type="button" class="ui-library-row-btn" aria-label="编辑歌曲信息" @click="editTrack(track)"><UiIcon name="more" /></button><input type="checkbox" :checked="selected.has(track.id)" :aria-label="`选择 ${track.name}`" @change="toggleSelected(track.id)"></template>
+          <template #actions="{ track }: { track: LX.Music.MusicInfo }"><button type="button" class="ui-library-row-btn" :class="{ loved: isFavorite(track) }" :aria-label="isFavorite(track) ? '取消收藏' : '收藏歌曲'" :disabled="favoritePending.has(track.id)" @click="toggleFavorite(track)"><UiIcon name="heart" :filled="isFavorite(track)" /></button><button type="button" class="ui-library-row-btn" aria-label="编辑歌曲信息" @click="editTrack(track)"><UiIcon name="more" /></button><input type="checkbox" :checked="selected.has(track.id)" :aria-label="`选择 ${track.name}`" @change="toggleSelected(track.id)"></template>
         </TrackTable>
       </div>
       <footer v-if="filteredTracks.length" class="ui-library-pagination"><label><input type="checkbox" :checked="pageAllSelected" @change="selectPage">选择本页</label><span>{{ filteredTracks.length }} 首{{ query ? '搜索结果' : '歌曲' }}</span><button type="button" :disabled="page <= 1" @click="page--">上一页</button><span>{{ page }} / {{ pages }}</span><button type="button" :disabled="page >= pages" @click="page++">下一页</button></footer>
@@ -55,6 +55,7 @@ import { playList } from '@renderer/core/player'
 import { openSaveDir, showSelectDialog } from '@renderer/utils/ipc'
 import { getListPrevSelectId, saveListPrevSelectId } from '@renderer/utils/data'
 import { filterMusicList, fixNewMusicInfoQuality, toNewMusicInfo, filterFileName } from '@renderer/utils'
+import { favoritePending, isFavorite, refreshFavorites, setFavorite, setFavorites } from '../services/platformAccounts'
 
 const route = useRoute()
 const router = useRouter()
@@ -73,7 +74,6 @@ const originalOrder = ref<string[]>([])
 const page = ref(1)
 const importing = ref(false)
 const selected = ref(new Set<string>())
-const favoriteIds = ref(new Set<string>())
 const playlistOpen = ref(false)
 const playlistAction = ref<'create' | 'rename' | 'delete'>('create')
 const metadataOpen = ref(false)
@@ -97,10 +97,10 @@ const pageTracks = computed(() => filteredTracks.value.slice((page.value - 1) * 
 const selectedTracks = computed(() => tracks.value.filter(track => selected.value.has(track.id)))
 const pageAllSelected = computed(() => pageTracks.value.length > 0 && pageTracks.value.every(track => selected.value.has(track.id)))
 let requestId = 0
-async function loadTracks() {
+async function loadTracks(background = false) {
   const request = ++requestId
   const id = listId.value
-  loading.value = true
+  if (!background) loading.value = true
   error.value = ''
   try {
     const data = await getListMusics(id)
@@ -110,7 +110,7 @@ async function loadTracks() {
     page.value = Math.min(page.value, pages.value)
   } catch (err) { if (request === requestId) error.value = err instanceof Error ? err.message : '无法读取歌单，请重试。' } finally { if (request === requestId) loading.value = false }
 }
-async function loadFavorites() { favoriteIds.value = new Set((await getListMusics(loveList.id)).map(track => track.id)) }
+async function loadFavorites() { await refreshFavorites() }
 async function chooseList(id: string) {
   await router.replace({ path: '/list', query: { id } })
   if (listId.value !== id) listId.value = id
@@ -122,7 +122,7 @@ watch(() => userLists.map(item => item.id), () => {
   if (initialized.value && !playlists.value.some(item => item.id === listId.value)) void chooseList(defaultList.id)
 })
 function handleListUpdate(ids: string[]) {
-  if (ids.includes(listId.value)) void loadTracks()
+  if (ids.includes(listId.value)) void loadTracks(true)
   if (ids.includes(loveList.id)) void loadFavorites().catch(() => {})
 }
 onMounted(async() => {
@@ -154,15 +154,15 @@ function addTrack(track: LX.Music.MusicInfo) { openTrackAction('add', [track]) }
 function downloadTrack(track: LX.Music.MusicInfo) { openTrackAction('download', [track]) }
 function toggleSelected(id: string) { const next = new Set(selected.value); if (next.has(id)) next.delete(id); else next.add(id); selected.value = next }
 function selectPage() { const next = new Set(selected.value); for (const track of pageTracks.value) { if (pageAllSelected.value) next.delete(track.id); else next.add(track.id) }; selected.value = next }
-async function favoriteMany(list: LX.Music.MusicInfo[]) { await perform(async() => { await addListMusics(loveList.id, list); await loadFavorites(); selected.value = new Set() }, '已加入收藏') }
+async function favoriteMany(list: LX.Music.MusicInfo[]) { await perform(async() => { await setFavorites(list, true); await loadFavorites(); selected.value = new Set() }) }
 async function toggleFavorite(track: LX.Music.MusicInfo) {
-  await perform(async() => { if (favoriteIds.value.has(track.id)) await removeListMusics({ listId: loveList.id, ids: [track.id] }); else await addListMusics(loveList.id, [track]); await loadFavorites() })
+  await perform(async() => { await setFavorite(track, !isFavorite(track)); await loadFavorites() })
 }
 function requestRemove(list: LX.Music.MusicInfo[]) { removeTracks.value = [...list]; removeOpen.value = true }
 function removeTrack(track: LX.Music.MusicInfo) { requestRemove([track]) }
 async function confirmRemove() {
   removing.value = true
-  await perform(async() => { await removeListMusics({ listId: listId.value, ids: removeTracks.value.map(track => track.id) }); await loadTracks(); removeOpen.value = false; selected.value = new Set() }, '歌曲已从歌单移除')
+  await perform(async() => { if (listId.value === loveList.id) await setFavorites(removeTracks.value, false); else await removeListMusics({ listId: listId.value, ids: removeTracks.value.map(track => track.id) }); await loadTracks(); removeOpen.value = false; selected.value = new Set() }, listId.value === loveList.id ? undefined : '歌曲已从歌单移除')
   removing.value = false
 }
 async function changeSort(input: string | number) {
@@ -188,7 +188,8 @@ async function importAudio() {
     let count = 0
     for (let index = 0; index < result.filePaths.length; index += 100) {
       const files = await window.lx.worker.main.createLocalMusicInfos(result.filePaths.slice(index, index + 100))
-      await addListMusics(id, files)
+      if (id === loveList.id) await setFavorites(files, true)
+      else await addListMusics(id, files)
       count += files.length
     }
     message.value = `已导入 ${count} 首本地音乐`

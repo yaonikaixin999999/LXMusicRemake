@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Lyric - LX Music</title>
+    <title>LinkLine - Desktop Lyrics</title>
   </head>
   <body id="body" style="background-color: transparent;">
     <div id="root"></div>
@@ -17,7 +17,7 @@
         document.documentElement.setAttribute('lang', formatLang(lang))
       }
       window.setLang()
-      window.os = /os=(\w+)/.exec(window.location.search)[1]
+      window.os = /os=(\w+)/.exec(window.location.search)?.[1] || 'windows'
       document.documentElement.classList.add(window.os)
       window.dom_style_theme = document.createElement('style')
       window.dom_style_lyric = document.createElement('style')
@@ -26,7 +26,6 @@
         window.dom_style_theme.innerText = `:root {${(Object.entries(colors)).map(([key, value]) => `${key}:${value};`).join('')}}`
       }
       window.setLyricColor = colors => {
-        console.log(colors)
         window.dom_style_lyric.innerText = `:root {${(Object.entries(colors)).map(([key, value]) => `${key}:${value};`).join('')}}`
       }
       document.body.appendChild(window.dom_style_lyric)

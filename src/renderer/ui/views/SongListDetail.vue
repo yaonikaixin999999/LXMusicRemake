@@ -1,9 +1,9 @@
 <template>
   <div class="ui-song-detail ui-discovery-page" @keyup.space.stop>
-    <button type="button" class="ui-song-detail__back" @click="router.push({ path: '/songList/list', query: { source } })">← 精选歌单</button>
+    <button type="button" class="ui-song-detail__back" @click="router.push({ path: '/songList/list', query: { source } })"><UiIcon name="back" />精选歌单</button>
     <section class="ui-song-detail__hero"><div class="ui-song-detail__cover"><img v-if="cover" :src="cover" :alt="name" @error="hideImage"><span aria-hidden="true"><UiIcon name="music" /></span></div><div class="ui-song-detail__info"><span class="ui-eyebrow">PLAYLIST · {{ sourceNames[source] }}</span><h1>{{ name }}</h1><p class="ui-song-detail__author">{{ detail?.info.author || '精选歌单' }}<span v-if="detail?.total"> · {{ detail.total.toLocaleString() }} 首歌曲</span><span v-if="detail?.info.play_count"> · {{ detail.info.play_count }} 次播放</span></p><p v-if="description" class="ui-song-detail__description">{{ description }}</p><div class="ui-song-detail__buttons"><button type="button" class="ui-solid-button" :disabled="loading || busy || !detail?.list.length" @click="playCollection()"><UiIcon name="play" filled />{{ busy === 'play' ? '正在准备…' : '播放歌单' }}</button><button type="button" class="ui-outline-button" :disabled="loading || busy || !detail?.list.length" @click="importCollection"><UiIcon name="plus" />{{ busy === 'import' ? '正在导入…' : '加入音乐库' }}</button></div></div></section>
     <div v-if="message" class="ui-inline-message" role="status"><span>{{ message }}</span><button type="button" aria-label="关闭提示" @click="message = ''"><UiIcon name="close" /></button></div>
-    <div class="ui-section-heading"><h2>歌单里的声音</h2><button type="button" :disabled="loading" @click="load(true)">刷新 ↻</button></div>
+    <div class="ui-section-heading"><h2>歌单里的声音</h2><button type="button" :disabled="loading" @click="load(true)"><UiIcon name="refresh" />刷新</button></div>
     <div class="ui-track-panel"><TrackTable :list="detail?.list || []" :loading="loading" :error="error" :offset="(page - 1) * (detail?.limit || 30)" empty-title="这份歌单暂时没有歌曲" @play="playCollection($event)" @add="openAction($event, 'add')" @download="openAction($event, 'download')" @retry="load(true)" /></div>
     <UiPagination :page="page" :pages="pages" :loading="loading" @change="changePage" />
     <TrackActionModal :show="actionOpen" :tracks="actionTracks" :action="action" @close="actionOpen = false" @success="message = $event" />
@@ -117,6 +117,8 @@ function hideImage(event: Event) { (event.target as HTMLImageElement).style.disp
 <style lang="less">
 @import '../discovery.less';
 .ui-song-detail__back { margin: 0 0 22px; padding: 0; border: 0; color: var(--modern-muted); background: transparent; font: inherit; font-size: 10px; cursor: pointer; &:hover { color: var(--modern-accent-ink); } }
+.ui-song-detail__back svg { width: 15px; height: 15px; }
+.ui-song-detail__cover > span svg { width: 50px; height: 50px; }
 .ui-song-detail__hero { display: flex; align-items: center; gap: 25px; margin-bottom: 28px; }
 .ui-song-detail__cover { position: relative; flex: none; display: grid; place-items: center; width: 140px; height: 140px; overflow: hidden; border: 1px solid var(--modern-border); border-radius: var(--modern-radius); background: var(--modern-accent-soft); color: var(--modern-accent-ink); box-shadow: var(--modern-shadow); img { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; object-fit: cover; } > span { font-size: 50px; } }
 .ui-song-detail__info { min-width: 0; flex: 1; h1 { margin: 10px 0; font-size: 24px; font-weight: 550; letter-spacing: -.7px; line-height: 1.3; overflow-wrap: anywhere; } }

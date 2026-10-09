@@ -4,6 +4,7 @@ import { app, shell, screen, nativeTheme, dialog } from 'electron'
 import { URL_SCHEME_RXP } from '@common/constants'
 import { getProxy, getTheme, initHotKey, initSetting, parseEnvParams } from './utils'
 import { navigationUrlWhiteList } from '@common/config'
+import { canNavigateAccount, isAccountSession } from './modules/platformAccounts/navigation'
 import defaultSetting from '@common/defaultSetting'
 import { isExistWindow as isExistMainWindow, showWindow as showMainWindow } from './modules/winMain'
 import { createAppEvent, createDislikeEvent, createListEvent } from '@main/event'
@@ -125,17 +126,6 @@ export const applyElectronEnvParams = () => {
 }
 
 export const setUserDataPath = () => {
-  // windows平台下如果应用目录下存在 portable 文件夹则将数据存在此文件下
-  if (process.platform == 'win32') {
-    const portablePath = path.join(path.dirname(app.getPath('exe')), '/portable')
-    if (existsSync(portablePath)) {
-      app.setPath('appData', portablePath)
-      const appDataPath = path.join(portablePath, '/userData')
-      if (!existsSync(appDataPath)) mkdirSync(appDataPath)
-      app.setPath('userData', appDataPath)
-    }
-  }
-
   const userDataPath = app.getPath('userData')
   if (!existsSync(userDataPath)) mkdirSync(userDataPath, { recursive: true })
   global.lxOldDataPath = userDataPath
@@ -148,9 +138,9 @@ export const registerDeeplink = (startApp: () => void) => {
     // Set the path of electron.exe and your app.
     // These two additional parameters are only available on windows.
     // console.log(process.execPath, process.argv)
-    app.setAsDefaultProtocolClient('lxstudio', process.execPath, process.argv.slice(1))
+    app.setAsDefaultProtocolClient('linkline', process.execPath, process.argv.slice(1))
   } else {
-    app.setAsDefaultProtocolClient('lxstudio')
+    app.setAsDefaultProtocolClient('linkline')
   }
 
   // deep link
@@ -170,6 +160,10 @@ export const registerDeeplink = (startApp: () => void) => {
 export const listenerAppEvent = (startApp: () => void) => {
   app.on('web-contents-created', (event, contents) => {
     contents.on('will-navigate', (event, navigationUrl) => {
+      if (isAccountSession(contents.session)) {
+        if (!canNavigateAccount(contents.session, navigationUrl)) event.preventDefault()
+        return
+      }
       if (process.env.NODE_ENV !== 'production') {
         console.log('navigation to url:', navigationUrl.length > 130 ? navigationUrl.substring(0, 130) + '...' : navigationUrl)
         return
@@ -179,6 +173,13 @@ export const listenerAppEvent = (startApp: () => void) => {
         return
       }
       console.log('navigation to url:', navigationUrl)
+    })
+    contents.on('will-redirect', (event, navigationUrl) => {
+      if (isAccountSession(contents.session)) {
+        if (!canNavigateAccount(contents.session, navigationUrl)) event.preventDefault()
+        return
+      }
+      if (process.env.NODE_ENV === 'production' && !navigationUrlWhiteList.some(url => url.test(navigationUrl))) event.preventDefault()
     })
     contents.setWindowOpenHandler(({ url }) => {
       if (!/^devtools/.test(url) && /^https?:\/\//.test(url)) {

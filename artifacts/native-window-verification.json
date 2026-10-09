@@ -1,0 +1,61 @@
+{
+  "results": [
+    {
+      "check": "Windows native resize and maximize enabled with opaque frameless window",
+      "pass": true,
+      "initialBounds": {
+        "x": 223,
+        "y": 137,
+        "width": 1114,
+        "height": 718
+      }
+    },
+    {
+      "check": "maximize uses OS work area and keeps taskbar, UI shows restore",
+      "pass": true,
+      "bounds": {
+        "x": -7,
+        "y": -7,
+        "width": 1574,
+        "height": 1006
+      },
+      "workArea": {
+        "x": 0,
+        "y": 0,
+        "width": 1560,
+        "height": 992
+      }
+    },
+    {
+      "check": "restore returns exact original normal bounds",
+      "pass": true,
+      "bounds": {
+        "x": 223,
+        "y": 137,
+        "width": 1114,
+        "height": 718
+      }
+    },
+    {
+      "check": "F11 true fullscreen toggles back to maximized state with synchronized renderer",
+      "pass": true
+    },
+    {
+      "check": "Escape reliably exits fullscreen and leaves native resizing enabled",
+      "pass": true
+    },
+    {
+      "check": "minimize still uses native window state",
+      "pass": true
+    },
+    {
+      "check": "real mouse dragging on four edges and four corners",
+      "pass": null,
+      "status": "not completed",
+      "reason": "Windows Computer Use input was blocked by user input detection or lost the target window focus; native resizing stays enabled, but all eight drags were not verified."
+    }
+  ],
+  "errors": [],
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-window-data\\1791551492692",
+  "failure": null
+}

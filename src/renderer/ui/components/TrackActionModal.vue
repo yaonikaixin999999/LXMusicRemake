@@ -26,6 +26,7 @@ import { qualityList } from '@renderer/store'
 import { QUALITYS } from '@common/constants'
 import { appSetting } from '@renderer/store/setting'
 import { updateSetting } from '@renderer/utils/ipc'
+import { setFavorites } from '../services/platformAccounts'
 
 interface TrackActionProps { show: boolean, tracks: LX.Music.MusicInfo[], fromListId?: string, action: 'add' | 'download' }
 const props: TrackActionProps = withDefaults(defineProps<TrackActionProps>(), { fromListId: '' })
@@ -51,7 +52,7 @@ async function run(task: () => Promise<void>, message: string) {
   try { await task(); emit('success', message); emit('close') } catch (err) { error.value = err instanceof Error ? err.message : '操作失败，请稍后重试。' } finally { busy.value = false }
 }
 async function addTo(id: string) {
-  await run(async() => { await addListMusics(id, props.tracks) }, `已加入 ${props.tracks.length} 首歌曲`)
+  await run(async() => { if (id === loveList.id) await setFavorites(props.tracks, true); else await addListMusics(id, props.tracks) }, `已加入 ${props.tracks.length} 首歌曲`)
 }
 async function createAndAdd() {
   const name = newName.value.trim()

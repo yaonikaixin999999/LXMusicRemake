@@ -270,16 +270,31 @@ export const setFullScreen = async(isFullscreen: boolean): Promise<boolean> => {
   const win = browserWindow
   if (win.isFullScreen() === isFullscreen) return isFullscreen
   return new Promise(resolve => {
-    const finish = () => {
+    let completed = false
+    let poll: NodeJS.Timeout | undefined
+    const complete = () => {
+      if (completed) return
+      completed = true
       clearTimeout(timeout)
-      if (isFullscreen) win.removeListener('enter-full-screen', finish)
-      else win.removeListener('leave-full-screen', finish)
+      clearTimeout(poll)
+      if (isFullscreen) win.removeListener('enter-full-screen', check)
+      else win.removeListener('leave-full-screen', check)
+      sendWindowState()
       resolve(win.isDestroyed() ? false : win.isFullScreen())
     }
-    const timeout = setTimeout(finish, 1500)
-    if (isFullscreen) win.once('enter-full-screen', finish)
-    else win.once('leave-full-screen', finish)
+    const check = () => {
+      if (completed) return
+      if (win.isDestroyed() || win.isFullScreen() === isFullscreen) complete()
+      else {
+        clearTimeout(poll)
+        poll = setTimeout(check, 16)
+      }
+    }
+    const timeout = setTimeout(complete, 1500)
+    if (isFullscreen) win.once('enter-full-screen', check)
+    else win.once('leave-full-screen', check)
     win.setFullScreen(isFullscreen)
+    check()
   })
 }
 

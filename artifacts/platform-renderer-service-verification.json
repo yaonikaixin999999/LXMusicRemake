@@ -1,0 +1,12 @@
+{
+  "passed": 7,
+  "checks": [
+    "Background merge deduplicates recordings and preserves existing local favorites without remote writes",
+    "Logout removes imported favorites while preserving preexisting local favorites",
+    "Dispose removes IPC listener",
+    "Explicit favorite adopts an imported recording and keeps it after logout",
+    "Concurrent favorite commands execute in order without overlapping remote writes",
+    "Partial removal failure is reported and remaining platform favorite stays in aggregate",
+    "Unavailable initial snapshot cannot delete saved imported favorites"
+  ]
+}

@@ -327,7 +327,7 @@ const setLyric = (lyricLineText?: string) => {
   }
 }
 
-const defaultTip = 'LX Music'
+const defaultTip = 'LinkLine'
 const setTip = () => {
   if (!tray) return
 

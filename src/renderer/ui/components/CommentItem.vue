@@ -13,6 +13,7 @@ defineProps({ comment: { type: Object, required: true } })
 </script>
 <style scoped lang="less">
 .ui-comment p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ui-comment-likes { display: inline-flex; align-items: center; gap: 5px; svg { width: 12px; height: 12px; } }
 .ui-comment-images { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; img { max-width: 100%; width: 120px; max-height: 160px; object-fit: contain; border-radius: 8px; } }
 .ui-comment-replies { margin-top: 12px; padding: 0 14px; border-left: 2px solid var(--modern-border); border-radius: 8px; background: var(--modern-bg); .ui-comment:last-child { border-bottom: 0; } }
 </style>

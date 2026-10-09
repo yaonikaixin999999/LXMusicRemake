@@ -21,6 +21,7 @@ const apply = (value: WindowState) => {
   state.value = value
   isFullscreen.value = value.isFullscreen
   document.documentElement.classList.toggle('maximized', value.isMaximized)
+  document.documentElement.classList.toggle('fullscreen', value.isFullscreen)
 }
 const onState = (_event: Electron.IpcRendererEvent, value: WindowState) => { apply(value) }
 async function toggle() {

@@ -3,7 +3,7 @@ import { sendPlayerStatus, onPlayerAction } from '@renderer/utils/ipc'
 // import store from '@renderer/store'
 
 import { loveList } from '@renderer/store/list/state'
-import { addListMusics, removeListMusics, checkListExistMusic } from '@renderer/store/list/action'
+import { isFavorite, refreshFavorites, setFavorite } from '@renderer/ui/services/platformAccounts'
 import { playMusicInfo, musicInfo } from '@renderer/store/player/state'
 import { throttle } from '@common/utils'
 import { pause, play, playNext, playPrev } from '@renderer/core/player'
@@ -17,7 +17,9 @@ export default () => {
   let collect = false
 
   const updateCollectStatus = async() => {
-    let status = !!playMusicInfo.musicInfo && await checkListExistMusic(loveList.id, playMusicInfo.musicInfo.id)
+    await refreshFavorites()
+    const item = playMusicInfo.musicInfo
+    let status = !!item && isFavorite('progress' in item ? item.metadata.musicInfo : item)
     if (collect == status) return false
     collect = status
     return true
@@ -100,12 +102,12 @@ export default () => {
         break
       case 'collect':
         if (!playMusicInfo.musicInfo) return
-        void addListMusics(loveList.id, ['progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo])
+        await setFavorite('progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo, true).catch(() => {})
         if (await updateCollectStatus()) sendPlayerStatus({ collect })
         break
       case 'unCollect':
         if (!playMusicInfo.musicInfo) return
-        void removeListMusics({ listId: loveList.id, ids: ['progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo.id : playMusicInfo.musicInfo.id] })
+        await setFavorite('progress' in playMusicInfo.musicInfo ? playMusicInfo.musicInfo.metadata.musicInfo : playMusicInfo.musicInfo, false).catch(() => {})
         if (await updateCollectStatus()) sendPlayerStatus({ collect })
         break
       case 'seek': {

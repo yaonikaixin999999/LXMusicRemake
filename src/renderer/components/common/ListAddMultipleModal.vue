@@ -23,6 +23,7 @@ import { addListMusics, moveListMusics, createUserList } from '@renderer/store/l
 import useKeyDown from '@renderer/utils/compositions/useKeyDown'
 import { useI18n } from '@root/lang'
 import { dialog } from '@renderer/plugins/Dialog'
+import { setFavorites } from '@renderer/ui/services/platformAccounts'
 
 export default {
   props: {
@@ -113,6 +114,7 @@ export default {
       const list = 'progress' in this.musicList[0] ? this.musicList.map(t => t.metadata.musicInfo) : this.musicList
 
       if (this.isMove) void moveListMusics(this.fromListId, this.lists[index].id, list)
+      else if (this.lists[index].id === loveList.id) void setFavorites(list, true)
       else void addListMusics(this.lists[index].id, list)
 
       if (this.keyModDown && !this.isMove) return
