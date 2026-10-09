@@ -1,0 +1,63 @@
+{
+  "dataDir": "%TEMP%\\linkline-lyric-regression-2sE5I3",
+  "checks": [
+    {
+      "name": "opening lyrics at paused seven seconds selects third line",
+      "pass": true
+    },
+    {
+      "name": "translation and romanization reload retain paused line and play state",
+      "pass": true
+    },
+    {
+      "name": "top-left resize stops at minimum and keeps opposite edges fixed",
+      "pass": true,
+      "before": {
+        "x": 100,
+        "y": 100,
+        "width": 360,
+        "height": 220
+      },
+      "minimum": {
+        "x": 140,
+        "y": 140,
+        "width": 320,
+        "height": 180
+      },
+      "pastMinimum": {
+        "x": 140,
+        "y": 140,
+        "width": 320,
+        "height": 180
+      }
+    },
+    {
+      "name": "vertical direction reload retains paused active line",
+      "pass": true,
+      "geometry": {
+        "line": {
+          "x": 306.4140625,
+          "y": 74,
+          "width": 37.1953125,
+          "height": 240,
+          "top": 74,
+          "right": 343.609375,
+          "bottom": 314,
+          "left": 306.4140625
+        },
+        "stage": {
+          "x": 8,
+          "y": 56,
+          "width": 634,
+          "height": 276,
+          "top": 56,
+          "right": 642,
+          "bottom": 332,
+          "left": 8
+        },
+        "scroll": -138
+      }
+    }
+  ],
+  "errors": []
+}

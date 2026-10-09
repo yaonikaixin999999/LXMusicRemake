@@ -66,7 +66,7 @@ LinkLine 1.0.0 是基于 LX Music Desktop 音乐服务重新构建的桌面客�
 - `src/renderer/core/`、`store/` 和 `src/main/`：延用并适配的播放器、数据库、音源、下载、同步和 Electron 服务。
 - `build-config/build-pack.js`：独立应用标识、名称、协议和安装包配置。
 
-使用 Node.js 22 或更新版本，执行 `npm install` 安装包括 Electron 和原生模块在内的依赖。开发模式运行 `npm run dev`；生产资源的测试启动入口为根目录的「启动测试版.cmd」或 `npm start`。
+使用 Node.js 22 或更新版本，执行 `npm install` 安装包括 Electron 和原生模块在内的依赖。开发模式运行 `npm run dev`；生产资源的测试启动入口为根目录的「启动测试版.cmd」或 `npm start`。「启动测试版.cmd」默认继续使用 `artifacts/user-test-data`，也尊重显式设置的 `LINKLINE_DATA_DIR` / `LX_STUDIO_DATA_DIR`；`npm start` 使用普通应用资料目录。
 
 ```sh
 npm run build
@@ -104,6 +104,14 @@ npm start
 QQ 音乐参考播放栏调整回归通过：中间区域由 26% 扩展到 42%，简洁进度组的最大宽度由 184 px 增至 300 px；1114 宽窗口下居中进度轨道约为 274 px。更新后的 13 项播放栏回归继续通过，新增音量浮层 10 项检查通过，记录见 [native-volume-verification.json](../artifacts/native-volume-verification.json)。覆盖浅深主题和 4 种窗口尺寸、竖向滑块的键盘调节、37% 音量及静音状态的主进程保存、点击/Esc/外部关闭的焦点恢复及播放详情使用；无 renderer 异常。定向 ESLint 和主窗口生产构建通过，仍未生成安装包。
 
 2026-10-09，平台账户与红心联动检查通过：平台匹配、网易云分页/版权判断/红心写入、账号会话恢复、过期登录、账号切换隔离、退出登录竞态、导航重定向域名边界、多平台逐项结果和异常缓存由 `node --test tests/*.test.cjs` 验证（31 项通过）。QQ 音乐接口 fixture 及真实只读搜索/歌曲详情通过，见 `artifacts/qq-provider-qa.log`；网易云真实只读搜索、歌曲详情和匿名账号响应通过，见 `artifacts/native-platform-smoke.json`。平台设置页与收藏服务 7 项行为检查通过，见 `artifacts/platform-renderer-service-verification.json`；真实 Electron 平台账号页面、LinkLine C 声波音符 Logo 和空账号状态通过，见 `artifacts/native-platform-ui.json`。登录和红心写入需要用户在测试版中自行完成官方网页登录后验证，本次未使用个人账号，也未生成安装包。
+
+2026-10-10，登录与收藏故障修复：聚合快照使用浅层响应状态，收藏输入在 Electron IPC 前拆除嵌套 Vue Proxy。`tests/platformRenderer.test.cjs` 使用真实 Vue 和结构化克隆复现旧故障并验证修复。QQ 登录入口改为官方 OAuth 网页及网页回调，从 `y.qq.com` 读取音乐登录状态；认证成功即关闭登录窗口并返回主窗口，后台继续同步红心，认证和同步失败原因在账号页显示。QQ 请求有 20 秒超时，接口自动测试不发送真实网络写请求。
+
+本轮 `node --test tests/*.test.cjs` 共 56 项通过。实际生产 Electron 收藏回归见 [native-favorites-regression.json](../artifacts/native-favorites-regression.json)：809 条模拟平台记录聚合成 805 首，通过真实 renderer IPC 写入 SQLite；红心入口、80 首分页、搜索、歌曲表格收藏和重启保留通过。模拟数据用于验证应用链路，并不代表已验证个人账号的远端同步。
+
+设置默认首项为「平台账号与红心」。首次协议改为 LinkLine 内容，仅留一句「基于 LX Music 构建」，关于页仍保留上游许可。接受后提供一次性官方平台登录引导。实际首用及重启验证共 8 项通过，见 [native-first-use-verification.json](../artifacts/native-first-use-verification.json)。
+
+桌面歌词修复了暂停时控制栏难见、偏好面板裁切、Windows 拖动缩放、锁定后解锁、播放状态和歌词重解析定位。实际生产 Electron 与本地 WAV/LRC 联动回归 9 项通过，见 [lyric-production-verification.json](../artifacts/lyric-production-verification.json)；暂停在 7 秒打开和重解析歌词、最小尺寸的左上边缘约束及竖排定位另有 4 项回归通过，见 [lyric-regression-verification.json](../artifacts/lyric-regression-verification.json)。ESLint、主窗口/主进程/歌词 TypeScript 和生产资源编译通过。本次仍未生成安装包；个人账号需重新在测试版中完成登录后验证红心同步。
 
 ## 上游版权与许可
 

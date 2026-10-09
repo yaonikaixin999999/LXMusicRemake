@@ -85,6 +85,10 @@ dist
 !/artifacts/native-platform-smoke.json
 !/artifacts/platform-renderer-service-verification.json
 !/artifacts/native-platform-ui.json
+!/artifacts/native-favorites-regression.json
+!/artifacts/native-first-use-verification.json
+!/artifacts/lyric-production-verification.json
+!/artifacts/lyric-regression-verification.json
 
 publish/assets
 

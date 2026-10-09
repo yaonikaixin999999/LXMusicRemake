@@ -1,0 +1,21 @@
+{
+  "passed": 8,
+  "checks": [
+    "Fresh profile opens LinkLine agreement with one LX Music attribution and no old license body",
+    "Accepting agreement opens third-party login prompt and persists one-time marker",
+    "Login prompt opens accounts category, first in navigation, with two disconnected accounts",
+    "Selecting settings category updates route and changing route updates visible category",
+    "Invalid settings category falls back to platform accounts",
+    "Opening settings without category defaults to platform accounts",
+    "Restart keeps agreement accepted and does not repeat login prompt",
+    "Renderer has no uncaught JavaScript errors"
+  ],
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-first-use\\1791562172453",
+  "screenshots": [
+    "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\native-first-use-agreement.png",
+    "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\native-first-use-login-prompt.png",
+    "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\native-first-use-accounts.png",
+    "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\native-first-use-restart.png"
+  ],
+  "errors": []
+}

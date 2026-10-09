@@ -1,0 +1,78 @@
+{
+  "dataDir": "%TEMP%\\linkline-lyric-production-cFpGWA",
+  "checks": [
+    {
+      "name": "real message channel loads paused track and keeps unlocked light lyrics readable",
+      "pass": true,
+      "toolbar": "1",
+      "stage": "1",
+      "background": "rgb(255, 255, 255)",
+      "unplayed": "rgb(7, 197, 86)"
+    },
+    {
+      "name": "toolbar play pause controls actual audio and timed lyrics follow scroll",
+      "pass": true,
+      "secondScroll": 30.5,
+      "thirdScroll": 80
+    },
+    {
+      "name": "previous and next replace lyrics and title through the real player",
+      "pass": true
+    },
+    {
+      "name": "native preferences update font gap opacity translation and spectrum settings without hiding controls",
+      "pass": true
+    },
+    {
+      "name": "preferences fit minimum native bounds and dark theme renders",
+      "pass": true,
+      "panel": {
+        "x": 16,
+        "y": 95,
+        "width": 288,
+        "height": 69
+      }
+    },
+    {
+      "name": "native window pin pointer drag and pointer resize work",
+      "pass": true,
+      "before": {
+        "x": 100,
+        "y": 100,
+        "width": 360,
+        "height": 300
+      },
+      "dragged": {
+        "x": 178,
+        "y": 142,
+        "width": 360,
+        "height": 300
+      },
+      "resized": {
+        "x": 178,
+        "y": 142,
+        "width": 399,
+        "height": 321
+      }
+    },
+    {
+      "name": "locked lyrics unlock with an actual Windows mouse click",
+      "pass": true
+    },
+    {
+      "name": "vertical lyrics stay synchronized after seeking in the main player",
+      "pass": true
+    },
+    {
+      "name": "closing lyric window updates enabled setting",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "lyric-wide-light.png",
+    "lyric-narrow-preferences.png",
+    "lyric-narrow-dark.png",
+    "lyric-vertical-dark.png"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "check": "809 source records aggregate to 805 and cross real Electron IPC into SQLite",
+      "remote": 809,
+      "aggregate": 805,
+      "saved": 805,
+      "uniqueIds": 805,
+      "pass": true
+    },
+    {
+      "check": "Heart link opens populated favorites, pagination and search work",
+      "pass": true
+    },
+    {
+      "check": "A nested Vue track from the real table can be favorited without clone errors",
+      "pass": true
+    },
+    {
+      "check": "Restart preserves remote imports and independently saved local favorites",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "fixtureOnly": true
+}
