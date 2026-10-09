@@ -1,0 +1,96 @@
+{
+  "results": [
+    {
+      "check": "isolated Electron data directory",
+      "pass": true,
+      "path": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-online-data\\1791541872695"
+    },
+    {
+      "check": "native LX custom source import, selection and initialized status",
+      "pass": true,
+      "sourceName": "Studio QA Online 872695"
+    },
+    {
+      "check": "real online playlist import through worker and SQLite",
+      "pass": true,
+      "playlistName": "Online QA 1791541872695",
+      "trackName": "Studio Online QA 1791541872695"
+    },
+    {
+      "check": "original core resolves custom source over HTTP and decodes online audio",
+      "pass": true,
+      "progressSeconds": 0.7,
+      "originalAudioBytes": 481114
+    },
+    {
+      "check": "native download task completes and writes actual HTTP audio bytes",
+      "pass": true,
+      "downloadedFile": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-online-downloads\\1791541872695\\Studio Online QA 1791541872695 - Controlled HTTP audio.mp3",
+      "downloadedBytes": 481271,
+      "audioPayloadSha256": "2a9d9d71dcce7020b4b943006604f7ec19a166fb6abd75c26fe542832f5ae7a4",
+      "taskText": "Studio Online QA 1791541872695\n128K\n\nControlled HTTP audio · Native online integration\n\n下载完成\n469.8 KB / 469.8 KB\n100.0%\n▶\n↗\n＋\n×"
+    },
+    {
+      "check": "completed download plays through original local player with HTTP server shut down",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/cover.svg",
+      "query": {},
+      "range": null,
+      "time": "2026-10-09T10:31:14.994Z"
+    },
+    {
+      "method": "GET",
+      "path": "/cover.svg",
+      "query": {},
+      "range": null,
+      "time": "2026-10-09T10:31:15.020Z"
+    },
+    {
+      "method": "GET",
+      "path": "/resolve",
+      "query": {
+        "source": "kw",
+        "action": "musicUrl",
+        "song": "studio_online_1791541872695",
+        "quality": "128k"
+      },
+      "range": null,
+      "time": "2026-10-09T10:31:15.037Z"
+    },
+    {
+      "method": "GET",
+      "path": "/audio.mp3",
+      "query": {
+        "run": "1791541872695"
+      },
+      "range": "bytes=0-",
+      "time": "2026-10-09T10:31:15.042Z"
+    },
+    {
+      "method": "GET",
+      "path": "/audio.mp3",
+      "query": {
+        "run": "1791541872695"
+      },
+      "range": "bytes=0-",
+      "time": "2026-10-09T10:31:16.381Z"
+    },
+    {
+      "method": "GET",
+      "path": "/cover.svg",
+      "query": {},
+      "range": null,
+      "time": "2026-10-09T10:31:16.610Z"
+    }
+  ],
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-online-data\\1791541872695",
+  "downloadDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-online-downloads\\1791541872695",
+  "failure": null
+}

@@ -1,0 +1,58 @@
+<template>
+  <svg class="ui-svg-icon" viewBox="0 0 24 24" width="20" height="20" :fill="filled ? 'currentColor' : 'none'" stroke="currentColor" :stroke-width="filled ? 0 : 1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path :d="paths[name] || paths.music" /></svg>
+</template>
+<script setup>
+defineProps({ name: { type: String, default: 'music' }, filled: { type: Boolean, default: false } })
+const paths = {
+  music: 'M9 18V5l11-2v13M9 8l11-2M9 18c0 3-6 3-6 0s6-3 6 0m11-2c0 3-6 3-6 0s6-3 6 0',
+  discover: 'm12 3 3 6 6 3-6 3-3 6-3-6-6-3 6-3Z',
+  search: 'M21 21l-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
+  list: 'M5 5h14M5 12h14M5 19h9',
+  chart: 'M5 20V12m7 8V4m7 16V8',
+  library: 'M4 4h5v16H4ZM13 4l5-1 4 16-5 1Z',
+  download: 'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5',
+  settings: 'M4 6h16M4 12h16M4 18h16M8 3v6m8 0v6m-6 0v6',
+  back: 'm14 5-7 7 7 7',
+  close: 'm6 6 12 12M6 18 18 6',
+  sun: 'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+  moon: 'M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z',
+  prev: 'M5 5v14M19 5 8 12l11 7Z',
+  next: 'M19 5v14M5 5l11 7L5 19Z',
+  volume: 'M3 9h4l5-5v16l-5-5H3ZM16 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14',
+  mute: 'M3 9h4l5-5v16l-5-5H3Zm13 0 5 6m0-6-5 6',
+  heart: 'M12 21S2 15 2 8c0-6 8-7 10-1 2-6 10-5 10 1 0 7-10 13-10 13Z',
+  queue: 'M3 5h18M3 11h13M3 17h8m7-2 4 3-4 3Z',
+  lyric: 'M3 4h18v14H9l-5 4v-4H3ZM7 9h10m-10 4h6',
+  plus: 'M12 4v16M4 12h16',
+  expand: 'M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5',
+  maximize: 'M4 4h16v16H4Z',
+  restore: 'M8 8V4h12v12h-4M4 8h12v12H4Z',
+  minimize: 'M5 12h14',
+  arrowUp: 'M12 20V4m-6 6 6-6 6 6',
+  arrowRight: 'M4 12h16m-6-6 6 6-6 6',
+  arrowUpRight: 'M6 18 18 6M6 6h12v12',
+  chevronDown: 'm6 9 6 6 6-6',
+  chevronRight: 'm9 6 6 6-6 6',
+  check: 'm5 12 4 4L19 6',
+  play: 'M7 4v16l14-8Z',
+  pause: 'M5 4h5v16H5ZM14 4h5v16h-5Z',
+  more: 'M5 12h.01M12 12h.01M19 12h.01',
+  trash: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5',
+  folder: 'M3 7V5h7l2 2h9v13H3Z',
+  upload: 'M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5',
+  refresh: 'M20 7a9 9 0 1 0 1 8M20 3v5h-5',
+  focus: 'M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8',
+  repeat: 'M4 8h15l-3-3m3 3-3 3M20 16H5l3-3m-3 3 3 3',
+  shuffle: 'M3 6h3l12 12h3m-4-4 4 4-4 4M3 18h3l4-4m4-4 4-4h3m-4-4 4 4-4 4',
+  enter: 'M19 4v9H5m5-5-5 5 5 5',
+  pin: 'M9 3h6l-1 6 4 4v2H6v-2l4-4ZM12 15v7',
+  horizontal: 'M3 12h18m-4-4 4 4-4 4M7 8l-4 4 4 4',
+  vertical: 'M12 3v18m-4-4 4 4 4-4M8 7l4-4 4 4',
+  fontMinus: 'm3 19 5-14 5 14M5 14h6m5-2h6',
+  fontPlus: 'm2 19 5-14 5 14M4 14h6m5-2h7m-3.5-3.5v7',
+  lock: 'M5 10h14v11H5ZM8 10V7a4 4 0 0 1 8 0v3',
+}
+</script>
+<style scoped>
+.ui-svg-icon { display: block; flex-shrink: 0; }
+</style>

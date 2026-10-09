@@ -1,0 +1,51 @@
+{
+  "results": [
+    {
+      "check": "play button center",
+      "playerCenter": 657,
+      "buttonCenter": 657,
+      "difference": 0
+    },
+    {
+      "check": "light/dark theme",
+      "pass": true
+    },
+    {
+      "check": "create second playlist while user playlist selected; reject duplicate; rename and delete",
+      "pass": true
+    },
+    {
+      "check": "native metadata import and SQLite playlist",
+      "pass": true
+    },
+    {
+      "check": "real local audio playback and pause",
+      "pass": true
+    },
+    {
+      "check": "设置与偏好 route",
+      "pass": true
+    },
+    {
+      "check": "下载管理 route",
+      "pass": true
+    },
+    {
+      "check": "搜索 route",
+      "pass": true
+    },
+    {
+      "check": "精选歌单 route",
+      "pass": true
+    },
+    {
+      "check": "排行榜 route",
+      "pass": true
+    },
+    {
+      "check": "restart persists playlist tracks and theme",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

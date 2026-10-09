@@ -1,0 +1,142 @@
+{
+  "results": [
+    {
+      "check": "independent Electron data directory, initially empty global bindings",
+      "pass": true,
+      "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-hotkeys-data\\1791542763516"
+    },
+    {
+      "check": "actual Settings keyboard recording immediately registers the new OS global shortcut",
+      "pass": true,
+      "key": "mod+shift+alt+f9"
+    },
+    {
+      "check": "editing an existing binding registers its replacement and unregisters the old OS shortcut",
+      "pass": true,
+      "oldKey": "mod+shift+alt+f9",
+      "newKey": "mod+shift+alt+f10"
+    },
+    {
+      "check": "disabled global shortcuts remain unregistered after editing, and throttled write persists the new binding",
+      "pass": true,
+      "key": "mod+shift+alt+f11",
+      "configFile": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-hotkeys-data\\1791542763516\\LxDatas\\hot_key.json"
+    },
+    {
+      "check": "restart restores the saved binding and disabled state without OS registration",
+      "pass": true
+    },
+    {
+      "check": "restart restores enabled state and registers only the persisted replacement shortcut",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "eventSnapshots": [
+    {
+      "emitted": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": true,
+          "keys": {
+            "mod+shift+alt+f9": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      },
+      "memory": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": true,
+          "keys": {
+            "mod+shift+alt+f9": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      }
+    },
+    {
+      "emitted": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": true,
+          "keys": {
+            "mod+shift+alt+f10": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      },
+      "memory": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": true,
+          "keys": {
+            "mod+shift+alt+f10": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      }
+    },
+    {
+      "emitted": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": false,
+          "keys": {
+            "mod+shift+alt+f11": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      },
+      "memory": {
+        "local": {
+          "enable": false,
+          "keys": {}
+        },
+        "global": {
+          "enable": false,
+          "keys": {
+            "mod+shift+alt+f11": {
+              "name": "player_toggle_play",
+              "action": "player_toggle_play",
+              "type": "win_main"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "dataDir": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-hotkeys-data\\1791542763516",
+  "configFile": "D:\\My_Study\\CodexWorkingSpace\\LXMusicRemake\\artifacts\\qa-hotkeys-data\\1791542763516\\LxDatas\\hot_key.json",
+  "failure": null
+}

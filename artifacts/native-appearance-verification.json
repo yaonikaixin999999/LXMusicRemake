@@ -1,0 +1,78 @@
+{
+  "results": [
+    {
+      "check": "Library visible without PlayerDetail transition",
+      "pass": true,
+      "dimensions": {
+        "viewport": {
+          "width": 1114,
+          "height": 718
+        },
+        "pane": {
+          "x": 410,
+          "y": 71,
+          "width": 678,
+          "height": 523,
+          "top": 71,
+          "right": 1088,
+          "bottom": 594,
+          "left": 410
+        },
+        "row": {
+          "x": 436,
+          "y": 290.1953125,
+          "width": 626,
+          "height": 58,
+          "top": 290.1953125,
+          "right": 1062,
+          "bottom": 348.1953125,
+          "left": 436
+        }
+      }
+    },
+    {
+      "check": "Native lyric window uses real core lines and font setting synchronizes",
+      "pass": true,
+      "lines": [
+        "LX Studio playback check",
+        "Real Electron audio and lyrics",
+        "SQLite backed music library",
+        "Light and dark music space"
+      ],
+      "initialFont": 20
+    },
+    {
+      "check": "Desktop lyric inherits and live synchronizes appearance through shared session storage",
+      "pass": true
+    },
+    {
+      "check": "Vertical lyric stage does not overlap its native toolbar",
+      "pass": true,
+      "stage": {
+        "x": 8,
+        "y": 56,
+        "width": 434,
+        "height": 216,
+        "top": 56,
+        "right": 442,
+        "bottom": 272,
+        "left": 8
+      },
+      "toolbar": {
+        "x": 8,
+        "y": 8,
+        "width": 434,
+        "height": 48,
+        "top": 8,
+        "right": 442,
+        "bottom": 56,
+        "left": 8
+      }
+    },
+    {
+      "check": "Native lyric direction and always-on-top setting",
+      "pass": true
+    }
+  ],
+  "errors": []
+}
