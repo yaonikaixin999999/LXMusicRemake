@@ -4,9 +4,10 @@ const cache = new Map<string, Promise<string>>()
 const queue: Array<() => void> = []
 let active = 0
 function drain() {
-  while (active < 4 && queue.length) queue.shift()?.()
+  const available = Math.min(4 - active, queue.length)
+  for (let index = 0; index < available; index++) queue.shift()?.()
 }
-export function resolveArtwork(track: LX.Music.MusicInfo, listId?: string | null, refresh = false): Promise<string> {
+export async function resolveArtwork(track: LX.Music.MusicInfo, listId?: string | null, refresh = false): Promise<string> {
   if (track.meta.picUrl && !refresh) return Promise.resolve(track.meta.picUrl)
   const key = `${track.source}:${track.id}:${refresh ? 'refresh' : 'normal'}`
   let request = cache.get(key)

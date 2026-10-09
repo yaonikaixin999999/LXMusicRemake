@@ -1,7 +1,7 @@
 <template>
   <div class="ui-select" :class="{ 'ui-select-open': open }">
     <button :id="id" ref="trigger" type="button" class="ui-select-trigger" role="combobox" :aria-label="ariaLabel" :aria-expanded="open" :aria-controls="menuId" aria-haspopup="listbox" :disabled="disabled" @click="toggle" @keydown="onKey"><span>{{ selected?.label ?? placeholder }}</span><UiIcon name="chevronDown" /></button>
-    <Teleport to="body"><div v-if="open" :id="menuId" ref="menu" class="ui-select-menu scroll" role="listbox" :aria-label="ariaLabel" :style="position" @keydown="onKey"><template v-for="(option, index) in options" :key="`${option.value}-${index}`"><div v-if="option.group && option.group !== options[index - 1]?.group" class="ui-select-group">{{ option.group }}</div><button type="button" role="option" :aria-selected="same(option.value, modelValue)" :disabled="option.disabled" :class="{ selected: same(option.value, modelValue), focused: index === focused }" :data-index="index" @pointermove="focused = index" @click="choose(index)"><span>{{ option.label }}</span><UiIcon v-if="same(option.value, modelValue)" name="check" /></button></template></div></Teleport>
+    <Teleport to="body"><div v-if="open" :id="menuId" ref="menu" class="ui-select-menu scroll" role="listbox" :aria-label="ariaLabel" :style="position" @keydown="onKey"><template v-for="(option, index) in props.options" :key="`${option.value}-${index}`"><div v-if="option.group && option.group !== props.options[index - 1]?.group" class="ui-select-group">{{ option.group }}</div><button type="button" role="option" :aria-selected="same(option.value, modelValue)" :disabled="option.disabled" :class="{ selected: same(option.value, modelValue), focused: index === focused }" :data-index="index" @pointermove="focused = index" @click="choose(index)"><span>{{ option.label }}</span><UiIcon v-if="same(option.value, modelValue)" name="check" /></button></template></div></Teleport>
   </div>
 </template>
 <script setup lang="ts">
@@ -25,7 +25,8 @@ function place() {
   const below = window.innerHeight - rect.bottom - 12
   const above = rect.top - 12
   const upwards = below < 200 && above > below
-  position.value = { left: `${Math.max(8, Math.min(rect.left, window.innerWidth - rect.width - 8))}px`, width: `${rect.width}px`, maxHeight: `${Math.min(300, upwards ? above - 6 : below - 6)}px`, ...(upwards ? { bottom: `${window.innerHeight - rect.top + 6}px` } : { top: `${rect.bottom + 6}px` }) }
+  const width = Math.min(Math.max(150, rect.width), window.innerWidth - 16)
+  position.value = { left: `${Math.max(8, Math.min(rect.left, window.innerWidth - width - 8))}px`, width: `${width}px`, maxHeight: `${Math.max(36, Math.min(300, upwards ? above - 6 : below - 6))}px`, ...(upwards ? { bottom: `${window.innerHeight - rect.top + 6}px` } : { top: `${rect.bottom + 6}px` }) }
 }
 function close(restoreFocus = false) {
   open.value = false
