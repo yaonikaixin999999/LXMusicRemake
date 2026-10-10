@@ -10,18 +10,18 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 [项目源码](https://github.com/yaonikaixin999999/LinkLine) · [下载与版本记录](https://github.com/yaonikaixin999999/LinkLine/releases) · [完整功能与使用说明](docs/项目说明.md) · [反馈问题](https://github.com/yaonikaixin999999/LinkLine/issues)
 
-当前推荐下载 1.0.2 修正版，修复安装许可正文的中文乱码，并适配 LinkLine 新仓库地址。版本说明：[1.0.2](docs/releases/v1.0.2.md) · [1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
+当前推荐下载 1.0.3，包含独立本地音乐库、文件夹递归导入、专辑 / 歌手搜索、播放详情搜索链接，以及关闭窗口询问与后台播放。版本说明：[1.0.3](docs/releases/v1.0.3.md) · [1.0.2](docs/releases/v1.0.2.md) · [1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
 
 ## 下载与安装
 
-**1.0.2 发行版：Windows 10 / 11，64 位（x64）。**
+**1.0.3 发行版：Windows 10 / 11，64 位（x64）。**
 
 | 下载入口 | 链接 |
 | --- | --- |
-| GitHub 官方安装包 | [LinkLine-v1.0.2-x64-Setup.exe](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
-| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
-| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
-| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/SHA256SUMS.txt) |
+| GitHub 官方安装包 | [LinkLine-v1.0.3-x64-Setup.exe](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe) |
+| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe) |
+| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe) |
+| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/SHA256SUMS.txt) |
 | 所有正式版本 | [GitHub Releases](https://github.com/yaonikaixin999999/LinkLine/releases) |
 
 下载后运行安装程序，按提示安装并启动 LinkLine。国内加速入口由第三方提供，用于转发本仓库的官方文件；可用性取决于服务和网络，不能保证所有地区都能访问。无法连接时可切换备用入口或 GitHub 官方源。
@@ -39,14 +39,15 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 | 功能 | 内容 |
 | --- | --- |
-| 发现与搜索 | 歌曲和歌单搜索、全部平台或指定平台、搜索历史、精选分类、榜单、歌单链接 / ID |
+| 发现与搜索 | 歌曲、歌单、专辑和歌手搜索、专辑曲目与歌手作品、全部平台或指定平台、搜索历史、精选分类、榜单、歌单链接 / ID |
 | 平台音乐库 | 多平台账号、红心聚合、保守去重、平台创建歌单同步、每个平台的独立结果与错误提示 |
 | 红心联动 | 主动收藏或取消收藏时，在已连接且支持写入的平台查找同版本歌曲，检查权限并逐个平台操作 |
 | 播放 | 单曲 / 整个列表、播放队列、循环 / 随机 / 顺序、长进度条、音量浮层、播放进度恢复、定时停止 |
 | 音质与换源 | 最高可用音质、标准至无损 / Hi-Res、平台特殊音质；原平台无法播放时尝试其他平台的同版本歌曲 |
-| 本地音乐库 | 音频导入、自建歌单、搜索与排序、批量操作、资料编辑、歌单文件导入导出 |
+| 本地音乐库 | 独立本地音乐栏目、文件与文件夹导入、子目录递归扫描、无导入数量上限、重复文件跳过、进度与停止、自建歌单、搜索与排序、批量操作、资料编辑、歌单文件导入导出 |
 | 下载中心 | 音质选择、任务进度、暂停 / 继续 / 重试、下载目录、完成文件播放、歌词与封面选项 |
-| 歌词与详情 | 滚动歌词、翻译 / 罗马音、歌词偏移、复制歌词、平台评论、独立桌面歌词窗口 |
+| 歌词与详情 | 滚动歌词、翻译 / 罗马音、歌词偏移、歌手 / 专辑搜索链接、复制歌词、平台评论、独立桌面歌词窗口 |
+| 后台播放 | 默认启用托盘、关闭窗口时询问、取消 / 退出 / 最小化到托盘、记住选择与设置调整 |
 | 外观 | 浅 / 深 / 系统主题、点缀色、圆角、面板间距、列表密度、发现页内容开关 |
 | 声音与设备 | 输出设备、播放速率、均衡器及预设、环境音效、环绕与音高选项 |
 | 数据与服务 | 备份恢复、缓存清理、屏蔽规则、设备同步、本地开放 API、应用内 / 全局快捷键 |
@@ -73,7 +74,7 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 国内检查源读取本仓库的 [`updates/stable-linkline.json`](updates/stable-linkline.json)，通过 gh-proxy.com 加速；失败后尝试 ghfast.top，再回退 GitHub 官方。国内下载使用同样的第三方加速入口。可切换到官方源，网络异常时可重试。
 
-仓库改名后，已发布的 1.0.0 / 1.0.1 仍读取兼容清单 `updates/stable.json`；旧仓库地址由 GitHub 重定向。发布脚本同时生成两份清单，后续发布时一起提交，保证旧版国内更新入口继续可用。旧版的官方更新检查可能无法识别改名后的地址，可使用国内更新源，或直接从上方下载 1.0.2 安装包升级。
+仓库改名后，已发布的 1.0.0 / 1.0.1 仍读取兼容清单 `updates/stable.json`；旧仓库地址由 GitHub 重定向。发布脚本同时生成两份清单，后续发布时一起提交，保证旧版国内更新入口继续可用。旧版的官方更新检查可能无法识别改名后的地址，可使用国内更新源，或直接从上方下载 1.0.3 安装包升级。
 
 发布清单提供安装包校验信息时，可在更新中心展开「查看 SHA-256 校验值」，与下载文件的 SHA-256 比较，确认文件完整。
 
@@ -138,4 +139,4 @@ npm run release:prepare
 
 ## 许可与归属
 
-LinkLine 基于 [LXMusic 开源项目](https://github.com/lyswhut/lx-music-desktop)再开发，保留原作者 lyswhut / 落雪无痕的版权声明，遵循 [Apache License 2.0](LICENSE)，第三方组件保留[各自许可](licenses/)。音乐及平台内容的权利归各自权利人所有。
+LinkLine 基于 [LXMusic 开源项目](https://github.com/lyswhut/lx-music-desktop)再开发，保留版权声明，遵循 [Apache License 2.0](LICENSE)，第三方组件保留[各自许可](licenses/)。音乐及平台内容的权利归各自权利人所有。

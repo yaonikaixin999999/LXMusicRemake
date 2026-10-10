@@ -17,6 +17,8 @@ import { overwirteDislikeInfo } from '@renderer/core/dislikeList'
 import { parseSettingValue, validateSettingBackup, type SettingField } from './schema'
 import { setPreferredQuality } from '@renderer/ui/services/platformPlayback'
 import type { PlatformQuality } from '@common/platformPlayback'
+import { LOCAL_LIBRARY_ID } from '@common/localMusic'
+import { reconcileLocalLibraryAfterRestore } from '../services/localLibrary'
 
 type BackupKind = 'all' | 'settings' | 'lists'
 type FullList = LX.List.MyDefaultListInfoFull | LX.List.MyLoveListInfoFull | LX.List.UserListInfoFull
@@ -67,6 +69,8 @@ export function useSettings() {
         return
       }
       const patch: Partial<LX.AppSetting> = { [field.key]: value }
+      if (field.key === 'common.closeAction' && value === 'tray') patch['tray.enable'] = true
+      if (field.key === 'tray.enable' && !value && appSetting['common.closeAction'] === 'tray') patch['common.closeAction'] = 'ask'
       if (field.key === 'common.apiSource') {
         await setUserApi(String(value))
       } else if (field.key === 'player.mediaDeviceId') {
@@ -164,7 +168,7 @@ export function useSettings() {
       if (!item || typeof item.id !== 'string' || typeof item.name !== 'string' || !Array.isArray(item.list)) throw new Error('备份包含无效歌单。')
       const music = filterMusicList(oldFormat ? item.list.map((info: any) => toNewMusicInfo(info)) : item.list).map(info => fixNewMusicInfoQuality(info))
       const existing = lists.find(list => list.id === item.id)
-      if (existing) existing.list = music
+      if (existing) existing.list = item.id === LOCAL_LIBRARY_ID ? filterMusicList([...existing.list, ...music]) : music
       else lists.push({ id: item.id, name: item.name, list: music, source: item.source, sourceListId: item.sourceListId, locationUpdateTime: item.locationUpdateTime ?? null })
     }
     await overwriteListFull({ defaultList: lists.find(list => list.id === defaultList.id)!.list, loveList: lists.find(list => list.id === loveList.id)!.list, userList: lists.filter(list => list.id !== defaultList.id && list.id !== loveList.id) as LX.List.UserListInfoFull[] })
@@ -192,6 +196,7 @@ export function useSettings() {
       } else if (kind === 'settings') await saveRecord(setting!)
       else if (data.type === 'defautlList') await overwriteListMusics({ listId: defaultList.id, musicInfos: filterMusicList(data.data.list.map((info: any) => toNewMusicInfo(info))) })
       else await importLists(data.data, oldFormat)
+      if (kind !== 'settings') await reconcileLocalLibraryAfterRestore()
       if (data.appearance) Object.assign(appearance, validateAppearance(data.appearance))
     })
   }

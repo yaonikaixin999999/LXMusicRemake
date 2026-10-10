@@ -1,5 +1,6 @@
 import type { I18n } from '../../lang/i18n'
 import type { PlatformQuality } from '../platformPlayback'
+import type { WindowCloseAction } from '../windowClose'
 
 declare global {
 
@@ -83,6 +84,9 @@ declare global {
        * 更新版本后是否显示变更日志
        */
       'common.showChangeLog': boolean
+
+      /** 关闭窗口时询问、最小化到托盘或退出应用 */
+      'common.closeAction': WindowCloseAction
 
       /**
        * 启动时自动播放歌曲

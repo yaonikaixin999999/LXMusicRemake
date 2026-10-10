@@ -178,6 +178,8 @@ export const createTray = () => {
   }
 }
 
+export const isTrayAvailable = () => !!tray && !tray.isDestroyed()
+
 export const destroyTray = () => {
   if (!tray) return
   tray.destroy()

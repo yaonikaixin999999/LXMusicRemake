@@ -8,6 +8,7 @@ import { migrateDataJson, migrateHotKey, migrateUserApi, parseDataFile } from '.
 import { nativeTheme, powerSaveBlocker } from 'electron'
 import { joinPath } from '@common/utils/nodejs'
 import themes from '@common/theme/index.json'
+import { migrateWindowCloseSetting } from '@common/windowClose'
 
 export const parseEnvParams = (argv = process.argv): { cmdParams: LX.CmdParams, deeplink: string | null } => {
   const cmdParams: LX.CmdParams = {}
@@ -108,7 +109,7 @@ export const mergeSetting = (originSetting: LX.AppSetting, targetSetting?: Parti
 }
 
 const applyInitSetting = (setting: LX.AppSetting) => {
-  if (global.envParams.cmdParams.hidden && !setting['tray.enable']) {
+  if (setting && global.envParams.cmdParams.hidden && !setting['tray.enable']) {
     setting['tray.enable'] = true
   }
 }
@@ -118,7 +119,7 @@ export const updateSetting = (setting?: Partial<LX.AppSetting>, isInit: boolean 
 
   let originSetting: LX.AppSetting
   if (isInit) {
-    setting &&= migrateSetting(setting)
+    setting = migrateWindowCloseSetting(setting ? migrateSetting(setting) : undefined)
     applyInitSetting(setting as LX.AppSetting)
     originSetting = { ...defaultSetting }
   } else originSetting = global.lx.appSetting

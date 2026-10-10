@@ -64,6 +64,8 @@ function fixture({ legacy, persisted = '192k', saveError } = {}) {
     '@renderer/utils': {}, '@common/utils/nodejs': {}, '@common/utils/common': {}, '@common/utils/migrateSetting': {},
     '@renderer/composables/useAppearance': {}, '@renderer/store/dislikeList': { dislikeInfo: { rules: '' } },
     '@renderer/core/dislikeList': {}, './schema': schema, '@renderer/ui/services/platformPlayback': service,
+    '@common/localMusic': { LOCAL_LIBRARY_ID: 'userlist_linkline_local' },
+    '../services/localLibrary': { reconcileLocalLibraryAfterRestore: async() => {} },
   }
   const useSettings = load('src/renderer/ui/settings/useSettings.ts', imports).useSettings()
   const componentSource = read('src/renderer/ui/components/QualityControl.vue').match(/<script setup lang="ts">([\s\S]*?)<\/script>/)[1]

@@ -20,7 +20,7 @@ export interface SettingField {
 
 export const categories = [
   { id: 'accounts', name: '平台账号与红心', description: '连接各平台账号，汇总红心与创建歌单。', keywords: '登录 账号 密码 扫码 QR 红心 收藏 歌单 平台 同步 QQ 网易云 酷狗 酷我 咪咕 哔哩哔哩 Bilibili' },
-  { id: 'general', name: '常规与外观', description: '窗口、字体、语言与主题，调整熟悉的音乐空间。', keywords: '主题 颜色 圆角 外观 窗口 间距 面板' },
+  { id: 'general', name: '常规与外观', description: '窗口、字体、语言与主题，调整熟悉的音乐空间。', keywords: '主题 颜色 圆角 外观 窗口 间距 面板 关闭 后台 播放 托盘 退出 不再询问' },
   { id: 'sources', name: '音源管理', description: '导入并选择你使用的音乐接口，管理其更新提醒。', keywords: '接口 脚本 API 导入 音源' },
   { id: 'playback', name: '播放', description: '音质、播放顺序、恢复进度与定时停止。', keywords: '定时 睡眠 音质' },
   { id: 'audio', name: '声音与设备', description: '输出设备、音量、均衡器、空间音效与音高。', keywords: 'EQ 音效 环境 环绕 扬声器' },
@@ -44,6 +44,7 @@ const enums: Partial<Record<SettingKey, Option[]>> = {
   'common.langId': [{ value: '', label: '跟随系统' }, ...langList.map(item => ({ value: item.locale, label: item.name }))],
   'common.sourceNameType': choices([['alias', '音源别名'], ['real', '平台原名']]),
   'common.controlBtnPosition': choices([['left', '左侧'], ['right', '右侧']]),
+  'common.closeAction': choices([['ask', '每次询问'], ['tray', '最小化到托盘'], ['quit', '退出应用']]),
   'common.playBarProgressStyle': choices([['mini', '简洁'], ['middle', '居中'], ['full', '完整宽度']]),
   'player.togglePlayMethod': choices([['listLoop', '列表循环'], ['random', '随机播放'], ['list', '顺序播放'], ['singleLoop', '单曲循环'], ['none', '播放一次']]),
   'player.playQuality': choices(Object.entries(qualityLabels)),
@@ -80,6 +81,8 @@ const bounds: Partial<Record<SettingKey, [number, number, number?]>> = {
 
 const hints: Partial<Record<SettingKey, string>> = {
   'common.transparentWindow': '更改后重新启动应用生效。',
+  'common.closeAction': '右上角关闭按钮与 Alt+F4 使用同一行为；托盘菜单中的「退出」始终退出应用。',
+  'tray.enable': '默认启用。最小化到托盘后继续播放音乐，可从托盘恢复窗口。关闭后，后台模式将恢复为每次询问。',
   'common.font': '选择系统字体，也可以手动填写字体家族列表。',
   'desktopLyric.style.font': '留空时使用系统默认字体。',
   'desktopLyric.style.backgroundOpacity': '0% 为全透明，100% 为不透明；只调整背景，不影响歌词文字和工具栏。',

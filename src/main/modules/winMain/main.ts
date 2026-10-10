@@ -6,8 +6,77 @@ import { getProxy, openDevTools as handleOpenDevTools } from '@main/utils'
 import { mainSend } from '@common/mainIpc'
 import { sendFocus, sendTaskbarButtonClick } from './rendererEvent'
 import { encodePath } from '@common/utils/electron'
+import { WINDOW_CLOSE_EVENT_NAME, type WindowCloseResponse } from '@common/windowClose'
+import { quitApp } from '@main/app'
+import { createTray, isTrayAvailable } from '@main/modules/tray'
 
 let browserWindow: Electron.BrowserWindow | null = null
+let closeRequested = false
+let closeDialogReady = false
+let nativeCloseDialog = false
+
+/** Register the renderer dialog after its listener is installed. */
+export const prepareCloseDialog = () => {
+  closeDialogReady = true
+  return closeRequested && !nativeCloseDialog
+}
+
+export const respondToClose = (response: WindowCloseResponse) => {
+  if (!closeRequested || global.lx.isSkipTrayQuit || !browserWindow) return
+  if (!response || !['cancel', 'tray', 'quit'].includes(response.action) || typeof response.remember !== 'boolean') throw new Error('无效的关闭窗口选项。')
+  if (response.action === 'cancel') {
+    closeRequested = false
+    return
+  }
+  const patch: Partial<LX.AppSetting> = {}
+  if (response.action === 'tray') patch['tray.enable'] = true
+  if (response.remember) patch['common.closeAction'] = response.action
+  if (Object.keys(patch).length) global.lx.event_app.update_config(patch)
+  if (response.action === 'tray') {
+    // Keep the window accessible if a tray cannot be created on this system.
+    createTray()
+    if (!isTrayAvailable()) throw new Error('无法创建托盘图标，窗口已保留，请重试或退出应用。')
+    closeRequested = false
+    if (browserWindow.isFullScreen()) browserWindow.setFullScreen(false)
+    browserWindow.hide()
+  } else {
+    closeRequested = false
+    quitApp()
+  }
+}
+
+const requestClose = () => {
+  if (!browserWindow || closeRequested) return
+  closeRequested = true
+  const action = global.lx.appSetting['common.closeAction']
+  if (action === 'quit' || (action === 'tray' && global.lx.appSetting['tray.enable'])) {
+    try { respondToClose({ action, remember: false }); return } catch { /* Allow choosing again if the tray is unavailable. */ }
+  }
+  showWindow()
+  if (closeDialogReady && !browserWindow.webContents.isDestroyed()) {
+    sendEvent(WINDOW_CLOSE_EVENT_NAME.requested)
+    return
+  }
+  // Native fallback also covers closing before the renderer is ready or after
+  // it has crashed. Never leave an invisible process without a tray icon.
+  const window = browserWindow
+  nativeCloseDialog = true
+  void dialog.showMessageBox(window, {
+    type: 'question',
+    title: '关闭 LinkLine 窗口？',
+    message: '关闭 LinkLine 窗口？',
+    detail: '最小化到托盘后，音乐会继续播放；退出应用会停止播放。',
+    buttons: ['取消', '退出应用', '最小化到托盘'],
+    defaultId: 2,
+    cancelId: 0,
+    checkboxLabel: '不再询问',
+    checkboxChecked: false,
+    noLink: true,
+  }).then(result => {
+    nativeCloseDialog = false
+    respondToClose({ action: result.response === 2 ? 'tray' : result.response === 1 ? 'quit' : 'cancel', remember: result.checkboxChecked })
+  }).catch(() => { closeRequested = false; nativeCloseDialog = false })
+}
 
 export const getWindowState = () => ({
   isMaximized: browserWindow?.isMaximized() ?? false,
@@ -21,7 +90,7 @@ const winEvent = () => {
   if (!browserWindow) return
 
   browserWindow.on('close', event => {
-    if (global.lx.isSkipTrayQuit || !global.lx.appSetting['tray.enable']) {
+    if (global.lx.isSkipTrayQuit) {
       browserWindow!.setProgressBar(-1)
       // global.lx.mainWindowClosed = true
       global.lx.event_app.main_window_close()
@@ -29,12 +98,15 @@ const winEvent = () => {
     }
 
     event.preventDefault()
-    browserWindow!.hide()
+    requestClose()
   })
 
   browserWindow.on('closed', () => {
     // global.lx.mainWindowClosed = true
     browserWindow = null
+    closeRequested = false
+    closeDialogReady = false
+    nativeCloseDialog = false
   })
 
   // browserWindow.on('restore', () => {
@@ -59,6 +131,10 @@ const winEvent = () => {
   browserWindow.on('maximize', sendWindowState)
   browserWindow.on('unmaximize', sendWindowState)
   browserWindow.webContents.on('did-finish-load', sendWindowState)
+  browserWindow.webContents.on('did-start-navigation', (_event, _url, isInPlace, isMainFrame) => {
+    if (isMainFrame && !isInPlace) closeDialogReady = false
+  })
+  browserWindow.webContents.on('render-process-gone', () => { closeDialogReady = false; closeRequested = false })
   browserWindow.webContents.on('before-input-event', (event, input) => {
     if (input.type !== 'keyDown' || input.isAutoRepeat) return
     if (input.key === 'F11') {
@@ -91,7 +167,10 @@ const winEvent = () => {
 
 
 export const createWindow = () => {
-  closeWindow()
+  if (browserWindow) browserWindow.destroy()
+  closeRequested = false
+  closeDialogReady = false
+  nativeCloseDialog = false
   const windowSizeInfo = getWindowSizeInfo(global.lx.appSetting['common.windowSizeId'])
 
   const { shouldUseDarkColors, theme } = global.lx.theme
@@ -126,6 +205,7 @@ export const createWindow = () => {
       contextIsolation: false,
       webSecurity: false,
       nodeIntegration: true,
+      backgroundThrottling: false,
       sandbox: false,
       enableWebSQL: false,
       webgl: false,

@@ -1,4 +1,5 @@
 <template>
+  <CloseWindowDialog />
   <UiModal :show="!appSetting['common.isAgreePact'] || isShowPact" title="欢迎来到 LinkLine" subtitle="使用说明与协议" width="600px" @close="closePact"><div class="ui-license-content"><p v-for="(paragraph, index) in licenseContent" :key="index">{{ paragraph }}</p></div><p v-if="agreementError" class="ui-dialog-error" role="alert">{{ agreementError }}</p><template #footer><button v-if="!appSetting['common.isAgreePact']" type="button" class="ui-dialog-button" @click="quitApp(true)">退出</button><button type="button" class="ui-dialog-button ui-dialog-button-primary" :disabled="agreementBusy" @click="agree">{{ agreementBusy ? '正在保存…' : appSetting['common.isAgreePact'] ? '关闭' : '接受并开始使用' }}</button></template></UiModal>
   <UiModal :show="showLoginPrompt" title="连接音乐平台" subtitle="QQ 音乐与网易云音乐" width="460px" @close="showLoginPrompt = false"><p class="ui-dialog-note">登录由对应音乐平台完成，可使用扫码或平台支持的账号登录方式。LinkLine 会将平台红心同步到「我喜欢的音乐」，你点击收藏时会同步到已登录且有版权的平台。</p><p class="ui-dialog-note ui-login-prompt-note">也可以稍后在设置的「平台账号与红心」中连接。</p><template #footer><button type="button" class="ui-dialog-button" @click="showLoginPrompt = false">稍后</button><button type="button" class="ui-dialog-button ui-dialog-button-primary" @click="openPlatformSettings">前往登录</button></template></UiModal>
   <UiModal :show="sync.isShowAuthCodeModal" title="连接音乐同步服务" subtitle="输入同步服务器显示的连接码。" @close="sync.isShowAuthCodeModal = false"><form @submit.prevent="authorize"><label class="ui-dialog-field"><span>连接码</span><input v-model="authCode" maxlength="100" aria-label="同步连接码"></label><p v-if="error" class="ui-dialog-error">{{ error }}</p><button type="submit" class="ui-dialog-button ui-dialog-button-primary" :disabled="!authCode.trim()">连接</button></form></UiModal>
@@ -11,6 +12,7 @@ import { sync, isShowPact } from '@renderer/store'
 import { appSetting, mergeSetting } from '@renderer/store/setting'
 import { sendSyncAction, quitApp, updateSetting } from '@renderer/utils/ipc'
 import UiModal from './UiModal.vue'
+import CloseWindowDialog from './CloseWindowDialog.vue'
 const licenseContent = [
   'LinkLine 是一款独立音乐客户端，基于 LX Music 构建。',
   '音乐平台提供的歌曲、封面、歌词及其他内容归其权利人所有。播放和下载取决于平台权限及可用音源，请尊重版权并遵守相关平台的使用规则。',

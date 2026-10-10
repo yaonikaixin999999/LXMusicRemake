@@ -98,6 +98,8 @@ test('platform-created Library playlists play through the real queue and IPC wit
     '@renderer/store/list/state': h.state,
     '@renderer/store/list/action': h.actions,
     '@common/constants': { LIST_IDS: h.LIST_IDS },
+    '@common/localMusic': { LOCAL_LIBRARY_ID: 'userlist_linkline_local', LOCAL_AUDIO_EXTENSIONS: [] },
+    '../services/localLibrary': {},
     '@renderer/core/player': { playList: (listId, index) => h.plays.push({ listId, index }) },
     '@renderer/utils/ipc': {}, '@renderer/utils/data': {}, '@renderer/utils': {},
     '../services/platformAccounts': { platformPlaylists: vue.ref([{ id: 'platform-fixture', name: 'Fixture', platform: 'qq' }]), favoritePending: vue.ref(new Set()), platformName: () => 'QQ 音乐' },

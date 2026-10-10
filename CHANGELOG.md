@@ -2,6 +2,16 @@
 
 本文件记录 LinkLine 的正式版本变化。完整发行说明见 [docs/releases/](docs/releases/)，下载文件见[本项目 Releases](https://github.com/yaonikaixin999999/LinkLine/releases)。
 
+## [1.0.3](https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.3) — 2026-10-11
+
+- 新增独立本地音乐库，支持选择文件或递归扫描文件夹导入音频，分批显示进度并支持取消后继续。
+- 新增专辑 / 歌手目录搜索；排行榜、精选歌单、音乐库、搜索结果和歌单详情中的歌手与专辑可点击跳转。
+- 优化播放回退，原平台无版权时尝试其他已支持平台；统一设置页和播放栏的音质偏好。
+- 新增窗口关闭询问、后台播放与托盘恢复，默认保留用户选择。
+- 增加桌面歌词背景透明度设置，并修正小窗口布局与显示位置恢复。
+
+[阅读 1.0.3 发行说明](docs/releases/v1.0.3.md)
+
 ## [1.0.2](https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.2) — 2026-10-10
 
 - 官方检查更新在 API 与 Atom 不可用时读取 GitHub 官方发布清单，处理接口限流与无效订阅响应。

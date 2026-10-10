@@ -71,6 +71,10 @@ export const createLocalMusicInfo = async(path: string): Promise<LX.Music.MusicI
     return null
   }
 
+  // Some parsers accept a corrupt or renamed file and return only default tags.
+  // Require a recognized audio format instead of adding an unplayable placeholder.
+  if (!metadata.format.codec || !metadata.format.container || metadata.format.hasAudio === false) return null
+
   // console.log(metadata)
   let ext = extname(path)
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

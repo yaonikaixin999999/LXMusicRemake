@@ -9,6 +9,9 @@ import {
   toggleMaximize,
   getWindowState,
   closeWindow,
+  prepareCloseDialog,
+  respondToClose,
+  getWebContents,
   showWindow,
   setFullScreen,
   sendEvent,
@@ -27,6 +30,7 @@ import {
 import { quitApp } from '@main/app'
 import { getAllThemes, removeTheme, saveTheme, setPowerSaveBlocker } from '@main/utils'
 import { openDirInExplorer } from '@common/utils/electron'
+import { WINDOW_CLOSE_EVENT_NAME, type WindowCloseResponse } from '@common/windowClose'
 
 export default () => {
   // 设置应用名称
@@ -54,6 +58,14 @@ export default () => {
   })
   mainHandle('winMain_get_window_state', async() => getWindowState())
   mainHandle('winMain_toggle_maximize', async() => toggleMaximize())
+  mainHandle<boolean>(WINDOW_CLOSE_EVENT_NAME.ready, async({ event }: LX.IpcMainInvokeEvent) => {
+    if (event.sender !== getWebContents()) throw new Error('无效的窗口请求。')
+    return prepareCloseDialog()
+  })
+  mainHandle<WindowCloseResponse>(WINDOW_CLOSE_EVENT_NAME.respond, async({ event, params }) => {
+    if (event.sender !== getWebContents()) throw new Error('无效的窗口请求。')
+    respondToClose(params)
+  })
   mainOn(WIN_MAIN_RENDERER_EVENT_NAME.focus, () => {
     showWindow()
   })
