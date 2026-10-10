@@ -16,8 +16,18 @@ export default () => {
   }
   void emptyAudio.play()
   let prevPicUrl = ''
+  let artworkRequest = 0
+  let pendingArtwork: HTMLImageElement | null = null
 
   const updateMediaSessionInfo = () => {
+    const request = ++artworkRequest
+    // Abort the previous metadata image request when the track changes. A
+    // fast sequence of track changes otherwise keeps every Image and its
+    // decoded artwork alive until all network requests finish.
+    if (pendingArtwork) {
+      pendingArtwork.src = ''
+      pendingArtwork = null
+    }
     if (musicInfo.id == null) {
       navigator.mediaSession.metadata = null
       return
@@ -30,14 +40,18 @@ export default () => {
     }
     if (musicInfo.pic) {
       const pic = new Image()
+      pendingArtwork = pic
+      pic.decoding = 'async'
       pic.src = prevPicUrl = musicInfo.pic
       pic.onload = () => {
-        if (prevPicUrl == pic.src) {
+        if (request === artworkRequest && prevPicUrl == pic.src) {
+          pendingArtwork = null
           mediaMetadata.artwork = [{ src: pic.src }]
           // @ts-expect-error
           navigator.mediaSession.metadata = new window.MediaMetadata(mediaMetadata)
         }
       }
+      pic.onerror = () => { if (request === artworkRequest) pendingArtwork = null }
     } else prevPicUrl = ''
 
     // @ts-expect-error
@@ -140,6 +154,14 @@ export default () => {
   window.app_event.on('picUpdated', updateMediaSessionInfo)
 
   onBeforeUnmount(() => {
+    artworkRequest++
+    if (pendingArtwork) {
+      pendingArtwork.src = ''
+      pendingArtwork = null
+    }
+    emptyAudio.pause()
+    emptyAudio.removeAttribute('src')
+    emptyAudio.load()
     window.app_event.off('playerLoadeddata', updatePositionState)
     window.app_event.off('playerPlaying', updatePositionState)
     window.app_event.off('play', handlePlay)

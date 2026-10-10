@@ -46,6 +46,7 @@ export default {
     },
   ],
   cache: new Map(),
+  cacheLimit: 100,
   regExps: {
     listData: /global\.data = (\[.+\]);/,
     listInfo: /global = {[\s\S]+?name: "(.+)"[\s\S]+?pic: "(.+)"[\s\S]+?};/,
@@ -580,7 +581,9 @@ export default {
     }).promise
     let result = body.match(/var\sphpParam\s=\s({.+?});/)
     if (result) result = JSON.parse(result[1])
+    if (this.cache.has(chain)) this.cache.delete(chain)
     this.cache.set(chain, result)
+    if (this.cache.size > this.cacheLimit) this.cache.delete(this.cache.keys().next().value)
     return result
   },
 
@@ -594,7 +597,9 @@ export default {
     }).promise
     let result = body.match(/var\sdataFromSmarty\s=\s(\[.+?\])/)
     if (result) result = JSON.parse(result[1])
-    this.cache.set(chain, result)
+    if (this.cache.has(key)) this.cache.delete(key)
+    this.cache.set(key, result)
+    if (this.cache.size > this.cacheLimit) this.cache.delete(this.cache.keys().next().value)
     result = await this.getMusicInfos(result)
     // console.log(info, songInfo)
     return result

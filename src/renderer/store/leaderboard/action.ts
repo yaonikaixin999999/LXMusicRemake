@@ -5,6 +5,14 @@ import { markRaw, markRawList } from '@common/utils/vueTools'
 import { boards, type Board, listDetailInfo, type ListDetailInfo } from './state'
 
 const cache = new Map<string, any>()
+const CACHE_LIMIT = 80
+const setCache = (key: string, value: any) => {
+  // Keep recent pages available without retaining every chart visited during
+  // a long session. Map insertion order gives us a small FIFO cache here.
+  if (cache.has(key)) cache.delete(key)
+  cache.set(key, value)
+  if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value!)
+}
 
 export const setBoard = (board: Board, source: LX.OnlineSource) => {
   boards[source] = markRaw(board)
@@ -55,7 +63,7 @@ export const getListDetail = async(id: string, page: number, isRefresh = false):
 
   return musicSdk[source]?.leaderboard?.getList(bangId, page).then((result: ListDetailInfo) => {
     result.list = markRawList(deduplicationList(result.list.map(m => toNewMusicInfo(m)) as LX.Music.MusicInfoOnline[]))
-    cache.set(key, result)
+    setCache(key, result)
     return result
   })
 }
@@ -77,7 +85,7 @@ export const getListDetailAll = async(id: string, isRefresh = false): Promise<LX
 
     return musicSdk[source]?.leaderboard.getList(id, page).then((result: ListDetailInfo) => {
       result.list = markRawList(deduplicationList(result.list.map(m => toNewMusicInfo(m)) as LX.Music.MusicInfoOnline[]))
-      cache.set(key, result)
+      setCache(key, result)
       return result
     }) ?? Promise.reject(new Error('source not found' + source))
   }

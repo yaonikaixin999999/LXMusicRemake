@@ -206,11 +206,17 @@ export default {
     if (songIdMap.has(songmid)) return songIdMap.get(songmid)
     if (promises.has(songmid)) return (await promises.get(songmid)).songId
     const promise = getMusicInfo(songmid)
-    promises.set(promise)
-    const info = await promise
-    songIdMap.set(songmid, info.songId)
-    promises.delete(songmid)
-    return info.songId
+    // Keep only the in-flight lookup under its songmid; this allows the
+    // completion cleanup below to release the Promise and its response data.
+    promises.set(songmid, promise)
+    try {
+      const info = await promise
+      if (songIdMap.size >= 1000) songIdMap.delete(songIdMap.keys().next().value)
+      songIdMap.set(songmid, info.songId)
+      return info.songId
+    } finally {
+      promises.delete(songmid)
+    }
   },
   async parseLyric(lrc, tlrc, rlrc) {
     const { lyric, tlyric, rlyric } = await decodeLyric(lrc, tlrc, rlrc)

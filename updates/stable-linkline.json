@@ -3,6 +3,21 @@
   "repository": "https://github.com/yaonikaixin999999/LinkLine",
   "releases": [
     {
+      "version": "1.0.4",
+      "name": "LinkLine 1.0.4",
+      "body": "# LinkLine 1.0.4\n\nLinkLine 1.0.4 优化了更新体验、播放资源释放和长时间运行时的内存占用，并移除了侧栏中不必要的滚动条显示。\n\n## 更新内容\n\n- 启动检测到新版本时自动打开更新中心。\n- 更新中心支持应用内下载 Windows x64 安装包，显示实时进度、下载速度和校验结果，下载完成后可直接启动安装。\n- 支持 GitHub 官方源、国内加速源和备用下载源，下载地址仅接受 LinkLine 官方 Release 文件。\n- 修复 QQ 音乐歌曲 ID 查询的 Promise 长期驻留问题，并限制歌单、排行榜和平台缓存大小。\n- 播放预加载音频、媒体封面和桌面歌词通信资源会及时释放，降低长时间运行的内存增长。\n- 隐藏不必要的侧栏滚动条，同时保留内容滚动能力。\n\n## 下载与升级\n\n- 支持系统：Windows 10 / 11，64 位（x64）。\n- 安装包：`LinkLine-v1.0.4-x64-Setup.exe`。\n- [GitHub 官方下载](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.4/LinkLine-v1.0.4-x64-Setup.exe)。\n- [国内加速下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.4/LinkLine-v1.0.4-x64-Setup.exe)。\n- [国内备用下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.4/LinkLine-v1.0.4-x64-Setup.exe)。\n- [SHA-256 校验文件](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.4/SHA256SUMS.txt)。\n\nLinkLine 基于 LXMusic 开源项目再开发，保留原作者版权与第三方许可，遵循 [Apache-2.0](https://github.com/yaonikaixin999999/LinkLine/blob/main/LICENSE)。\n",
+      "publishedAt": "2026-10-10T20:34:32.057Z",
+      "pageUrl": "https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.4",
+      "assets": [
+        {
+          "name": "LinkLine-v1.0.4-x64-Setup.exe",
+          "url": "https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.4/LinkLine-v1.0.4-x64-Setup.exe",
+          "size": 121098629,
+          "sha256": "ce1e1d691251e25f4e1200a38918985826d3b10f4e8a861f8336096270d96c86"
+        }
+      ]
+    },
+    {
       "version": "1.0.3",
       "name": "LinkLine 1.0.3",
       "body": "# LinkLine 1.0.3\n\nLinkLine 1.0.3 将本地音乐、目录搜索和窗口行为相关功能纳入正式 Windows x64 发行版，并修复歌曲列表中的元数据跳转体验。\n\n## 新增与修复\n\n- 新增独立「本地音乐」库，支持选择音频文件或递归扫描文件夹导入，导入数量不设上限，支持进度显示、取消和继续导入。\n- 排行榜、精选歌单、音乐库、搜索结果、歌单详情和平台目录中的歌曲列表支持点击歌手名称搜索歌手、点击专辑名称搜索专辑。\n- 点击歌曲名称仍然播放歌曲，点击专辑链接不会误触发播放；相同条目再次点击会返回对应搜索结果。\n- 优化跨平台播放回退与音质偏好，设置页和播放栏使用同一份音质配置。\n- 新增关闭窗口询问、最小化到托盘、后台播放和托盘恢复，保留用户的关闭行为选择。\n- 桌面歌词增加背景透明度设置，并改善歌词窗口的位置恢复和小尺寸布局。\n- 更新 LinkLine 项目文档、更新清单和安装包校验信息。\n\n## 下载与升级\n\n- 支持系统：Windows 10 / 11，64 位（x64）。\n- 安装包：`LinkLine-v1.0.3-x64-Setup.exe`。\n- [GitHub 官方下载](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe)。\n- [国内加速下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe)。\n- [国内备用下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/LinkLine-v1.0.3-x64-Setup.exe)。\n- [SHA-256 校验文件](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.3/SHA256SUMS.txt)。\n\n从托盘退出正在运行的旧版后，运行完整安装包升级。国内加速由第三方代理提供，软件不会在后台自动安装。\n\nLinkLine 基于 LXMusic 开源项目再开发，保留原作者版权与第三方许可，遵循 [Apache-2.0](https://github.com/yaonikaixin999999/LinkLine/blob/main/LICENSE)。\n",

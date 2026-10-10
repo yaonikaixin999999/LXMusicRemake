@@ -21,6 +21,8 @@ svg { flex: none; }
 .ui-key { margin-left: auto; color: var(--modern-muted); }
 .ui-nav-label { color: var(--modern-muted); font-size: 9px; padding: 0 11px 10px; }
 .ui-sidebar nav, .ui-sidebar-lists, .ui-sidebar-footer { display: flex; flex-direction: column; gap: 4px; a, button { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: 10px; color: var(--modern-muted); background: transparent; text-align: left; font-size: 11px; min-height: 35px; span:not(.ui-list-dot) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } &:hover { background: var(--modern-hover); color: var(--modern-text); } &.ui-nav-active { background: var(--modern-accent-soft); color: var(--modern-accent-ink); font-weight: 550; } } }
+// Keep the sidebar scrollable while removing the browser's native track and arrows.
+.ui-sidebar > nav, .ui-sidebar-lists { scrollbar-width: none; &::-webkit-scrollbar { width: 0; height: 0; } }
 .ui-sidebar-lists { min-height: 0; overflow: auto; flex: 1; a { padding: 8px 12px; } }
 .ui-sidebar > nav { min-height: 0; overflow-y: auto; flex-shrink: 1; }
 .ui-library-label { margin-top: 23px; }

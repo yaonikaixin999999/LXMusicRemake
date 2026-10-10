@@ -108,6 +108,8 @@ export const init = () => {
   onNewDesktopLyricProcess(({ event }) => {
     console.log('onNewDesktopLyricProcess')
     const [port] = event.ports
+    if (!port) return
+    desktopLyricPort?.close()
     desktopLyricPort = port
 
     port.onmessage = ({ data }) => {
@@ -120,7 +122,9 @@ export const init = () => {
 
     port.onmessageerror = (event) => {
       console.log('onmessageerror', event)
+      if (desktopLyricPort === port) desktopLyricPort = null
     }
+    port.start()
   })
 }
 

@@ -12,6 +12,10 @@ const initAudio = () => {
   if (audio) return
   audio = new Audio()
   audio.controls = false
+  // This element is only used to validate the next stream.  The media
+  // resource is released as soon as the check finishes below, so the player
+  // can still receive a reliable `canplay` signal without retaining a second
+  // track buffer.
   audio.preload = 'auto'
   audio.crossOrigin = 'anonymous'
   audio.muted = true
@@ -24,25 +28,35 @@ const initAudio = () => {
 const checkMusicUrl = async(url: string): Promise<boolean> => {
   initAudio()
   return new Promise((resolve) => {
+    const release = () => {
+      if (!audio) return
+      audio.pause()
+      // Drop the probe's media resource as soon as the availability check is
+      // complete.  The URL is resolved again by the player when the track is
+      // actually selected, so retaining this buffer only increases memory
+      // pressure.
+      audio.removeAttribute('src')
+      audio.load()
+    }
     const clear = () => {
       audio.removeEventListener('error', handleErr)
       audio.removeEventListener('canplay', handlePlay)
     }
     const handleErr = () => {
+      const isAborted = audio?.error?.code === 1
       clear()
-      if (audio?.error?.code !== 1) {
-        resolve(false)
-      } else {
-        resolve(true)
-      }
+      release()
+      resolve(isAborted)
     }
     const handlePlay = () => {
       clear()
+      release()
       resolve(true)
     }
     audio.addEventListener('error', handleErr)
     audio.addEventListener('canplay', handlePlay)
     audio.src = url
+    audio.load()
   })
 }
 
@@ -69,7 +83,7 @@ const preloadNextMusicUrl = async(curTime: number) => {
       const result = await checkMusicUrl(url)
       if (!result) {
         const url = await getMusicUrl({ musicInfo: info.musicInfo, isRefresh: true }).catch(() => '')
-        void checkMusicUrl(url)
+        await checkMusicUrl(url)
         console.log('preload url refresh', url)
       }
     }

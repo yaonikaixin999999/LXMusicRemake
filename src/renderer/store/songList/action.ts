@@ -18,6 +18,14 @@ import type {
 } from './state'
 
 const cache = new Map<string, any>()
+const CACHE_LIMIT = 80
+const setCache = (key: string, value: any) => {
+  // Retain a bounded recent-page history so browsing many playlists does not
+  // keep every page's song objects and artwork metadata alive indefinitely.
+  if (cache.has(key)) cache.delete(key)
+  cache.set(key, value)
+  if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value!)
+}
 
 export const setTags = (tagInfo: TagInfo, source: LX.OnlineSource) => {
   tags[source] = markRaw(tagInfo)
@@ -110,7 +118,7 @@ export const getAndSetList = async(source: LX.OnlineSource, tabId: string, sortI
   listInfo.key = key
   // clearList()
   return musicSdk[source]?.songList.getList(sortId, tabId, page).then((result: ListInfo) => {
-    cache.set(key, result)
+    setCache(key, result)
     if (key != listInfo.key) return
     setList(result, tabId, sortId, page)
   }).catch((error: any) => {
@@ -134,7 +142,7 @@ export const getListDetail = async(id: string, source: LX.OnlineSource, page: nu
 
   return musicSdk[source]?.songList.getListDetail(id, page).then((result: ListDetailInfo) => {
     result.list = markRawList(deduplicationList(result.list.map(m => toNewMusicInfo(m)) as LX.Music.MusicInfoOnline[]))
-    cache.set(key, result)
+    setCache(key, result)
     return result
   })
 }
@@ -156,7 +164,7 @@ export const getListDetailAll = async(id: string, source: LX.OnlineSource, isRef
       ? Promise.resolve(cache.get(key))
       : musicSdk[source]?.songList.getListDetail(id, page).then((result: ListDetailInfo) => {
         result.list = markRawList(deduplicationList(result.list.map(m => toNewMusicInfo(m)) as LX.Music.MusicInfoOnline[]))
-        cache.set(key, result)
+        setCache(key, result)
         return result
       }) ?? Promise.reject(new Error('source not found' + source))
   }

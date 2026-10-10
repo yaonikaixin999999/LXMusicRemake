@@ -50,7 +50,12 @@ function fixture({ stored, storageError } = {}) {
     '@common/utils/electron': { openUrl: async(url) => { opened.push(url) } },
     '@renderer/store': { versionInfo: { version: '1.0.0' } },
     '@renderer/assets/images/linkline-logo.svg': { default: 'logo.svg' }, './UiIcon.vue': {}, './UiSelect.vue': {},
-    '@renderer/ui/services/appUpdate': service, '@renderer/ui/services/updatePreferences': preferences,
+    '@renderer/ui/services/appUpdate': {
+      ...service,
+      updateDownloadProgress: vue.shallowRef(null), updateDownloadState: vue.ref('idle'), updateDownloadedFile: vue.shallowRef(null),
+      downloadUpdateInstaller: async payload => { requests.push({ channel: common.LINKLINE_UPDATE_DOWNLOAD, payload: plain(payload) }); return { fileName: payload.fileName, filePath: 'temp.exe', size: 1, sha256: 'a'.repeat(64) } },
+      installDownloadedUpdate: async() => { requests.push({ channel: common.LINKLINE_UPDATE_INSTALL, payload: undefined }) },
+    }, '@renderer/ui/services/updatePreferences': preferences,
   }, {}, `${component}\nmodule.exports = { installer, downloadInstaller, downloadBackup, installerChecksum, actualSourceLabel, fallbackMessage, openOfficialPage };`)
   return { storage, preferences, service, requests, panel, opened }
 }
@@ -91,6 +96,16 @@ test('startup, settings, and title-bar checks share one in-flight request using 
   await completion
   assert.equal(state.service.updateAvailable.value, true)
   assert.equal(state.service.updateChecking.value, false)
+})
+
+test('startup check opens the update center when a newer release is found', async() => {
+  const state = fixture()
+  state.service.checkUpdateOnStartup()
+  assert.equal(state.service.updateCenterOpen.value, false)
+  state.requests[0].resolve(result('mirror'))
+  await new Promise(resolve => setImmediate(resolve))
+  assert.equal(state.service.updateAvailable.value, true)
+  assert.equal(state.service.updateCenterOpen.value, true)
 })
 
 test('switching sources invalidates display and ignores a late response from the previous source', async() => {
@@ -138,6 +153,7 @@ test('failed recheck keeps readable notes while disabling stale installers and o
   assert.equal(state.panel.installer.value, null)
   await state.panel.downloadInstaller()
   await state.panel.openOfficialPage()
+  assert.deepEqual(state.requests.filter(item => item.channel === common.LINKLINE_UPDATE_DOWNLOAD), [])
   assert.deepEqual(state.opened, [common.LINKLINE_RELEASES_URL])
   const changed = state.service.selectUpdateSource('github')
   state.requests[2].resolve(result('github', { status: 'error', latestRelease: null }))
@@ -155,7 +171,7 @@ test('metadata fallback retains the selected domestic download route, with a bac
   assert.equal(state.panel.installerChecksum.value, 'a'.repeat(64))
   await state.panel.downloadInstaller()
   await state.panel.downloadBackup()
-  assert.deepEqual(state.opened, [`${common.LINKLINE_DOWNLOAD_MIRROR}${asset().url}`, `${common.LINKLINE_BACKUP_MIRROR}${asset().url}`])
+  assert.deepEqual(state.requests.filter(item => item.channel === common.LINKLINE_UPDATE_DOWNLOAD).map(item => item.payload.url), [`${common.LINKLINE_DOWNLOAD_MIRROR}${asset().url}`, `${common.LINKLINE_BACKUP_MIRROR}${asset().url}`])
 })
 
 test('installer selection rejects portable files and assets from another repository', async() => {
@@ -181,6 +197,6 @@ test('official-source installer uses the official direct asset with no domestic 
   await completion
   await state.panel.downloadInstaller()
   await state.panel.downloadBackup()
-  assert.deepEqual(state.opened, [asset().url])
+  assert.deepEqual(state.requests.filter(item => item.channel === common.LINKLINE_UPDATE_DOWNLOAD).map(item => item.payload.url), [asset().url])
   assert.equal(state.panel.installer.value.backupUrl, null)
 })

@@ -1,6 +1,12 @@
 export const LINKLINE_REPOSITORY = 'https://github.com/yaonikaixin999999/LinkLine'
 export const LINKLINE_RELEASES_URL = `${LINKLINE_REPOSITORY}/releases`
 export const LINKLINE_UPDATE_CHECK = 'linkline_update_check'
+/** Request the main process to download a validated LinkLine installer. */
+export const LINKLINE_UPDATE_DOWNLOAD = 'linkline_update_download'
+/** Sent by the main process while an installer download is in progress. */
+export const LINKLINE_UPDATE_DOWNLOAD_PROGRESS = 'linkline_update_download_progress'
+/** Request the main process to launch the downloaded installer. */
+export const LINKLINE_UPDATE_INSTALL = 'linkline_update_install'
 export const LINKLINE_UPDATE_MANIFEST = 'https://raw.githubusercontent.com/yaonikaixin999999/LinkLine/main/updates/stable-linkline.json'
 export const LINKLINE_DOWNLOAD_MIRROR = 'https://gh-proxy.com/'
 export const LINKLINE_BACKUP_MIRROR = 'https://ghfast.top/'
@@ -43,6 +49,32 @@ export interface AppRelease {
 export interface UpdateCheckRequest {
   force?: boolean
   source?: UpdateSource
+}
+
+export interface UpdateDownloadRequest {
+  /** URL returned in the trusted update metadata. The main process validates it again. */
+  url: string
+  /** Expected installer filename, used to prevent arbitrary file writes. */
+  fileName: string
+  /** Optional SHA-256 digest advertised by the release. */
+  sha256?: string
+  /** Renderer-local token used to ignore progress from a superseded download. */
+  requestId?: string
+}
+
+export interface UpdateDownloadProgress {
+  transferred: number
+  total: number
+  percent: number
+  bytesPerSecond: number
+  requestId?: string
+}
+
+export interface UpdateDownloadResult {
+  fileName: string
+  filePath: string
+  size: number
+  sha256: string
 }
 
 export interface UpdateCheckResult {

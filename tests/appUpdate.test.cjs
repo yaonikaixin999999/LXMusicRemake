@@ -11,7 +11,7 @@ function load(file, imports = {}, globals = {}) {
   const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText
   const module = { exports: {} }
   vm.runInNewContext(output, {
-    module, exports: module.exports, Error, URL, TextDecoder, AbortController, setTimeout, clearTimeout,
+    module, exports: module.exports, Error, URL, TextDecoder, AbortController, Buffer, setTimeout, clearTimeout,
     require: name => { if (name in imports) return imports[name]; throw new Error(`Unexpected import: ${name}`) },
     ...globals,
   }, { filename: file })
@@ -311,7 +311,12 @@ test('official Atom fallback discovers packaged installers through GitHub expand
 function backend(netFetch, globals = {}) {
   const handlers = new Map()
   const runtime = load('src/main/modules/appUpdate/index.ts', {
-    electron: { app: { getVersion: () => '1.0.0' }, net: { fetch: netFetch } },
+    electron: { app: { getVersion: () => '1.0.0', getPath: () => 'C:\\Temp' }, net: { fetch: netFetch } },
+    'node:fs': { createWriteStream: () => ({ write: () => true, on: () => {}, once: () => {}, end: callback => callback?.(), destroy: () => {} }), existsSync: () => false },
+    'node:fs/promises': { mkdir: async() => {}, rm: async() => {} },
+    'node:events': { once: async() => {} },
+    'node:path': { default: require('node:path') },
+    'node:crypto': { createHash: () => ({ update: () => {}, digest: () => 'a'.repeat(64) }), randomUUID: () => 'test' },
     '@common/mainIpc': { mainHandle: (name, handler) => handlers.set(name, handler) },
     '@common/appUpdate': common,
     './checker': checker,
@@ -334,6 +339,24 @@ test('registered IPC only queries LinkLine releases and forces only explicit boo
   assert.equal(calls.length, 2)
   assert.equal(calls[0].url, checker.RELEASES_API_URL)
   assert.equal(calls[0].options.headers['User-Agent'], 'LinkLine-Update-Check')
+})
+
+test('installer download IPC streams a validated LinkLine asset and reports progress', async() => {
+  const chunks = [new Uint8Array([1, 2]), new Uint8Array([3, 4])]
+  const events = []
+  const runtime = backend(async() => ({
+    ok: true,
+    status: 200,
+    headers: new Headers({ 'content-length': '4' }),
+    body: { getReader: () => ({ read: async() => chunks.length ? { value: chunks.shift(), done: false } : { value: undefined, done: true } }) },
+  }))
+  const handle = runtime.handlers.get(common.LINKLINE_UPDATE_DOWNLOAD)
+  const sender = { isDestroyed: () => false, send: (channel, progress) => events.push({ channel, progress }) }
+  const result = await handle({ event: { sender }, params: { url: `${common.LINKLINE_RELEASES_URL}/download/v1.1.0/LinkLine-v1.1.0-x64-Setup.exe`, fileName: 'LinkLine-v1.1.0-x64-Setup.exe' } })
+  assert.equal(result.fileName, 'LinkLine-v1.1.0-x64-Setup.exe')
+  assert.equal(result.size, 4)
+  assert.equal(events.at(-1).progress.percent, 100)
+  await assert.rejects(handle({ event: { sender }, params: { url: 'https://example.com/evil.exe', fileName: 'LinkLine-v1.1.0-x64-Setup.exe' } }), /下载地址无效/)
 })
 
 test('network reader bounds declared and streamed response size and translates offline/timeout errors', async() => {

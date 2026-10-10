@@ -172,7 +172,11 @@ export const createWindow = () => {
       enableWebSQL: false,
       webgl: false,
       spellcheck: false, // 禁用拼写检查器
-      backgroundThrottling: false,
+      // Lyrics are driven by IPC events and do not own the audio element.
+      // Allow Chromium to throttle this renderer while it is hidden instead
+      // of keeping a full-rate background renderer alive alongside the main
+      // player window.
+      backgroundThrottling: true,
     },
   })
 
