@@ -138,4 +138,4 @@ npm run release:prepare
 
 ## 许可与归属
 
-LinkLine 基于 [LXMusic 开源项目](https://github.com/lyswhut/lx-music-desktop)再开发，保留原作者 lyswhut / 落雪无痕的版权声明，遵循 [Apache License 2.0](LICENSE)，第三方组件保留[各自许可](licenses/)。音乐及平台内容的权利归各自权利人所有。
+LinkLine 基于 [LXMusic 开源项目](https://github.com/lyswhut/lx-music-desktop)再开发，保留版权声明，遵循 [Apache License 2.0](LICENSE)，第三方组件保留[各自许可](licenses/)。音乐及平台内容的权利归各自权利人所有。
