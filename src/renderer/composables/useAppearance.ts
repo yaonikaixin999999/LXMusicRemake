@@ -7,6 +7,7 @@ export interface Appearance {
   panelGap: number
   density: 'comfortable' | 'compact'
   showExplore: boolean
+  hideScrollbars: boolean
 }
 
 const STORAGE_KEY = 'lx-modern-appearance-v1'
@@ -17,6 +18,7 @@ const defaults: Appearance = {
   panelGap: 12,
   density: 'comfortable',
   showExplore: true,
+  hideScrollbars: true,
 }
 
 /** Keep old or malformed saved preferences from breaking the renderer. */
@@ -29,6 +31,7 @@ export function validateAppearance(value: unknown): Appearance {
     panelGap: typeof input.panelGap === 'number' && Number.isFinite(input.panelGap) ? Math.min(32, Math.max(4, Math.round(input.panelGap))) : defaults.panelGap,
     density: input.density === 'compact' ? 'compact' : 'comfortable',
     showExplore: typeof input.showExplore === 'boolean' ? input.showExplore : defaults.showExplore,
+    hideScrollbars: typeof input.hideScrollbars === 'boolean' ? input.hideScrollbars : defaults.hideScrollbars,
   }
 }
 
@@ -140,6 +143,7 @@ function applyAppearance() {
   for (const [name, value] of Object.entries(tokens)) root.style.setProperty(name, value)
   root.dataset.modernTheme = resolvedAppearanceMode.value
   root.dataset.modernDensity = appearance.density
+  root.dataset.modernHideScrollbars = appearance.hideScrollbars ? 'true' : 'false'
   root.style.colorScheme = resolvedAppearanceMode.value
 }
 

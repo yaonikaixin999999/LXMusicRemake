@@ -60,6 +60,11 @@
             </fieldset>
 
             <div class="appearance-section appearance-toggle-row">
+              <div><label id="appearance-scrollbars-label">隐藏滚动条</label><p>保留滚动操作，只隐藏歌单、歌曲列表和歌词页的滚动条</p></div>
+              <button type="button" class="appearance-toggle" role="switch" :aria-checked="appearance.hideScrollbars" aria-labelledby="appearance-scrollbars-label" @click="appearance.hideScrollbars = !appearance.hideScrollbars"><span /></button>
+            </div>
+
+            <div class="appearance-section appearance-toggle-row">
               <div><label id="appearance-explore-label">显示发现推荐</label><p>在发现页展示氛围与灵感卡片</p></div>
               <button type="button" class="appearance-toggle" role="switch" :aria-checked="appearance.showExplore" aria-labelledby="appearance-explore-label" @click="appearance.showExplore = !appearance.showExplore"><span /></button>
             </div>

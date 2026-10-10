@@ -21,8 +21,6 @@ svg { flex: none; }
 .ui-key { margin-left: auto; color: var(--modern-muted); }
 .ui-nav-label { color: var(--modern-muted); font-size: 9px; padding: 0 11px 10px; }
 .ui-sidebar nav, .ui-sidebar-lists, .ui-sidebar-footer { display: flex; flex-direction: column; gap: 4px; a, button { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: 10px; color: var(--modern-muted); background: transparent; text-align: left; font-size: 11px; min-height: 35px; span:not(.ui-list-dot) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } &:hover { background: var(--modern-hover); color: var(--modern-text); } &.ui-nav-active { background: var(--modern-accent-soft); color: var(--modern-accent-ink); font-weight: 550; } } }
-// Keep the sidebar scrollable while removing the browser's native track and arrows.
-.ui-sidebar > nav, .ui-sidebar-lists { scrollbar-width: none; &::-webkit-scrollbar { width: 0; height: 0; } }
 .ui-sidebar-lists { min-height: 0; overflow: auto; flex: 1; a { padding: 8px 12px; } }
 .ui-sidebar > nav { min-height: 0; overflow-y: auto; flex-shrink: 1; }
 .ui-library-label { margin-top: 23px; }
@@ -86,6 +84,16 @@ svg { flex: none; }
 .ui-detail-enter-active, .ui-detail-leave-active { transition: opacity .2s, transform .2s; }
 .ui-detail-enter-from, .ui-detail-leave-to { opacity: 0; transform: translateY(25px); }
 .scroll, .ui-page, .ui-main-panel { scrollbar-width: thin; scrollbar-color: var(--modern-border) transparent; &::-webkit-scrollbar { width: 5px; height: 5px; } &::-webkit-scrollbar-thumb { background: var(--modern-border); border-radius: 8px; } }
+// Scrollbars remain usable with wheel/touch input while their native track and
+// arrows are hidden when the user enables the compact visual treatment.
+html[data-modern-hide-scrollbars='true'] {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * {
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  }
+}
 @media (max-width: 1000px) { .ui-shell { grid-template-columns: 172px minmax(0, 1fr); } .ui-global-search { width: 185px; } .ui-collect-button { display: none; } .ui-quick-grid { grid-template-columns: 1fr; } .ui-detail-body { padding: 20px 35px; gap: 25px; } }
 @media (max-width: 800px) { .ui-shell { grid-template-columns: 65px minmax(0, 1fr); } .ui-sidebar { padding: 20px 8px 12px; } .ui-brand { padding: 0 8px 20px; > span:last-child { display: none; } } .ui-new-search, .ui-nav-label, .ui-sidebar-lists, .ui-sidebar-footer small { display: none; } .ui-sidebar nav a, .ui-sidebar-footer a, .ui-sidebar-footer button { justify-content: center; padding: 10px 0; span { display: none; } } .ui-sidebar-footer { margin-top: auto; } .ui-breadcrumb > span { display: none; } .ui-player-tools select { width: 55px; } .ui-player-tools > button:first-child { display: none; } .ui-page { padding: 25px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

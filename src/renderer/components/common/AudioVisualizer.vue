@@ -70,6 +70,10 @@ export default {
     // https://developer.mozilla.org/zh-CN/docs/Web/API/AnalyserNode/smoothingTimeConstant
     const renderFrame = () => {
       x = 0
+      // Recompute the average for this frame. Keeping the previous value
+      // made it grow on every animation tick, eventually producing Infinity
+      // and unnecessary canvas work while music was playing.
+      frequencyAvg = 0
 
       analyser.getByteFrequencyData(dataArray)
 

@@ -15,41 +15,65 @@ import {
 
 import { appSetting } from '@renderer/store/setting'
 
+// Convolution sources are bundled today, but keeping an explicit bound avoids
+// retaining every decoded AudioBuffer if more presets are added later.
+const MAX_BUFFER_CACHE_ENTRIES = 8
 const cache = new Map<string, AudioBuffer>()
-const loadBuffer = async(name: string) => new Promise<AudioBuffer>((resolve, reject) => {
+const pending = new Map<string, Promise<AudioBuffer>>()
+const loadBuffer = async(name: string): Promise<AudioBuffer> => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const path = require('@renderer/assets/medias/filters/' + name) as string
-  if (cache.has(path)) {
-    resolve(cache.get(path)!)
-    return
+  const cached = cache.get(path)
+  if (cached) {
+    // Refresh the recency order for the bounded cache.
+    cache.delete(path)
+    cache.set(path, cached)
+    return Promise.resolve(cached)
   }
-  // Load buffer asynchronously
-  let request = new XMLHttpRequest()
-  request.open('GET', path, true)
-  request.responseType = 'arraybuffer'
+  const inFlight = pending.get(path)
+  if (inFlight) return inFlight
 
-  request.onload = function() {
-    // Asynchronously decode the audio file data in request.response
-    void getAudioContext().decodeAudioData(request.response, (buffer) => {
-      if (!buffer) {
-        reject(new Error('error decoding file data: ' + path))
-        return
-      }
-      cache.set(path, buffer)
-      resolve(buffer)
-    },
-    function(error) {
-      reject(error)
-      console.error('decodeAudioData error', error)
-    })
+  const promise = new Promise<AudioBuffer>((resolve, reject) => {
+    // Load buffer asynchronously
+    const request = new XMLHttpRequest()
+    request.open('GET', path, true)
+    request.responseType = 'arraybuffer'
+
+    request.onload = function() {
+      // Asynchronously decode the audio file data in request.response
+      void getAudioContext().decodeAudioData(request.response, (buffer) => {
+        if (!buffer) {
+          reject(new Error('error decoding file data: ' + path))
+          return
+        }
+        if (!cache.has(path) && cache.size >= MAX_BUFFER_CACHE_ENTRIES) {
+          const oldest = cache.keys().next().value
+          if (typeof oldest === 'string') cache.delete(oldest)
+        }
+        cache.set(path, buffer)
+        resolve(buffer)
+      },
+      function(error) {
+        reject(error)
+        console.error('decodeAudioData error', error)
+      })
+    }
+
+    request.onerror = function() {
+      reject(new Error('XHR error'))
+    }
+
+    request.send()
+  })
+  pending.set(path, promise)
+  const clearPending = () => {
+    if (pending.get(path) === promise) pending.delete(path)
   }
-
-  request.onerror = function() {
-    reject(new Error('XHR error'))
-  }
-
-  request.send()
-})
+  // Keep the cleanup branch handled so a failed optional effect does not
+  // create a second unhandled rejection while callers decide how to report it.
+  void promise.then(clearPending, clearPending)
+  return promise
+}
 
 export default () => {
   // console.log(appSetting['player.soundEffect.panner.enable'])

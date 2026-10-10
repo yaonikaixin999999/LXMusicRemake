@@ -27,6 +27,10 @@ const initAudio = () => {
 }
 const checkMusicUrl = async(url: string): Promise<boolean> => {
   initAudio()
+  // A failed resolver can return an empty URL. Avoid attaching listeners to
+  // the singleton probe in that case, because no media event would resolve
+  // the promise and the preload state would remain stuck forever.
+  if (!url) return false
   return new Promise((resolve) => {
     const release = () => {
       if (!audio) return
@@ -74,21 +78,28 @@ const preloadNextMusicUrl = async(curTime: number) => {
   if (preloadMusicInfo.isLoading || curTime - preloadMusicInfo.preProgress < 3) return
   preloadMusicInfo.isLoading = true
   console.log('preload next music url')
-  const info = await getNextPlayMusicInfo()
-  if (info) {
-    preloadMusicInfo.info = info
-    const url = await getMusicUrl({ musicInfo: info.musicInfo }).catch(() => '')
-    if (url) {
-      console.log('preload url', url)
-      const result = await checkMusicUrl(url)
-      if (!result) {
-        const url = await getMusicUrl({ musicInfo: info.musicInfo, isRefresh: true }).catch(() => '')
-        await checkMusicUrl(url)
-        console.log('preload url refresh', url)
+  try {
+    const info = await getNextPlayMusicInfo()
+    if (info) {
+      preloadMusicInfo.info = info
+      const url = await getMusicUrl({ musicInfo: info.musicInfo }).catch(() => '')
+      if (url) {
+        console.log('preload url', url)
+        const result = await checkMusicUrl(url)
+        if (!result) {
+          const refreshUrl = await getMusicUrl({ musicInfo: info.musicInfo, isRefresh: true }).catch(() => '')
+          await checkMusicUrl(refreshUrl)
+          console.log('preload url refresh', refreshUrl)
+        }
       }
     }
+  } catch (error) {
+    // Preloading is opportunistic. Keep playback responsive and allow the
+    // next progress window to retry after a transient resolver failure.
+    console.warn('preload next music failed', error)
+  } finally {
+    preloadMusicInfo.isLoading = false
   }
-  preloadMusicInfo.isLoading = false
 }
 
 export default () => {

@@ -76,6 +76,9 @@ export default {
     // https://developer.mozilla.org/zh-CN/docs/Web/API/AnalyserNode/smoothingTimeConstant
     const renderFrame = (dataArray) => {
       x = 0
+      // Reset the accumulator for each transferred analyser frame; otherwise
+      // it grows forever and drives the canvas calculations toward Infinity.
+      frequencyAvg = 0
 
       // console.log(dataArray)
       // analyser.getByteFrequencyData(dataArray)
