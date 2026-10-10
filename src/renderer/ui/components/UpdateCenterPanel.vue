@@ -6,7 +6,7 @@
       <div class="linkline-update-actions"><button type="button" class="linkline-update-button" :class="{ primary: !installer }" :disabled="updateChecking" @click="checkAppUpdate(true)"><UiIcon :name="updateChecking ? 'refresh' : 'cloudDownload'" :class="{ spinning: updateChecking }" />{{ updateChecking ? '正在检查…' : updateResult?.status === 'error' ? '重试检查' : '检查更新' }}</button><button v-if="installer" type="button" class="linkline-update-button primary linkline-update-download" @click="downloadInstaller"><UiIcon name="download" />下载 Windows x64 安装包</button><button v-if="hasBackupDownload" type="button" class="linkline-update-button linkline-update-download-backup" @click="downloadBackup"><UiIcon name="download" />国内备用下载</button><button type="button" class="linkline-update-button" @click="openOfficialPage"><UiIcon name="arrowUpRight" />打开官方下载页</button></div>
       <p v-if="installer" class="linkline-update-download-details">{{ installerLabel }} · {{ downloadSourceLabel }}</p>
       <details v-if="installerChecksum" class="linkline-update-checksum"><summary>查看 SHA-256 校验值<UiIcon name="chevronDown" /></summary><code>{{ installerChecksum }}</code></details>
-      <p v-else-if="successfulResult && latestRelease" class="linkline-update-note">此版本未提供 Windows x64 安装包，可在官方下载页查看其他文件。</p>
+      <p v-if="successfulResult && latestRelease && !installer" class="linkline-update-note">此版本未提供 Windows x64 安装包，可在官方下载页查看其他文件。</p>
       <p class="linkline-update-time">{{ checkedAt ? `最后检查：${checkedAt}` : '尚未完成更新检查' }}</p>
     </article>
 

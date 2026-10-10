@@ -10,16 +10,18 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 [项目源码](https://github.com/yaonikaixin999999/LXMusicRemake) · [下载与版本记录](https://github.com/yaonikaixin999999/LXMusicRemake/releases) · [完整功能与使用说明](docs/项目说明.md) · [反馈问题](https://github.com/yaonikaixin999999/LXMusicRemake/issues)
 
+当前推荐下载 1.0.1 修正版。版本说明：[1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
+
 ## 下载与安装
 
-**1.0.0 发行版：Windows 10 / 11，64 位（x64）。**
+**1.0.1 发行版：Windows 10 / 11，64 位（x64）。**
 
 | 下载入口 | 链接 |
 | --- | --- |
-| GitHub 官方安装包 | [LinkLine-v1.0.0-x64-Setup.exe](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe) |
-| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe) |
-| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe) |
-| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/SHA256SUMS.txt) |
+| GitHub 官方安装包 | [LinkLine-v1.0.1-x64-Setup.exe](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/SHA256SUMS.txt) |
 | 所有正式版本 | [GitHub Releases](https://github.com/yaonikaixin999999/LXMusicRemake/releases) |
 
 下载后运行安装程序，按提示安装并启动 LinkLine。国内加速入口由第三方提供，用于转发本仓库的官方文件；可用性取决于服务和网络，不能保证所有地区都能访问。无法连接时可切换备用入口或 GitHub 官方源。
@@ -73,7 +75,7 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 发布清单提供安装包校验信息时，可在更新中心展开「查看 SHA-256 校验值」，与下载文件的 SHA-256 比较，确认文件完整。
 
-1.0.0 的更新方式为下载完整安装包后手动运行安装，不在后台自动覆盖软件。升级前可在「备份与数据」导出资料；安装新版前先从托盘退出正在运行的旧版。
+1.0.1 的更新方式为下载完整安装包后手动运行安装，不在后台自动覆盖软件。升级前可在「备份与数据」导出资料；安装新版前先从托盘退出正在运行的旧版。
 
 ## 数据与备份
 
@@ -126,9 +128,9 @@ npm run release:prepare
 1. 将 `package.json` 与依赖锁文件的版本更新为更高的正式版本，并编写对应的 `docs/releases/v<版本>.md`。
 2. 完成测试和生产构建，生成 Windows x64 安装包，再运行 `npm run release:prepare`。
 3. 检查生成的安装包名称、下载地址、体积和 SHA-256；更新清单会保留最多 20 条不同版本的历史记录。
-4. 提交源代码、说明和 `updates/stable.json` 到本仓库，创建对应 `v<版本>` 标签。
+4. 提交源代码和发行说明到本仓库，创建并推送对应 `v<版本>` 标签；新更新清单暂不推送。
 5. 在自己的 GitHub 仓库创建同标签的正式 Release，填写发布说明，上传安装包和 `SHA256SUMS.txt`，再发布。
-6. 验证官方与加速下载文件，以及应用内国内 / 官方更新源的检查结果。
+6. 正式发布后再提交并推送 `updates/stable.json`，验证官方与加速下载文件，以及应用内国内 / 官方更新源的检查结果。
 
 客户端只从本仓库识别正式更新；不要将草稿、预发布或未经构建的文件写入正式更新清单。
 

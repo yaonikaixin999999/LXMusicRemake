@@ -1,6 +1,6 @@
 {
   "name": "linkline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LinkLine — 多平台音乐桌面客户端，基于 LXMusic 开源项目再开发",
   "main": "./dist/main.js",
   "scripts": {
@@ -103,7 +103,12 @@
     "name": "yaonikaixin999999",
     "email": "154858262+yaonikaixin999999@users.noreply.github.com"
   },
-  "contributors": [{ "name": "lyswhut", "url": "https://github.com/lyswhut" }],
+  "contributors": [
+    {
+      "name": "lyswhut",
+      "url": "https://github.com/lyswhut"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/yaonikaixin999999/LXMusicRemake/issues"

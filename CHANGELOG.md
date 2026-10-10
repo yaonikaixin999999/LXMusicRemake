@@ -2,6 +2,14 @@
 
 本文件记录 LinkLine 的正式版本变化。完整发行说明见 [docs/releases/](docs/releases/)，下载文件见[本项目 Releases](https://github.com/yaonikaixin999999/LXMusicRemake/releases)。
 
+## [1.0.1](https://github.com/yaonikaixin999999/LXMusicRemake/releases/tag/v1.0.1) — 2026-10-10
+
+- 修复官方备用更新源已返回安装包、但未提供 SHA-256 时，更新中心错误显示「未提供安装包」的问题。
+- 下载入口按实际安装包是否存在展示；校验值缺失只影响校验信息显示。
+- 保留 1.0.0 首版与原发布文件，1.0.1 作为独立修正版发布。
+
+[阅读 1.0.1 发行说明](docs/releases/v1.0.1.md)
+
 ## [1.0.0](https://github.com/yaonikaixin999999/LXMusicRemake/releases/tag/v1.0.0) — 2026-10-10
 
 首次正式发布，提供 Windows 10 / 11 x64 安装包。
