@@ -89,7 +89,7 @@ const hints: Partial<Record<SettingKey, string>> = {
   'desktopLyric.x': '留空时由应用自动定位；支持负坐标。',
   'desktopLyric.y': '留空时由应用自动定位；支持负坐标。',
   'player.mediaDeviceId': '开启高级音效后，音频输出固定为系统默认设备。',
-  'player.playQuality': '与播放栏共享同一音质偏好，修改后会切换当前歌曲并保留进度。实际音质由平台、账号权限与歌曲版权决定。',
+  'player.playQuality': '默认使用账号最高音质，按平台、账号权限与歌曲版权自动选择。与播放栏共享同一偏好，修改后会切换当前歌曲并保留进度。',
   'player.soundEffect.convolution.mainGain': '数值 10 表示原声增益 100%。',
   'player.soundEffect.convolution.sendGain': '数值 10 表示环境音增益 100%。',
   'player.waitPlayEndStopTime': '以分钟计，例如 30；点击启动定时按钮开始倒计时。',

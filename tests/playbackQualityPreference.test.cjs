@@ -33,7 +33,7 @@ function fixture({ legacy, persisted = '192k', saveError } = {}) {
   const storage = new Map(legacy === undefined ? [] : [['linkline.playback-quality.v1', legacy]])
   const saves = [], requests = []
   const window = { lxData: {} }
-  let failSave = saveError
+  const failSave = saveError
   let settings
   const ipc = { updateSetting: async(patch) => {
     structuredClone(patch)
@@ -76,39 +76,44 @@ function fixture({ legacy, persisted = '192k', saveError } = {}) {
   }, {
     defineProps: () => props, crypto: { randomUUID: () => 'fixture' }, document: { removeEventListener() {} }, window: { removeEventListener() {} },
   }, `${componentSource}\nmodule.exports = { choose, changing, error, options };`)
-  return { disk, storage, saves, requests, settings, service, useSettings, quality, allowSave: () => { failSave = null } }
+  return { disk, storage, saves, requests, settings, service, useSettings, quality }
 }
 
-test('legacy playback-bar quality migrates ahead of old settings once and survives without localStorage', async() => {
-  const state = fixture({ legacy: 'flac', persisted: '192k' })
-  await state.settings.initSetting(state.disk)
-  assert.equal(state.service.preferredQuality.value, 'flac')
-  assert.deepEqual(state.saves, [{ 'player.playQuality': 'flac' }])
-  assert.equal(state.storage.has('linkline.playback-quality.v1'), false)
-  const restarted = fixture({ persisted: state.disk['player.playQuality'] })
-  await restarted.settings.initSetting(restarted.disk)
-  assert.equal(restarted.service.preferredQuality.value, 'flac')
-  assert.equal(restarted.saves.length, 0)
+test('default requests account-highest quality and obsolete playback-bar values cannot replace it', async() => {
+  assert.equal(defaults['player.playQuality'], 'auto')
+  for (const legacy of [undefined, '128k', 'flac', 'jymaster', 'constructor', 'unavailable']) {
+    const state = fixture({ legacy, persisted: defaults['player.playQuality'] })
+    state.settings.initSetting(state.disk)
+    assert.equal(state.service.preferredQuality.value, 'auto')
+    await state.service.resolvePlatformStream(track, false, true)
+    assert.equal(state.requests.at(-1).payload.quality, 'auto')
+    assert.equal(state.disk['player.playQuality'], 'auto')
+    assert.equal(state.saves.length, 0)
+    assert.equal(state.storage.size, 0)
+  }
 })
 
-test('failed migration retains the legacy value for a safe retry', async() => {
-  const state = fixture({ legacy: 'jymaster', saveError: new Error('Disk unavailable') })
-  await state.settings.initSetting(state.disk)
-  assert.equal(state.service.preferredQuality.value, 'jymaster')
-  assert.equal(state.disk['player.playQuality'], '192k')
-  assert.equal(state.storage.get('linkline.playback-quality.v1'), 'jymaster')
-  state.allowSave()
-  await state.settings.initSetting(state.disk)
-  assert.equal(state.disk['player.playQuality'], 'jymaster')
-  assert.equal(state.storage.has('linkline.playback-quality.v1'), false)
-})
-
-test('no legacy preference preserves old settings and invalid legacy values do not override them', async() => {
-  for (const legacy of [undefined, 'constructor', 'unavailable']) {
+test('obsolete playback-bar cleanup preserves subsequent manual settings across restart', async() => {
+  for (const legacy of [undefined, 'auto', '128k', 'flac', 'constructor', 'unavailable']) {
     const state = fixture({ legacy, persisted: 'ape' })
-    await state.settings.initSetting(state.disk)
+    state.settings.initSetting(state.disk)
     assert.equal(state.service.preferredQuality.value, 'ape')
     assert.equal(state.saves.length, 0)
+    assert.equal(state.storage.size, 0)
+    const restarted = fixture({ persisted: state.disk['player.playQuality'] })
+    restarted.settings.initSetting(restarted.disk)
+    assert.equal(restarted.service.preferredQuality.value, 'ape')
+  }
+})
+
+test('missing or invalid persisted quality uses the account-highest default', async() => {
+  for (const persisted of [undefined, 'constructor', 'unavailable']) {
+    const state = fixture({ persisted, legacy: '128k' })
+    if (persisted === undefined) delete state.disk['player.playQuality']
+    state.settings.initSetting(state.disk)
+    assert.equal(state.service.preferredQuality.value, 'auto')
+    await state.service.resolvePlatformStream(track, false, true)
+    assert.equal(state.requests.at(-1).payload.quality, 'auto')
     assert.equal(state.storage.size, 0)
   }
 })

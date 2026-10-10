@@ -10,22 +10,11 @@ export const isShowAnimation = computed(() => {
 })
 
 
-export const initSetting = async(newSetting: LX.AppSetting) => {
+export const initSetting = (newSetting: LX.AppSetting) => {
   mergeSetting(newSetting)
-  // Migrate the playback bar's former preference once. It controlled actual
-  // playback, so it takes precedence over the old, disconnected settings field.
-  const legacyKey = 'linkline.playback-quality.v1'
-  const legacyPreference = localStorage.getItem(legacyKey)
-  if (!legacyPreference) return
-  if (!isPlatformQuality(legacyPreference)) { localStorage.removeItem(legacyKey); return }
-  mergeSetting({ 'player.playQuality': legacyPreference })
-  try {
-    await saveSetting({ 'player.playQuality': legacyPreference })
-    localStorage.removeItem(legacyKey)
-  } catch (error) {
-    // Keep the old value until it is safely saved, then retry migration next boot.
-    console.warn('Unable to migrate playback quality preference', error)
-  }
+  // The shared setting is authoritative. An obsolete playback-bar cache must
+  // not replace the account-highest default or a later manual selection.
+  localStorage.removeItem('linkline.playback-quality.v1')
 }
 
 export const mergeSetting = (newSetting: Partial<LX.AppSetting>) => {

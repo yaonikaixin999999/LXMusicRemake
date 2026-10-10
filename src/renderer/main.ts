@@ -66,7 +66,7 @@ void getSetting().then(async(setting) => {
   }
 
   // store.commit('setSetting', setting)
-  await initSetting(setting)
+  initSetting(setting)
 
   const app = createApp(App)
   app

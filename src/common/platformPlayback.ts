@@ -1,7 +1,7 @@
 export type PlatformQuality = LX.Quality | 'auto' | '64k' | 'dolby' | 'jyeffect' | 'sky' | 'jymaster'
 
 export const qualityLabels: Record<PlatformQuality, string> = {
-  auto: '最高可用音质',
+  auto: '账号最高音质',
   '64k': '基础 · 64K',
   dolby: '杜比音频',
   '128k': '标准 · 128K',

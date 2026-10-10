@@ -7,7 +7,7 @@
         <p v-if="stream" class="ui-quality-current" role="status">实际播放 · {{ qualityLabels[stream.quality ?? stream.type] }}<small v-if="streamDetails">{{ streamDetails }}</small></p>
         <p v-else class="ui-quality-current">{{ streamSummary }}</p>
         <div class="ui-quality-options" role="radiogroup" aria-label="选择播放音质">
-          <button v-for="quality in options" :key="quality" type="button" role="radio" :aria-checked="preferredQuality === quality" :data-quality="quality" :disabled="changing" :class="{ selected: preferredQuality === quality }" @click="choose(quality)"><span>{{ qualityLabels[quality] }}<small v-if="quality === 'auto'">自动选择账号与歌曲允许的最高音质</small></span><UiIcon v-if="preferredQuality === quality" name="check" /></button>
+          <button v-for="quality in options" :key="quality" type="button" role="radio" :aria-checked="preferredQuality === quality" :data-quality="quality" :disabled="changing" :class="{ selected: preferredQuality === quality }" @click="choose(quality)"><span>{{ qualityLabels[quality] }}<small v-if="quality === 'auto'">默认 · 自动选择账号与歌曲允许的最高音质</small></span><UiIcon v-if="preferredQuality === quality" name="check" /></button>
         </div>
         <p v-if="loading || changing" class="ui-quality-note" role="status">{{ changing ? '正在切换，保留当前播放进度…' : '正在查询这首歌的可用音质…' }}</p>
         <p v-if="error" class="ui-quality-error" role="status">{{ error }}</p>
