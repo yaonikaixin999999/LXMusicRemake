@@ -8,7 +8,7 @@
 
 LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新的界面采用圆角浮动面板、侧栏导航和长进度条播放器，支持浅色、深色与跟随系统主题。连接平台账号后，可以汇总红心歌曲与平台创建的歌单，也可以管理和播放本地音乐。
 
-[项目源码](https://github.com/yaonikaixin999999/LXMusicRemake) · [下载与版本记录](https://github.com/yaonikaixin999999/LXMusicRemake/releases) · [完整功能与使用说明](docs/项目说明.md) · [反馈问题](https://github.com/yaonikaixin999999/LXMusicRemake/issues)
+[项目源码](https://github.com/yaonikaixin999999/LinkLine) · [下载与版本记录](https://github.com/yaonikaixin999999/LinkLine/releases) · [完整功能与使用说明](docs/项目说明.md) · [反馈问题](https://github.com/yaonikaixin999999/LinkLine/issues)
 
 当前推荐下载 1.0.1 修正版。版本说明：[1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
 
@@ -18,11 +18,11 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 | 下载入口 | 链接 |
 | --- | --- |
-| GitHub 官方安装包 | [LinkLine-v1.0.1-x64-Setup.exe](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.1/SHA256SUMS.txt) |
-| 所有正式版本 | [GitHub Releases](https://github.com/yaonikaixin999999/LXMusicRemake/releases) |
+| GitHub 官方安装包 | [LinkLine-v1.0.1-x64-Setup.exe](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
+| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/SHA256SUMS.txt) |
+| 所有正式版本 | [GitHub Releases](https://github.com/yaonikaixin999999/LinkLine/releases) |
 
 下载后运行安装程序，按提示安装并启动 LinkLine。国内加速入口由第三方提供，用于转发本仓库的官方文件；可用性取决于服务和网络，不能保证所有地区都能访问。无法连接时可切换备用入口或 GitHub 官方源。
 
@@ -71,7 +71,9 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 每次启动会静默检查本项目的正式版本。点击顶部云下载图标，或打开「设置与偏好 → 检查更新」，可查看当前版本、最新版本、更新时间、发布说明和历史版本，并选择下载入口。
 
-国内检查源读取本仓库的 [`updates/stable.json`](updates/stable.json)，通过 gh-proxy.com 加速；失败后尝试 ghfast.top，再回退 GitHub 官方。国内下载使用同样的第三方加速入口。可切换到官方源，网络异常时可重试。
+国内检查源读取本仓库的 [`updates/stable-linkline.json`](updates/stable-linkline.json)，通过 gh-proxy.com 加速；失败后尝试 ghfast.top，再回退 GitHub 官方。国内下载使用同样的第三方加速入口。可切换到官方源，网络异常时可重试。
+
+仓库改名后，已发布的 1.0.0 / 1.0.1 仍读取兼容清单 `updates/stable.json`；旧仓库地址由 GitHub 重定向。发布脚本同时生成两份清单，后续发布时一起提交，保证旧版国内更新入口继续可用。
 
 发布清单提供安装包校验信息时，可在更新中心展开「查看 SHA-256 校验值」，与下载文件的 SHA-256 比较，确认文件完整。
 
@@ -119,7 +121,7 @@ npm run pack:win:setup:x64
 npm run release:prepare
 ```
 
-该命令读取实际安装包和 `docs/releases/v<版本>.md`，生成 `updates/stable.json` 及 `build/SHA256SUMS.txt`；不会上传、发布或运行安装程序。
+该命令读取实际安装包和 `docs/releases/v<版本>.md`，生成 `updates/stable-linkline.json`、旧版兼容清单 `updates/stable.json` 及 `build/SHA256SUMS.txt`；不会上传、发布或运行安装程序。
 
 主要目录：`src/renderer/ui/` 为主界面，`src/renderer-lyric/ui/` 为桌面歌词，`src/main/` 为 Electron 与平台服务，`src/common/` 为共享类型和配置，`tests/` 为回归测试，`build-config/` 为构建与打包配置。
 
@@ -130,7 +132,7 @@ npm run release:prepare
 3. 检查生成的安装包名称、下载地址、体积和 SHA-256；更新清单会保留最多 20 条不同版本的历史记录。
 4. 提交源代码和发行说明到本仓库，创建并推送对应 `v<版本>` 标签；新更新清单暂不推送。
 5. 在自己的 GitHub 仓库创建同标签的正式 Release，填写发布说明，上传安装包和 `SHA256SUMS.txt`，再发布。
-6. 正式发布后再提交并推送 `updates/stable.json`，验证官方与加速下载文件，以及应用内国内 / 官方更新源的检查结果。
+6. 正式发布后再提交并推送 `updates/stable-linkline.json` 和 `updates/stable.json`，验证官方与加速下载文件，以及应用内国内 / 官方更新源的检查结果。
 
 客户端只从本仓库识别正式更新；不要将草稿、预发布或未经构建的文件写入正式更新清单。
 

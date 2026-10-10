@@ -27,7 +27,7 @@ const release = (tag, patch = {}) => ({
 })
 const feed = entries => `<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom"><id>${common.LINKLINE_RELEASES_URL}</id>${entries.join('')}</feed>`
 const entry = (tag, patch = '') => `<entry><title>LinkLine ${tag}</title><updated>2026-10-10T00:00:00Z</updated><link href="${page(tag)}" rel="alternate"/><content type="html">&lt;p&gt;New &amp;amp; improved&lt;/p&gt;</content>${patch}</entry>`
-const officialHtml = badge => `<html><head><title>Release LinkLine v1.1.0 · yaonikaixin999999/LXMusicRemake · GitHub</title></head><body>${badge || ''}</body></html>`
+const officialHtml = badge => `<html><head><title>Release LinkLine v1.1.0 · yaonikaixin999999/LinkLine · GitHub</title></head><body>${badge || ''}</body></html>`
 function deferred() {
   let resolve
   const promise = new Promise(yes => { resolve = yes })
@@ -267,7 +267,7 @@ test('source switching isolates caches and in-flight requests so official result
 
 test('official Atom fallback discovers packaged installers through GitHub expanded-assets HTML', async() => {
   const foreign = 'https://github.com/another/repo/releases/download/v1.1.0/another.exe'
-  const html = `<a href="${installerUrl.replace('https://github.com', '')}"><span>Installer</span></a><a href="${foreign}">Bad</a><a href="/yaonikaixin999999/LXMusicRemake/archive/refs/tags/v1.1.0.zip">Sources</a><a href="${installerUrl}">Duplicate</a>`
+  const html = `<a href="${installerUrl.replace('https://github.com', '')}"><span>Installer</span></a><a href="${foreign}">Bad</a><a href="/yaonikaixin999999/LinkLine/archive/refs/tags/v1.1.0.zip">Sources</a><a href="${installerUrl}">Duplicate</a>`
   const result = await checker.createUpdateChecker('1.0.0', async url => {
     if (url === checker.RELEASES_API_URL) throw new Error('API limited')
     if (url === checker.RELEASES_FEED_URL) return feed([entry('v1.1.0')])

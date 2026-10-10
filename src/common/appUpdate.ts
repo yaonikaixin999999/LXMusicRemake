@@ -1,7 +1,7 @@
-export const LINKLINE_REPOSITORY = 'https://github.com/yaonikaixin999999/LXMusicRemake'
+export const LINKLINE_REPOSITORY = 'https://github.com/yaonikaixin999999/LinkLine'
 export const LINKLINE_RELEASES_URL = `${LINKLINE_REPOSITORY}/releases`
 export const LINKLINE_UPDATE_CHECK = 'linkline_update_check'
-export const LINKLINE_UPDATE_MANIFEST = 'https://raw.githubusercontent.com/yaonikaixin999999/LXMusicRemake/main/updates/stable.json'
+export const LINKLINE_UPDATE_MANIFEST = 'https://raw.githubusercontent.com/yaonikaixin999999/LinkLine/main/updates/stable-linkline.json'
 export const LINKLINE_DOWNLOAD_MIRROR = 'https://gh-proxy.com/'
 export const LINKLINE_BACKUP_MIRROR = 'https://ghfast.top/'
 
@@ -18,7 +18,7 @@ export const releaseAssetDownloadUrl = (value: unknown, source: UpdateSource): s
   if (typeof value !== 'string') return null
   try {
     const url = new URL(value)
-    if (url.origin !== 'https://github.com' || url.username || url.password || url.search || url.hash || !/^\/yaonikaixin999999\/LXMusicRemake\/releases\/download\/[^/]+\/[^/]+$/.test(url.pathname)) return null
+    if (url.origin !== 'https://github.com' || url.username || url.password || url.search || url.hash || !/^\/yaonikaixin999999\/LinkLine\/releases\/download\/[^/]+\/[^/]+$/.test(url.pathname)) return null
     return source === 'mirror' ? `${LINKLINE_DOWNLOAD_MIRROR}${url.href}` : url.href
   } catch { return null }
 }

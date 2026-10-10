@@ -13,4 +13,4 @@
 | 如何备份、换电脑或找回测试版数据？ | [数据存储、备份与迁移](docs/项目说明.md#数据存储备份与迁移) |
 | 国内更新或安装包下载无法连接？ | [更新中心、备用加速与官方源](docs/项目说明.md#更新中心与国内下载) |
 
-仍然无法解决时，请在[本项目 Issues](https://github.com/yaonikaixin999999/LXMusicRemake/issues)提供应用版本、操作步骤和错误信息。不要公开上传账号 Cookie 或包含个人登录状态的数据目录。
+仍然无法解决时，请在[本项目 Issues](https://github.com/yaonikaixin999999/LinkLine/issues)提供应用版本、操作步骤和错误信息。不要公开上传账号 Cookie 或包含个人登录状态的数据目录。

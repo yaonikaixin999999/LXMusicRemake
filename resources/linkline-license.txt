@@ -14,4 +14,4 @@ LinkLine 是一款独立音乐客户端，基于 LXMusic 开源项目再开发�
 
 本软件按 Apache License 2.0 及随附的原始许可声明发行。原始 LICENSE、NOTICE 和第三方许可随软件提供。
 
-项目源码：https://github.com/yaonikaixin999999/LXMusicRemake
+项目源码：https://github.com/yaonikaixin999999/LinkLine
