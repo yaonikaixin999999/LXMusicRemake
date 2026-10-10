@@ -3,6 +3,21 @@
   "repository": "https://github.com/yaonikaixin999999/LinkLine",
   "releases": [
     {
+      "version": "1.0.2",
+      "name": "LinkLine 1.0.2",
+      "body": "# LinkLine 1.0.2\n\n修复 Windows 安装许可正文的中文乱码，并适配更名后的 LinkLine GitHub 仓库。提供 Windows 10 / 11 x64 安装包；1.0.0 和 1.0.1 的发布记录与文件继续保留。\n\n## 修复与调整\n\n- 为安装程序使用的许可文本明确标识 UTF-8 编码，修复中文正文显示乱码的问题。\n- 仓库正式更名为 [`yaonikaixin999999/LinkLine`](https://github.com/yaonikaixin999999/LinkLine)，同步关于页、项目链接、官方检查更新及下载地址。\n- GitHub 官方源在 API 限流、Atom 订阅不可用时，回退读取本仓库的官方发布清单；仍使用官方安装包下载地址，并校验仓库及版本身份。\n- 国内更新采用 `updates/stable-linkline.json`，同时维护旧版兼容清单 `updates/stable.json`，供已发布的 1.0.0 / 1.0.1 国内更新入口使用。\n\n完整功能和平台支持范围见[项目说明与使用手册](https://github.com/yaonikaixin999999/LinkLine/blob/main/docs/项目说明.md)。\n\n## 下载与升级\n\n- 安装包：`LinkLine-v1.0.2-x64-Setup.exe`。\n- [GitHub 官方下载](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe)。\n- [国内加速下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe)。\n- [国内备用下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe)。\n- [SHA-256 校验文件](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/SHA256SUMS.txt)。\n\n旧版 1.0.0 / 1.0.1 的官方检查可能无法识别仓库改名后的地址，可切换「国内加速（第三方）」检查更新，或直接使用上方链接下载 1.0.2。\n\n从托盘退出正在运行的旧版后，运行完整安装包升级。国内加速由第三方代理提供，可切换官方或备用入口；软件不会在后台自动安装。\n\nLinkLine 基于 LXMusic 开源项目再开发，保留原作者版权与第三方许可，遵循 [Apache-2.0](https://github.com/yaonikaixin999999/LinkLine/blob/main/LICENSE)。\n",
+      "publishedAt": "2026-10-10T06:25:09.141Z",
+      "pageUrl": "https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.2",
+      "assets": [
+        {
+          "name": "LinkLine-v1.0.2-x64-Setup.exe",
+          "url": "https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe",
+          "size": 121058993,
+          "sha256": "5821c8986d097ff6d5db639479220fadeec8bca17507472173c3361e6b95114f"
+        }
+      ]
+    },
+    {
       "version": "1.0.1",
       "name": "LinkLine 1.0.1",
       "body": "# LinkLine 1.0.1\n\n1.0 系列的界面修正版，提供 Windows 10 / 11 x64 安装包。1.0.0 首版及其发布文件继续保留。\n\n## 修复\n\n修复官方备用更新源返回安装包、但未提供 SHA-256 校验值时，更新中心错误提示「此版本未提供 Windows x64 安装包」的问题。\n\n安装包下载入口按照实际文件是否存在展示；缺少校验值仅影响校验信息显示，不再与安装包缺失混淆。\n\n## 下载与升级\n\n- 安装包：`LinkLine-v1.0.1-x64-Setup.exe`。\n- [GitHub 官方下载](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe)。\n- [国内加速下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe)。\n- [国内备用下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe)。\n- [SHA-256 校验文件](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/SHA256SUMS.txt)。\n\n从托盘退出正在运行的旧版后，运行完整安装包升级。国内加速由第三方代理提供，可切换官方或备用入口；软件不会在后台自动安装。\n\n完整功能与操作：[项目说明与使用手册](https://github.com/yaonikaixin999999/LinkLine/blob/main/docs/项目说明.md)。首版功能记录：[1.0.0 发行说明](https://github.com/yaonikaixin999999/LinkLine/blob/main/docs/releases/v1.0.0.md)。\n\nLinkLine 基于 LXMusic 开源项目再开发，保留原作者版权与第三方许可，遵循 [Apache-2.0](https://github.com/yaonikaixin999999/LinkLine/blob/main/LICENSE)。\n",
