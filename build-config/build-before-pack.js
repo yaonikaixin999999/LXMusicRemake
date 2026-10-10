@@ -4,6 +4,8 @@
 const { Arch } = require('electron-builder')
 // const nodeAbi = require('node-abi')
 const { beforePack, copyLib } = require('./deps')
+const { readFileSync } = require('node:fs')
+const path = require('node:path')
 
 // const better_sqlite3_fileNameMap = {
 //   [Arch.x64]: 'linux-x64',
@@ -31,6 +33,14 @@ const archMap = {
   [Arch.armv7l]: 'arm',
 }
 module.exports = async(context) => {
+  if (context.electronPlatformName === 'win32') {
+    // NSIS reads a custom license directly; an absent BOM corrupts Chinese text.
+    const license = readFileSync(path.join(__dirname, '../resources/linkline-license.txt'))
+    if (!license.subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf]))) {
+      throw new Error('The NSIS license must use UTF-8 with BOM.')
+    }
+    new TextDecoder('utf-8', { fatal: true }).decode(license)
+  }
   await beforePack()
   const { arch } = context
   const electronVersion = context.packager?.info?._framework?.version ?? require('../package.json').devDependencies.electron.replace(/^[^\d]*?(\d+)/, '$1')

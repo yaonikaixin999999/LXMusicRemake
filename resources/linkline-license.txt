@@ -1,4 +1,4 @@
-LinkLine 使用说明
+﻿LinkLine 使用说明
 
 LinkLine 是一款独立音乐客户端，基于 LXMusic 开源项目再开发。
 

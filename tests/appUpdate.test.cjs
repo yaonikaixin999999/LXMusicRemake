@@ -147,7 +147,7 @@ test('failed checks can retry immediately and invalid current version never cont
   assert.equal(failure.error, 'offline')
   networkWorks = true
   assert.equal((await check()).status, 'unpublished')
-  assert.equal(calls.length, 3)
+  assert.equal(calls.length, 4)
   const invalid = await checker.createUpdateChecker('development', async() => { throw new Error('must not fetch') })()
   assert.equal(invalid.status, 'error')
   assert.match(invalid.error, /当前版本号/)
@@ -184,6 +184,36 @@ const manifest = (patch = {}) => JSON.stringify({
   schemaVersion: 1, repository: common.LINKLINE_REPOSITORY,
   releases: [{ version: '1.1.0', name: 'LinkLine 1.1.0', body: 'New version', publishedAt: '2026-10-10T00:00:00Z', pageUrl: page('v1.1.0'), assets: [{ name: 'LinkLine-v1.1.0-x64-Setup.exe', url: installerUrl, size: 123, sha256: 'a'.repeat(64) }] }],
   ...patch,
+})
+
+test('official source uses its GitHub manifest when both rate-limited API and Atom fail', async() => {
+  const calls = []
+  const result = await checker.createUpdateChecker('1.0.0', async url => {
+    calls.push(url)
+    if (url === checker.RELEASES_API_URL) throw new Error('GitHub API limited')
+    if (url === checker.RELEASES_FEED_URL) return '<html>temporarily unavailable</html>'
+    assert.equal(url, common.LINKLINE_UPDATE_MANIFEST)
+    return manifest()
+  })({ source: 'github' })
+  assert.equal(result.status, 'available')
+  assert.equal(result.source, 'github')
+  assert.equal(result.requestedSource, 'github')
+  assert.equal(result.usedFallback, true)
+  assert.equal(result.sourceLabel, 'GitHub 官方（发布清单）')
+  assert.equal(result.latestRelease.assets[0].downloadUrl, installerUrl)
+  assert.equal(result.latestRelease.assets[0].sha256, 'a'.repeat(64))
+  assert.deepEqual(calls, [checker.RELEASES_API_URL, checker.RELEASES_FEED_URL, common.LINKLINE_UPDATE_MANIFEST])
+  assert.equal(calls.some(url => url.startsWith(common.LINKLINE_DOWNLOAD_MIRROR)), false)
+})
+
+test('official manifest fallback rejects a foreign repository instead of exposing its installer', async() => {
+  const result = await checker.createUpdateChecker('1.0.0', async url => {
+    if (url === common.LINKLINE_UPDATE_MANIFEST) return manifest({ repository: 'https://github.com/another/repo' })
+    throw new Error('official metadata unavailable')
+  })({ source: 'github' })
+  assert.equal(result.status, 'error')
+  assert.equal(result.latestRelease, null)
+  assert.match(result.error, /无效的 LinkLine 更新清单/)
 })
 
 test('domestic manifest validates own repository, versions, SHA256 and only own published assets', () => {

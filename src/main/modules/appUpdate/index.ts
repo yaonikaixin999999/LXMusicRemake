@@ -13,7 +13,7 @@ export const fetchUpdateText = async(url: string, signal?: AbortSignal): Promise
   if (signal?.aborted) controller.abort()
   const timer = setTimeout(() => { controller.abort() }, TIMEOUT)
   try {
-    const response = await net.fetch(url, { signal: controller.signal, headers: { 'User-Agent': 'LinkLine-Update-Check', Accept: url.includes('api.github.com') ? 'application/vnd.github+json' : 'application/atom+xml,text/html' } })
+    const response = await net.fetch(url, { signal: controller.signal, headers: { 'User-Agent': 'LinkLine-Update-Check', Accept: url.includes('api.github.com') ? 'application/vnd.github+json' : url.endsWith('.json') ? 'application/json' : 'application/atom+xml,text/html' } })
     if (!response.ok) {
       await response.body?.cancel()
       throw new Error(response.status === 403 || response.status === 429 ? 'GitHub 更新请求暂时受限，请稍后重试。' : `更新服务暂不可用（${response.status}），请稍后重试。`)

@@ -202,7 +202,14 @@ export const createUpdateChecker = (currentVersion: string, fetchText: (url: str
           history = parseApiReleases(await fetch(RELEASES_API_URL))
         } catch {
           if (controller.signal.aborted) throw new Error('检查更新超时，请检查网络后重试。')
-          history = await parseFeedReleases(await fetch(RELEASES_FEED_URL), fetch)
+          try {
+            history = await parseFeedReleases(await fetch(RELEASES_FEED_URL), fetch)
+          } catch {
+            if (controller.signal.aborted) throw new Error('检查更新超时，请检查网络后重试。')
+            history = parseUpdateManifest(await fetch(LINKLINE_UPDATE_MANIFEST))
+            sourceLabel = 'GitHub 官方（发布清单）'
+            usedFallback = true
+          }
         }
       }
       history = history.map(release => ({ ...release, assets: release.assets.map(asset => ({ ...asset, downloadUrl: releaseAssetDownloadUrl(asset.url, requestedSource)! })) }))

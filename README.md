@@ -10,18 +10,18 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 [项目源码](https://github.com/yaonikaixin999999/LinkLine) · [下载与版本记录](https://github.com/yaonikaixin999999/LinkLine/releases) · [完整功能与使用说明](docs/项目说明.md) · [反馈问题](https://github.com/yaonikaixin999999/LinkLine/issues)
 
-当前推荐下载 1.0.1 修正版。版本说明：[1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
+当前推荐下载 1.0.2 修正版，修复安装许可正文的中文乱码，并适配 LinkLine 新仓库地址。版本说明：[1.0.2](docs/releases/v1.0.2.md) · [1.0.1](docs/releases/v1.0.1.md) · [1.0.0 首版](docs/releases/v1.0.0.md)。
 
 ## 下载与安装
 
-**1.0.1 发行版：Windows 10 / 11，64 位（x64）。**
+**1.0.2 发行版：Windows 10 / 11，64 位（x64）。**
 
 | 下载入口 | 链接 |
 | --- | --- |
-| GitHub 官方安装包 | [LinkLine-v1.0.1-x64-Setup.exe](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/LinkLine-v1.0.1-x64-Setup.exe) |
-| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.1/SHA256SUMS.txt) |
+| GitHub 官方安装包 | [LinkLine-v1.0.2-x64-Setup.exe](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
+| 国内加速下载 | [通过 gh-proxy.com 下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
+| 国内备用入口 | [通过 ghfast.top 下载](https://ghfast.top/https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/LinkLine-v1.0.2-x64-Setup.exe) |
+| 文件校验 | [SHA256SUMS.txt](https://github.com/yaonikaixin999999/LinkLine/releases/download/v1.0.2/SHA256SUMS.txt) |
 | 所有正式版本 | [GitHub Releases](https://github.com/yaonikaixin999999/LinkLine/releases) |
 
 下载后运行安装程序，按提示安装并启动 LinkLine。国内加速入口由第三方提供，用于转发本仓库的官方文件；可用性取决于服务和网络，不能保证所有地区都能访问。无法连接时可切换备用入口或 GitHub 官方源。
@@ -73,11 +73,11 @@ LinkLine 是基于 LXMusic 开源项目再开发的桌面音乐应用。全新�
 
 国内检查源读取本仓库的 [`updates/stable-linkline.json`](updates/stable-linkline.json)，通过 gh-proxy.com 加速；失败后尝试 ghfast.top，再回退 GitHub 官方。国内下载使用同样的第三方加速入口。可切换到官方源，网络异常时可重试。
 
-仓库改名后，已发布的 1.0.0 / 1.0.1 仍读取兼容清单 `updates/stable.json`；旧仓库地址由 GitHub 重定向。发布脚本同时生成两份清单，后续发布时一起提交，保证旧版国内更新入口继续可用。
+仓库改名后，已发布的 1.0.0 / 1.0.1 仍读取兼容清单 `updates/stable.json`；旧仓库地址由 GitHub 重定向。发布脚本同时生成两份清单，后续发布时一起提交，保证旧版国内更新入口继续可用。旧版的官方更新检查可能无法识别改名后的地址，可使用国内更新源，或直接从上方下载 1.0.2 安装包升级。
 
 发布清单提供安装包校验信息时，可在更新中心展开「查看 SHA-256 校验值」，与下载文件的 SHA-256 比较，确认文件完整。
 
-1.0.1 的更新方式为下载完整安装包后手动运行安装，不在后台自动覆盖软件。升级前可在「备份与数据」导出资料；安装新版前先从托盘退出正在运行的旧版。
+1.0 系列的更新方式为下载完整安装包后手动运行安装，不在后台自动覆盖软件。升级前可在「备份与数据」导出资料；安装新版前先从托盘退出正在运行的旧版。
 
 ## 数据与备份
 

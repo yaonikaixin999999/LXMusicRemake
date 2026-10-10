@@ -2,6 +2,16 @@
 
 本文件记录 LinkLine 的正式版本变化。完整发行说明见 [docs/releases/](docs/releases/)，下载文件见[本项目 Releases](https://github.com/yaonikaixin999999/LinkLine/releases)。
 
+## [1.0.2](https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.2) — 2026-10-10
+
+- 官方检查更新在 API 与 Atom 不可用时读取 GitHub 官方发布清单，处理接口限流与无效订阅响应。
+- 修复 Windows 安装程序许可正文的中文乱码，为许可文本明确标识 UTF-8 编码。
+- GitHub 仓库更名为 `LinkLine`，同步项目链接、关于页及官方更新地址。
+- 国内更新使用新清单 `updates/stable-linkline.json`，同时维护 `updates/stable.json` 供 1.0.0 / 1.0.1 使用。
+- 旧版官方更新可能无法识别改名后的地址，可通过国内更新源或直接下载安装包升级。
+
+[阅读 1.0.2 发行说明](docs/releases/v1.0.2.md)
+
 ## [1.0.1](https://github.com/yaonikaixin999999/LinkLine/releases/tag/v1.0.1) — 2026-10-10
 
 - 修复官方备用更新源已返回安装包、但未提供 SHA-256 时，更新中心错误显示「未提供安装包」的问题。
