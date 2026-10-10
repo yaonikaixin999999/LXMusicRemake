@@ -262,15 +262,15 @@ async function importPlaylist() {
 </script>
 
 <style lang="less">
-.ui-library { height: 100%; display: flex; min-height: 0; color: var(--modern-text); }
-.ui-library-rail { width: 184px; flex: none; display: flex; flex-direction: column; border-right: 1px solid var(--modern-border); background: var(--modern-bg); }
+.ui-library { height: 100%; display: flex; min-height: 0; color: var(--modern-text); background: var(--modern-panel); }
+.ui-library-rail { width: 184px; flex: none; display: flex; flex-direction: column; border-right: 1px solid var(--modern-border); background: var(--modern-panel); }
 .ui-library-rail-heading { padding: 24px 16px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; button { display: grid; place-items: center; padding: 0; width: 25px; height: 25px; border: 0; border-radius: 7px; background: var(--modern-panel); color: var(--modern-muted); cursor: pointer; svg { width: 17px; height: 17px; } } }
 .ui-library-playlists { flex: 1; min-height: 0; padding: 0 8px; overflow-y: auto; button { width: 100%; padding: 11px 9px; display: flex; align-items: center; gap: 9px; border: 0; border-radius: var(--modern-radius-small); margin-bottom: 4px; background: transparent; color: var(--modern-muted); font-size: 12px; text-align: left; cursor: pointer; span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } &:hover { background: var(--modern-hover); color: var(--modern-text); } &.active { background: var(--modern-accent-soft); color: var(--modern-accent-ink); font-weight: 600; } } }
 .ui-library-list-icon { width: 19px; height: 19px; }
 .ui-library-list-cover { width: 25px; height: 25px; border-radius: 6px; flex: none; object-fit: cover; }
 .ui-library-list-label { min-width: 0; small { display: block; margin-top: 4px; font-size: 9px; font-weight: 400; opacity: .75; } }
 .ui-library-rail-bottom { border-top: 1px solid var(--modern-border); padding: 14px 13px; button { display: flex; align-items: center; gap: 7px; width: 100%; border: 0; padding: 7px 0; background: transparent; color: var(--modern-muted); cursor: pointer; font-size: 11px; text-align: left; svg { width: 15px; height: 15px; } &:hover { color: var(--modern-accent-ink); } &:disabled { opacity: .5; } } }
-.ui-library-main { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; padding: 28px 26px 0; }
+.ui-library-main { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; padding: 28px 26px 0; background: var(--modern-panel); }
 .ui-library-heading { display: flex; align-items: center; gap: 18px; flex: none; }
 .ui-library-cover { width: 74px; height: 74px; flex: none; border-radius: var(--modern-radius-small); overflow: hidden; display: grid; place-items: center; background: var(--modern-accent-soft); color: var(--modern-accent-ink); img { width: 100%; height: 100%; object-fit: cover; } svg { width: 35px; height: 35px; } &.love { background: rgba(183, 117, 127, .12); color: #b17b86; } }
 .ui-library-eyebrow { display: block; font-size: 9px; letter-spacing: 1.6px; color: var(--modern-muted); }
