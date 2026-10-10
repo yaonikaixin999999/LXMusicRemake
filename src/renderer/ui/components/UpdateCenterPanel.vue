@@ -48,6 +48,7 @@ const actualSourceLabel = computed(() => updateChecking.value ? '' : updateResul
 const fallbackMessage = computed(() => {
   const result = updateResult.value
   if (updateChecking.value || !result?.usedFallback) return ''
+  if (result.requestedSource === 'github') return 'GitHub 接口暂不可用，已通过官方发布清单检查。'
   if (result.status === 'error') return '所选加速源暂不可用，已尝试 GitHub 官方。请重试或切换更新源。'
   if (result.source === 'github') return '国内加速未响应，已通过 GitHub 官方检查；安装包仍使用所选国内加速。'
   return `主要加速源未响应，已通过 ${result.sourceLabel} 检查。`
