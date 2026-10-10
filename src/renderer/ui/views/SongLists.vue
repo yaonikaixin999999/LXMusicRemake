@@ -6,7 +6,7 @@
     <details class="ui-explore-open"><summary>打开已有的歌单链接或 ID <span aria-hidden="true"><UiIcon name="arrowUpRight" /></span></summary><form @submit.prevent="openById"><input v-model="playlistInput" :placeholder="`粘贴${sourceNames[source]}歌单链接或 ID`" aria-label="歌单链接或 ID"><button type="submit" class="ui-solid-button" :disabled="!playlistInput.trim()">打开歌单</button></form></details>
     <div class="ui-section-heading ui-explore-list-title"><h2>{{ selectedTagName || '精选歌单' }}<span v-if="!loading && !error"> · {{ total.toLocaleString() }} 份</span></h2><button type="button" :disabled="loading" @click="load">刷新<UiIcon name="refresh" /></button></div>
     <UiEmpty v-if="loading || error || !list.length" :title="loading ? '正在发现好音乐…' : error ? '歌单暂时无法加载' : '这个分类还没有歌单'" :description="error || (loading ? '正在读取平台推荐的真实歌单。' : '换一个分类或音乐平台试试。')" :retry="Boolean(error)" @retry="load" />
-    <PlaylistGrid v-else :list="list" @open="openPlaylist" />
+    <PlaylistGrid v-else :list="list" @open="openPlaylist" @play="openPlaylist($event, true)" />
     <UiPagination v-if="!error" :page="page" :pages="pages" :loading="loading" @change="changePage" />
   </div>
 </template>
@@ -106,7 +106,7 @@ function selectTag(value: string) { if (value !== tagId.value) navigate(source.v
 function selectSort(value: string | number) { navigate(source.value, tagId.value, String(value)) }
 function selectMoreTag(value: string | number) { selectTag(String(value)) }
 function changePage(value: number) { navigate(source.value, tagId.value, sortId.value, value) }
-function openPlaylist(item: ListInfoItem) { void router.push({ path: '/songList/detail', query: { source: item.source, id: item.id, name: item.name, picUrl: item.img } }) }
+function openPlaylist(item: ListInfoItem, play = false) { void router.push({ path: '/songList/detail', query: { source: item.source, id: item.id, name: item.name, picUrl: item.img, play: play ? 'true' : undefined } }) }
 function openById() { if (playlistInput.value.trim()) void router.push({ path: '/songList/detail', query: { source: source.value, id: playlistInput.value.trim() } }) }
 </script>
 

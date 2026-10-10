@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/yaonikaixin999999/LXMusicRemake",
+  "releases": [
+    {
+      "version": "1.0.0",
+      "name": "LinkLine 1.0.0",
+      "body": "# LinkLine 1.0.0\n\nLinkLine 首个正式发行版。基于 LXMusic 开源项目再开发，重新设计全部主要前端页面，并连接真实 Electron 音乐服务。\n\n## 下载\n\n- 支持系统：Windows 10 / 11 x64。\n- 安装包：`LinkLine-v1.0.0-x64-Setup.exe`。\n- [GitHub 官方下载](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe)。\n- [国内加速下载](https://gh-proxy.com/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe)。\n- [国内备用下载](https://ghfast.top/https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe)。\n- [SHA-256 校验文件](https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/SHA256SUMS.txt)。\n\n加速入口由第三方代理提供，转发本仓库官方文件；无法连接时请切换备用入口或 GitHub。\n\n## 主要功能\n\n- 全新 LinkLine 白蓝声波音符 Logo，侧栏、圆角浮动面板、自绘 SVG 图标与完整页面设计。\n- 浅色、深色、系统主题，自定义点缀色、圆角、浮动面板间距、列表密度与发现推荐。\n- 歌曲 / 歌单搜索、精选歌单分类、歌单链接 / ID、排行榜、直接单曲或列表播放。\n- QQ 音乐、网易云音乐、咪咕和哔哩哔哩的官方登录、红心 / 收藏聚合与平台创建歌单 / 收藏夹同步。\n- 酷狗官方登录验证、酷我官方网页登录入口与公开播放能力；这两个平台暂不支持云收藏和歌单同步。\n- 主动点击红心时，在已连接且支持写入的平台匹配同版本歌曲、检查权限并逐个平台操作，分别显示结果。\n- 原平台无法播放时尝试其他平台同版本歌曲；多档音质与最高可用音质，设置和播放栏共享偏好。\n- 重新设计的长进度条播放器、音量浮层、播放队列、多种播放模式、进度恢复与定时停止。\n- 本地音频导入、歌单创建 / 编辑、批量操作、歌曲资料编辑、歌单导入导出。\n- 下载队列、暂停 / 继续 / 重试、音质选择、保存目录、离线文件播放、歌词和封面保存选项。\n- 播放详情、滚动歌词、翻译 / 罗马音、歌词偏移、复制歌词与平台评论。\n- 独立桌面歌词：横向 / 纵向、拖动缩放、置顶、锁定、找回窗口、文字与背景透明度分别调整。\n- 输出设备、均衡器和预设、音效选项、应用内与全局快捷键、设备同步、本地开放 API。\n- 完整 / 音乐库 / 偏好备份、缓存清理与屏蔽规则。\n- 每次启动后台检查本项目更新，顶部和设置中的更新中心，正式版本日志、历史记录、失败重试、官方及国内加速源。\n\n## 安装与升级\n\n运行安装包按提示完成安装，首次启动可按引导连接平台。正式应用的数据默认保存于 `%APPDATA%\\LinkLine`；源码测试脚本默认沿用项目内的 `artifacts/user-test-data`，两者目录不同。\n\n以后升级时先导出需要保留的资料，从托盘退出旧版，再运行新安装包。1.0.0 的更新为完整安装包手动升级，不在后台自动安装。\n\n## 使用范围\n\n平台账号同步不等于获得所有歌曲的播放或下载权限，资源仍受版权、会员、平台接口和网络影响。跨平台匹配可能无法找到同一版本。音质按平台实际返回规格使用；不是所有歌曲都支持 Hi-Res 或特殊音质。\n\n下载能力依赖当前兼容自定义音源及其支持范围，项目不内置这类音源脚本。哔哩哔哩按音轨和收藏夹处理。国内代理不是 LinkLine 自建服务，可用性不能保证覆盖所有地区。\n\n完整操作说明：[项目说明与使用手册](https://github.com/yaonikaixin999999/LXMusicRemake/blob/main/docs/项目说明.md)。\n\n开源许可：[Apache-2.0](https://github.com/yaonikaixin999999/LXMusicRemake/blob/main/LICENSE)。保留 LXMusic 原作者版权及第三方组件许可。\n",
+      "publishedAt": "2026-10-10T05:03:29.153Z",
+      "pageUrl": "https://github.com/yaonikaixin999999/LXMusicRemake/releases/tag/v1.0.0",
+      "assets": [
+        {
+          "name": "LinkLine-v1.0.0-x64-Setup.exe",
+          "url": "https://github.com/yaonikaixin999999/LXMusicRemake/releases/download/v1.0.0/LinkLine-v1.0.0-x64-Setup.exe",
+          "size": 121061530,
+          "sha256": "80d54c7c5723344c1c35585c31bb8625569b80894cb1e7db813b7fe585ce9f89"
+        }
+      ]
+    }
+  ]
+}

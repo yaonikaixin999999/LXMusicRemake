@@ -39,7 +39,10 @@ export const setPlaybackRate = (rate: number) => {
 }
 
 export const setLyric = () => {
-  if (!musicInfo.id) return
+  if (!musicInfo.id) {
+    lrc.setLyric('')
+    return
+  }
   const extendedLyrics = []
   if (setting['player.isShowLyricRoma'] && lyrics.rlyric) extendedLyrics.push(lyrics.rlyric)
   if (setting['player.isShowLyricTranslation'] && lyrics.tlyric) extendedLyrics.push(lyrics.tlyric)

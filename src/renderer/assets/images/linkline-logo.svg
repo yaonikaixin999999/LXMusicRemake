@@ -1,9 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-  <title>LinkLine C - connected waveform</title>
-  <desc>A clean blue sound waveform carried by one continuous line</desc>
-  <rect width="256" height="256" rx="56" fill="#fff"/>
-  <path d="M35 136h29l16-42 25 86 29-126 28 105 20-55 18 32h21" fill="none" stroke="#57a1ff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="35" cy="136" r="10" fill="#145dcc"/>
-  <circle cx="221" cy="136" r="10" fill="#145dcc"/>
-  <path d="M161 168v31a20 20 0 1 1-15-19v-47l48-14v17l-33 10" fill="#145dcc"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">LinkLine — 白底雾蓝声波</title>
+  <desc id="desc">白色圆角方形内，低饱和度雾蓝声波以连续线条连接两端，适合浅色与深色界面的应用标识。</desc>
+  <rect x="5" y="5" width="86" height="86" rx="24" fill="#FFF"/>
+  <path d="M22 53h6c3.3 0 6-2.7 6-6v-8c0-3.3 2.7-6 6-6s6 2.7 6 6v18c0 3.3 2.7 6 6 6s6-2.7 6-6V45c0-3.3 2.7-6 6-6s6 2.7 6 6v3c0 2.8 2.2 5 5 5" transform="translate(-0.5 0)" fill="none" stroke="#7592B6" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

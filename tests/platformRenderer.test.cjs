@@ -104,6 +104,11 @@ function fixture(t, { initial = [], remote = snapshot(), storage = new Map(), un
     if (name === 'electron') return { ipcRenderer: ipc }
     if (name === 'vue') return vue
     if (name === '@common/platformMatching') return matching
+    if (name === '@common/platformAccounts') {
+      const accountModule = { exports: {} }
+      vm.runInNewContext(compile('src/common/platformAccounts.ts'), { module: accountModule, exports: accountModule.exports })
+      return accountModule.exports
+    }
     if (name === '@common/utils/vueTools') return { toRaw: vue.toRaw }
     if (name === '@renderer/store/list/action') return listActions
     if (name === '@renderer/store/list/state') return { loveList: { id: 'love' } }

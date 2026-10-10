@@ -1,5 +1,6 @@
 import { reactive, computed } from '@common/utils/vueTools'
 import defaultSetting from '@common/defaultSetting'
+import { isPlatformQuality } from '@common/platformPlayback'
 import { updateSetting as saveSetting } from '@renderer/utils/ipc'
 
 export const appSetting = window.lxData.appSetting = reactive<LX.AppSetting>({ ...defaultSetting })
@@ -9,12 +10,27 @@ export const isShowAnimation = computed(() => {
 })
 
 
-export const initSetting = (newSetting: LX.AppSetting) => {
+export const initSetting = async(newSetting: LX.AppSetting) => {
   mergeSetting(newSetting)
+  // Migrate the playback bar's former preference once. It controlled actual
+  // playback, so it takes precedence over the old, disconnected settings field.
+  const legacyKey = 'linkline.playback-quality.v1'
+  const legacyPreference = localStorage.getItem(legacyKey)
+  if (!legacyPreference) return
+  if (!isPlatformQuality(legacyPreference)) { localStorage.removeItem(legacyKey); return }
+  mergeSetting({ 'player.playQuality': legacyPreference })
+  try {
+    await saveSetting({ 'player.playQuality': legacyPreference })
+    localStorage.removeItem(legacyKey)
+  } catch (error) {
+    // Keep the old value until it is safely saved, then retry migration next boot.
+    console.warn('Unable to migrate playback quality preference', error)
+  }
 }
 
 export const mergeSetting = (newSetting: Partial<LX.AppSetting>) => {
   for (const [key, value] of Object.entries(newSetting)) {
+    if (key === 'player.playQuality' && !isPlatformQuality(value)) continue
     // @ts-expect-error
     appSetting[key] = value
   }

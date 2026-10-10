@@ -1,12 +1,10 @@
 import { LIST_IDS } from '@common/constants'
 import { addListMusics, getListMusics } from '@renderer/store/list/action'
 import { playList } from '@renderer/core/player/action'
-import { assertApiSupport } from '@renderer/store/utils'
 
 export const playTracks = async(tracks: LX.Music.MusicInfo[], index = 0, listId?: string) => {
   const track = tracks[index]
   if (!track) throw new Error('没有可播放的歌曲。')
-  if (!assertApiSupport(track.source)) throw new Error('当前音源尚未启用。请在设置中导入支持此平台的音乐源后再播放。')
   const targetId = listId ?? LIST_IDS.DEFAULT
   const saved = await getListMusics(targetId)
   const missing = tracks.filter(item => !saved.some(existing => existing.id === item.id))

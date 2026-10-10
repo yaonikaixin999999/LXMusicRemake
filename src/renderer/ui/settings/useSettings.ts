@@ -15,6 +15,8 @@ import { appearance, validateAppearance } from '@renderer/composables/useAppeara
 import { dislikeInfo } from '@renderer/store/dislikeList'
 import { overwirteDislikeInfo } from '@renderer/core/dislikeList'
 import { parseSettingValue, validateSettingBackup, type SettingField } from './schema'
+import { setPreferredQuality } from '@renderer/ui/services/platformPlayback'
+import type { PlatformQuality } from '@common/platformPlayback'
 
 type BackupKind = 'all' | 'settings' | 'lists'
 type FullList = LX.List.MyDefaultListInfoFull | LX.List.MyLoveListInfoFull | LX.List.UserListInfoFull
@@ -60,6 +62,10 @@ export function useSettings() {
   async function setPreference(field: SettingField, input: string | boolean) {
     await run('设置已保存', async() => {
       const value = typeof input === 'boolean' ? input : parseSettingValue(field, input)
+      if (field.key === 'player.playQuality') {
+        await setPreferredQuality(value as PlatformQuality)
+        return
+      }
       const patch: Partial<LX.AppSetting> = { [field.key]: value }
       if (field.key === 'common.apiSource') {
         await setUserApi(String(value))

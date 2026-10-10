@@ -24,6 +24,7 @@ const authCookies = id => id === 'qq'
   : [{ name: 'MUSIC_U', value: 'test-key', domain: '.music.163.com', path: '/' }]
 const account = (snapshot, id) => snapshot.accounts.find(item => item.platform === id)
 const cachedAccount = (id, tracks) => ({ platform: id, profile: profile(id), lastSync: 123456, tracks })
+const playlist = (platform, id = '11', ownerId = profile(platform).id) => ({ id: `${platform}:${id}`, platform, ownerId, remoteId: id, name: 'Created Playlist', cover: '', count: 1, loaded: false, lastSync: null })
 
 function deferred() {
   let resolve
@@ -117,17 +118,18 @@ function fixture(t, options = {}) {
         id,
         name: id,
         loginUrl: id === 'qq' ? 'https://graph.qq.com/oauth2.0/authorize' : 'https://music.163.com/#/my/',
+        source: id === 'qq' ? 'tx' : 'wy',
         cookieUrl: id === 'qq' ? 'https://y.qq.com/' : undefined,
         domains: id === 'qq' ? ['qq.com', 'gtimg.cn'] : ['music.163.com', '163.com', '126.com', 'netease.com'],
       }
-      for (const method of ['profile', 'likes', 'search', 'available', 'like']) {
+      for (const method of ['profile', 'likes', 'search', 'available', 'like', 'playlists', 'playlistTracks']) {
         provider[method] = async(...args) => {
           calls[id].push({ method, args })
           if (method === 'profile' && !args[0].session.cookieData.length) throw new Error('login required')
           const behavior = behaviors[id][method]
           if (typeof behavior === 'function') return behavior(...args)
           if (behavior instanceof Error) throw behavior
-          return behavior == null ? undefined : copy(behavior)
+          return behavior == null ? (method === 'playlists' ? [] : undefined) : copy(behavior)
         }
       }
       return [id, provider]
@@ -151,6 +153,11 @@ function fixture(t, options = {}) {
         if (name === '@main/modules/winMain/main') return { sendEvent: (name, value) => { events.push({ name, value: copy(value) }); notifications.emit('snapshot', value) }, showWindow() {} }
         if (name === './providers/qq') return { qqProvider: providers.qq }
         if (name === './providers/netease') return { neteaseProvider: providers.netease }
+        if (name === './providers/migu' || name === './providers/bilibili' || name === './providers/kugou' || name === './providers/kuwo') {
+          const id = name.split('/').pop()
+          const source = { migu: 'mg', bilibili: 'bi', kugou: 'kg', kuwo: 'kw' }[id]
+          return { [`${id}Provider`]: { id, source, name: id, loginUrl: `https://${id}.test/`, domains: [`${id}.test`], authenticated: () => false, profile: async() => { throw new Error('login required') }, likes: async() => [], playlists: async() => [], search: async() => [], available: async() => false, like: async() => {} } }
+        }
         if (name.startsWith('@common/')) return loadTypeScript(path.join(root, 'src/common', `${name.slice(8)}.ts`))
         if (name.startsWith('.')) return loadTypeScript(path.resolve(path.dirname(filename), `${name}.ts`))
         return require(name)
@@ -200,14 +207,15 @@ test('persisted authenticated partitions restore both accounts and keep favorite
   const neteaseTrack = track('wy', 'cached-netease', { name: 'Another Recording' })
   const h = fixture(t, { connected: ['qq', 'netease'], cached: [cachedAccount('qq', [qqTrack]), cachedAccount('netease', [neteaseTrack])] })
   const restored = await h.runtime.invoke('snapshot')
-  assert(restored.accounts.every(item => item.connected))
+  assert(restored.accounts.filter(item => ['qq', 'netease'].includes(item.platform)).every(item => item.connected))
   assert.equal(restored.favorites.length, 2)
   const next = track('tx', 'new-qq', { name: 'New Recording' })
   const results = await h.runtime.invoke('like', { track: next, liked: true })
   assert.equal(results.find(item => item.platform === 'qq').status, 'success')
   h.runtime.close()
   const restarted = await h.restart().invoke('snapshot')
-  assert(restarted.accounts.every(item => item.connected))
+  assert(restarted.accounts.filter(item => ['qq', 'netease'].includes(item.platform)).every(item => item.connected))
+  assert(restarted.accounts.filter(item => !['qq', 'netease'].includes(item.platform)).every(item => !item.connected))
   assert.equal(account(restarted, 'qq').count, 2)
   assert.equal(account(restarted, 'netease').count, 1)
 })
@@ -470,4 +478,73 @@ test('login server redirects cannot leave the registered provider domains', asyn
   denied = false
   window.webContents.emit('will-redirect', { preventDefault() { denied = true } }, 'https://ssl.ptlogin2.qq.com/callback')
   assert.equal(denied, false)
+})
+
+test('created playlists sync independently, load full songs once, and restore across restart', async t => {
+  const h = fixture(t, { connected: ['qq'] })
+  h.behaviors.qq.playlists = [playlist('qq')]
+  h.behaviors.qq.playlistTracks = [track('tx', 'playlist-song')]
+  const synced = await h.runtime.invoke('sync', 'qq')
+  assert.equal(synced.playlists.length, 1)
+  assert.equal(synced.playlists[0].loaded, false)
+  const detail = await h.runtime.invoke('playlist', { id: 'qq:11' })
+  assert.equal(detail.cached, false)
+  assert.equal(detail.tracks[0].id, 'tx_playlist-song')
+  assert.equal(detail.playlist.loaded, true)
+  assert(detail.playlist.lastSync > 0)
+  assert.equal((await h.runtime.invoke('playlist', { id: 'qq:11' })).cached, true)
+  assert.equal(h.calls.qq.filter(call => call.method === 'playlistTracks').length, 1)
+  h.runtime.close()
+  const restarted = h.restart()
+  assert.equal((await restarted.invoke('snapshot')).playlists[0].loaded, true)
+  assert.equal((await restarted.invoke('playlist', { id: 'qq:11' })).tracks[0].id, 'tx_playlist-song')
+  assert.equal(h.calls.qq.filter(call => call.method === 'playlistTracks').length, 1)
+})
+
+test('playlist caches are isolated by identity and logout removes them', async t => {
+  const h = fixture(t, { connected: ['qq'], cached: [{ ...cachedAccount('qq', []), playlists: [{ playlist: { ...playlist('qq'), loaded: true, lastSync: 1 }, tracks: [track('tx', 'private-song')] }] }] })
+  assert.equal((await h.runtime.invoke('snapshot')).playlists.length, 1)
+  h.behaviors.qq.profile = profile('qq', 'B')
+  await assert.rejects(h.runtime.invoke('playlist', { id: 'qq:11' }), /当前账号/)
+  assert.equal((await h.runtime.invoke('snapshot')).playlists.length, 0)
+  assert.equal(h.disk().find(item => item.platform === 'qq').playlists.length, 0)
+  h.behaviors.qq.playlists = [playlist('qq', '12', profile('qq', 'B').id)]
+  await h.runtime.invoke('sync', 'qq')
+  assert.equal((await h.runtime.invoke('logout', 'qq')).playlists.length, 0)
+})
+
+test('playlist sync survives a separate favorites failure without deleting cached playlists', async t => {
+  const h = fixture(t, { connected: ['netease'] })
+  h.behaviors.netease.likes = new Error('红心列表网络请求失败')
+  h.behaviors.netease.playlists = [playlist('netease')]
+  const synced = await h.runtime.invoke('sync', 'netease')
+  assert.equal(synced.playlists.length, 1)
+  assert.match(account(synced, 'netease').error, /红心列表/)
+  h.behaviors.netease.playlists = new Error('歌单列表网络请求失败')
+  assert.equal((await h.runtime.invoke('sync', 'netease')).playlists.length, 1)
+})
+
+test('logout discards a playlist response in flight and never leaks the old account songs', async t => {
+  const h = fixture(t, { connected: ['qq'] })
+  h.behaviors.qq.playlists = [playlist('qq')]
+  await h.runtime.invoke('sync', 'qq')
+  const pending = deferred()
+  const started = deferred()
+  h.behaviors.qq.playlistTracks = async() => { started.resolve(); return pending.promise }
+  const load = h.runtime.invoke('playlist', { id: 'qq:11' })
+  const rejected = assert.rejects(load, /账号已更改/)
+  await started.promise
+  const logout = h.runtime.invoke('logout', 'qq')
+  pending.resolve([track('tx', 'private-late-song')])
+  await rejected
+  assert.equal((await logout).playlists.length, 0)
+  assert(!h.disk().find(item => item.platform === 'qq').playlists.length)
+})
+
+test('offline playlist songs remain readable while refresh requires authentication', async t => {
+  const h = fixture(t, { cached: [{ ...cachedAccount('netease', []), playlists: [{ playlist: { ...playlist('netease'), loaded: true, lastSync: 1 }, tracks: [track('wy', 'cached-song')] }] }] })
+  const detail = await h.runtime.invoke('playlist', { id: 'netease:11' })
+  assert.equal(detail.cached, true)
+  assert.equal(detail.tracks[0].id, 'wy_cached-song')
+  await assert.rejects(h.runtime.invoke('playlist', { id: 'netease:11', refresh: true }), /登录/)
 })

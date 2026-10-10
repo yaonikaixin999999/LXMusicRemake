@@ -91,7 +91,7 @@ dd
   h3#desktop_lyric_reset {{ $t('setting__desktop_lyric_reset') }}
   div
     .p.gap-top
-      base-btn.btn(min @click="resetWindowSetting") {{ $t('setting__desktop_lyric_reset_window') }}
+      base-btn.btn(min @click="resetWindowSetting") 找回桌面歌词
 
 </template>
 
@@ -280,6 +280,12 @@ export default {
 
     const resetWindowSetting = () => {
       updateSetting({
+        'desktopLyric.enable': true,
+        'desktopLyric.isLock': false,
+        'desktopLyric.isAlwaysOnTop': true,
+        'desktopLyric.style.opacity': 95,
+        'desktopLyric.style.backgroundOpacity': 100,
+        'desktopLyric.style.fontSize': 20,
         'desktopLyric.width': 450,
         'desktopLyric.height': 300,
         'desktopLyric.x': null,

@@ -1,0 +1,12 @@
+LinkLine
+Copyright 2026 yaonikaixin999999
+
+基于 LXMusic 开源项目再开发。
+This product includes software developed by lyswhut and LX Music contributors.
+Upstream source: https://github.com/lyswhut/lx-music-desktop
+LinkLine source: https://github.com/yaonikaixin999999/LXMusicRemake
+
+The original Apache License 2.0 and accompanying third-party license notices
+are preserved in LICENSE and the licenses directory. LinkLine adds a redesigned
+interface, platform account integration, playback and lyric improvements,
+and its own release and update sources.

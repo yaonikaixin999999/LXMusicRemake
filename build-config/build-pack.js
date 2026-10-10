@@ -11,6 +11,7 @@ const afterPack = require('./build-after-pack')
 const options = {
   appId: 'com.linkline.desktop',
   productName: 'LinkLine',
+  copyright: 'Copyright © 2026 yaonikaixin999999; LX Music contributors',
   npmRebuild: false,
   beforePack,
   afterPack,
@@ -43,6 +44,8 @@ const options = {
   },
   extraResources: [
     './licenses',
+    { from: './LICENSE', to: 'LICENSE' },
+    { from: './NOTICE', to: 'NOTICE' },
   ],
   publish: null,
 }
@@ -53,7 +56,7 @@ const options = {
 const winOptions = {
   win: {
     icon: './resources/icons/studio.ico',
-    legalTrademarks: 'LinkLine; upstream LX Music by lyswhut',
+    legalTrademarks: 'LinkLine',
     // artifactName: '${productName}-v${version}-${env.ARCH}-${env.TARGET}.${ext}',
   },
   nsis: {
@@ -61,8 +64,9 @@ const winOptions = {
     language: '2052',
     allowToChangeInstallationDirectory: true,
     // differentialPackage: true,
-    license: './licenses/license.rtf',
+    license: './resources/linkline-license.txt',
     shortcutName: 'LinkLine',
+    deleteAppDataOnUninstall: false,
   },
 }
 /**
@@ -71,7 +75,7 @@ const winOptions = {
  */
 const linuxOptions = {
   linux: {
-    maintainer: 'lyswhut <lyswhut@qq.com>',
+    maintainer: 'yaonikaixin999999 <154858262+yaonikaixin999999@users.noreply.github.com>',
     // artifactName: '${productName}-${version}.${env.ARCH}.${ext}',
     icon: './resources/icons',
     category: 'Utility;AudioVideo;Audio;Player;Music;',

@@ -52,6 +52,39 @@ function fixture(handler, cookies = credentials) {
   return { context, calls }
 }
 
+test('created playlists exclude system folders and other account records', async() => {
+  const { context, calls } = fixture(() => cgiResponse({ v_playlist: [
+    { dirId: 201, tid: 88, dirName: 'Likes' },
+    { dirId: 2, tid: 91, dirName: 'Created', songNum: 201, coverPicUrl: 'https://example.test/cover' },
+    { dirId: 3, tid: 92, dirName: 'Other Account', uin: '888' },
+  ] }))
+  const result = await provider.playlists(context, profile)
+  assert.equal(calls[0].body.req.method, 'GetPlaylistByUin')
+  assert.equal(calls[0].body.req.param.uin, profile.id)
+  assert.equal(result.length, 1)
+  assert.equal(result[0].id, 'qq:91')
+  assert.equal(result[0].name, 'Created')
+  assert.equal(result[0].count, 201)
+})
+
+test('created playlist paginates to its final song with no duplicate recordings', async() => {
+  const { context, calls } = fixture(request => {
+    const offset = request.body.req.param.song_begin
+    return cgiResponse({ code: 0, songlist: [{ ...song, mid: `song-${offset}` }], total_song_num: 3 })
+  })
+  const result = await provider.playlistTracks(context, profile, { remoteId: '91', ownerId: profile.id })
+  assert.equal(result.length, 3)
+  assert.deepEqual(calls.map(call => call.body.req.param.song_begin), [0, 1, 2])
+  assert(calls.every(call => call.body.req.param.disstid === 91 && call.body.req.param.dirid === 0))
+})
+
+test('created playlist refuses another owner and incomplete responses', async() => {
+  const { context, calls } = fixture(() => cgiResponse({ songlist: [] }))
+  await assert.rejects(provider.playlistTracks(context, profile, { ownerId: 'other', remoteId: '91' }), /不属于/)
+  assert.equal(calls.length, 0)
+  await assert.rejects(provider.playlistTracks(fixture(() => cgiResponse({ songlist: [], total_song_num: 1 })).context, profile, { ownerId: profile.id, remoteId: '91' }), /不完整/)
+})
+
 test('official OAuth callback returns to QQ Music through its web login bridge', () => {
   const login = new URL(provider.loginUrl)
   const redirect = new URL(login.searchParams.get('redirect_uri'))
@@ -231,4 +264,23 @@ test('red heart resolves missing numeric IDs through MID before writing', async(
 
 test('HTTP failures propagate without interpreting an unsuccessful response as data', async() => {
   await assert.rejects(provider.available(fixture(() => new Response('{}', { status: 503 })).context, track), /503/)
+})
+
+test('highest audio requests catalog master format and reports the actual entitled fallback', async() => {
+  const { context, calls } = fixture(request => request.method === 'get_song_detail_yqq'
+    ? cgiResponse({ track_info: { ...song, file: { ...song.file, size_320mp3: 100, size_flac: 200, size_new: [300] } } })
+    : cgiResponse({ sip: ['https://stream.test/'], midurlinfo: request.body.req.param.filename.map(filename => ({ filename, purl: filename.startsWith('M800') ? filename : '' })) }))
+  const result = await provider.musicUrl(context, { ...track, meta: { ...track.meta, strMediaMid: song.file.media_mid } }, 'auto')
+  assert.equal(calls[1].body.req.param.filename[0], `AI00${song.file.media_mid}.flac`)
+  assert.equal(result.quality, '320k')
+  assert.equal(result.type, '320k')
+  assert(result.url.startsWith('https://stream.test/M800'))
+})
+
+test('explicit Hi-Res uses its own filename and does not mislabel FLAC as 24-bit', async() => {
+  const { context, calls } = fixture(request => cgiResponse({ sip: ['https://stream.test/'], midurlinfo: request.body.req.param.filename.map(filename => ({ filename, purl: filename.startsWith('F000') ? filename : '' })) }))
+  const result = await provider.musicUrl(context, { ...track, meta: { ...track.meta, strMediaMid: song.file.media_mid } }, 'flac24bit')
+  assert.equal(calls[0].body.req.param.filename[0], `RS01${song.file.media_mid}.flac`)
+  assert.equal(result.quality, 'flac')
+  assert.equal(result.type, 'flac')
 })

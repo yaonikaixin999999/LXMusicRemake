@@ -1,6 +1,26 @@
+import { screen } from 'electron'
+
 // 设置窗口位置、大小
 export const minWidth = 320
 export const minHeight = 180
+
+const getWorkArea = (bounds?: Electron.Rectangle): Electron.Rectangle => {
+  return bounds
+    ? screen.getDisplayMatching(bounds).workArea
+    : screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea
+}
+
+/** Recover saved positions after a display is disconnected or its scale changes. */
+const fitWindow = (bounds: Electron.Rectangle, area: Electron.Rectangle): Electron.Rectangle => {
+  const width = Math.min(area.width, Math.max(minWidth, bounds.width))
+  const height = Math.min(area.height, Math.max(minHeight, bounds.height))
+  return {
+    width,
+    height,
+    x: Math.round(Math.max(area.x, Math.min(bounds.x, area.x + area.width - width))),
+    y: Math.round(Math.max(area.y, Math.min(bounds.y, area.y + area.height - height))),
+  }
+}
 
 
 // const updateBounds = (bounds: Bounds) => {
@@ -25,24 +45,8 @@ export const getLyricWindowBounds = (bounds: Electron.Rectangle, { x, y, w, h }:
   }
 
   if (global.lx.appSetting['desktopLyric.isLockScreen']) {
-    if (!global.envParams.workAreaSize) return bounds
-    const maxWinW = global.envParams.workAreaSize.width
-    const maxWinH = global.envParams.workAreaSize.height
-
-    if (w > maxWinW) w = maxWinW
-    if (h > maxWinH) h = maxWinH
-
-    const maxX = global.envParams.workAreaSize.width - w
-    const maxY = global.envParams.workAreaSize.height - h
-
-    x += bounds.x
-    y += bounds.y
-
-    if (x > maxX) x = maxX
-    else if (x < 0) x = 0
-
-    if (y > maxY) y = maxY
-    else if (y < 0) y = 0
+    const next = { x: x + bounds.x, y: y + bounds.y, width: w, height: h }
+    return fitWindow(next, getWorkArea(next))
   } else {
     y += bounds.y
     x += bounds.x
@@ -79,6 +83,7 @@ export const watchConfigKeys = [
   'desktopLyric.style.lineGap',
   // 'desktopLyric.style.fontWeight',
   'desktopLyric.style.opacity',
+  'desktopLyric.style.backgroundOpacity',
   'desktopLyric.style.ellipsis',
   'desktopLyric.style.isFontWeightFont',
   'desktopLyric.style.isFontWeightLine',
@@ -102,28 +107,14 @@ export const buildLyricConfig = (appSetting: Partial<LX.AppSetting>): Partial<LX
 }
 
 export const initWindowSize = (x: LX.AppSetting['desktopLyric.x'], y: LX.AppSetting['desktopLyric.y'], width: LX.AppSetting['desktopLyric.width'], height: LX.AppSetting['desktopLyric.height']) => {
-  width = Math.max(minWidth, width)
-  height = Math.max(minHeight, height)
-  if (x == null || y == null) {
-    if (width < minWidth) width = minWidth
-    if (height < minHeight) height = minHeight
-    if (global.envParams.workAreaSize) {
-      x = global.envParams.workAreaSize.width - width
-      y = global.envParams.workAreaSize.height - height
-    } else {
-      x = y = 0
-    }
-  } else {
-    let bounds = getLyricWindowBounds({ x, y, width, height }, { x: 0, y: 0, w: width, h: height })
-    x = bounds.x
-    y = bounds.y
-    width = bounds.width
-    height = bounds.height
-  }
-  return {
-    x,
-    y,
+  width = Number.isFinite(width) ? Math.max(minWidth, Math.round(width)) : 450
+  height = Number.isFinite(height) ? Math.max(minHeight, Math.round(height)) : 300
+  const positioned = x != null && y != null && Number.isFinite(x) && Number.isFinite(y)
+  const area = getWorkArea(positioned ? { x, y, width, height } : undefined)
+  return fitWindow({
+    x: positioned ? x : area.x + (area.width - Math.min(area.width, width)) / 2,
+    y: positioned ? y : area.y + area.height - Math.min(area.height, height) - 24,
     width,
     height,
-  }
+  }, area)
 }

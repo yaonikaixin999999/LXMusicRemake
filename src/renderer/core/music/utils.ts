@@ -1,4 +1,5 @@
 import { qualityList } from '@renderer/store'
+import { legacyQuality, type PlatformQuality } from '@common/platformPlayback'
 import { assertApiSupport } from '@renderer/store/utils'
 import musicSdk from '@renderer/utils/musicSdk'
 import {
@@ -218,9 +219,10 @@ export const getOnlineOtherSourcePicByLocal = async(musicInfo: LX.Music.MusicInf
   })
 }
 
-export const TRY_QUALITYS_LIST = ['flac24bit', 'flac', '320k'] as const
+export const TRY_QUALITYS_LIST = ['flac24bit', 'flac', 'ape', 'wav', '320k', '192k', '128k'] as const
 type TryQualityType = typeof TRY_QUALITYS_LIST[number]
-export const getPlayQuality = (highQuality: LX.Quality, musicInfo: LX.Music.MusicInfoOnline): LX.Quality => {
+export const getPlayQuality = (preference: PlatformQuality, musicInfo: LX.Music.MusicInfoOnline): LX.Quality => {
+  const highQuality = legacyQuality(preference)
   let type: LX.Quality = '128k'
   if (TRY_QUALITYS_LIST.includes(highQuality as TryQualityType)) {
     let list = qualityList.value[musicInfo.source]
@@ -246,7 +248,7 @@ export const getOnlineOtherSourceMusicUrl = async({ musicInfos, quality, onToggl
   quality: LX.Quality
   isFromCache: boolean
 }> => {
-  if (!await window.lx.apiInitPromise[0]) throw new Error('source init failed')
+  if (!await window.lx.apiInitPromise[0] && !musicInfos.some(item => ['wy', 'tx'].includes(item.source))) throw new Error('source init failed')
 
   let musicInfo: LX.Music.MusicInfoOnline | null = null
   let itemQuality: LX.Quality | null = null
@@ -254,9 +256,9 @@ export const getOnlineOtherSourceMusicUrl = async({ musicInfos, quality, onToggl
   while (musicInfo = (musicInfos.shift()!)) {
     if (retryedSource.includes(musicInfo.source)) continue
     retryedSource.push(musicInfo.source)
-    if (!assertApiSupport(musicInfo.source)) continue
+    if (!assertApiSupport(musicInfo.source) && !['wy', 'tx'].includes(musicInfo.source)) continue
     itemQuality = quality ?? getPlayQuality(appSetting['player.playQuality'], musicInfo)
-    if (!musicInfo.meta._qualitys[itemQuality]) continue
+    if (!musicInfo.meta._qualitys[itemQuality] && !['wy', 'tx'].includes(musicInfo.source)) continue
 
     console.log('try toggle to: ', musicInfo.source, musicInfo.name, musicInfo.singer, musicInfo.interval)
     onToggleSource(musicInfo)
@@ -300,7 +302,7 @@ export const handleGetOnlineMusicUrl = async({ musicInfo, quality, onToggleSourc
   quality: LX.Quality
   isFromCache: boolean
 }> => {
-  if (!await window.lx.apiInitPromise[0]) throw new Error('source init failed')
+  if (!await window.lx.apiInitPromise[0] && !['wy', 'tx'].includes(musicInfo.source)) throw new Error('source init failed')
   // console.log(musicInfo.source)
   const targetQuality = quality ?? getPlayQuality(appSetting['player.playQuality'], musicInfo)
 

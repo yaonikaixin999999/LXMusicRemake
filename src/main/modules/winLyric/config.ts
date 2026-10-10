@@ -1,5 +1,5 @@
 import { isLinux } from '@common/utils'
-import { closeWindow, createWindow, getBounds, isExistWindow, alwaysOnTopTools, setBounds, applyMousePolicy, setSkipTaskbar } from './main'
+import { closeWindow, createWindow, getBounds, isExistWindow, alwaysOnTopTools, setBounds, applyMousePolicy, setSkipTaskbar, showWindow } from './main'
 import { sendConfigChange, sendMouseLeave } from './rendererEvent'
 import { buildLyricConfig, getLyricWindowBounds, initWindowSize, watchConfigKeys } from './utils'
 import { mouseCheckTools } from './mouseCheckTools'
@@ -77,6 +77,7 @@ export const setLrcConfig = (keys: Array<keyof LX.AppSetting>, setting: Partial<
         global.lx.appSetting['desktopLyric.width'],
         global.lx.appSetting['desktopLyric.height'],
       ))
+      showWindow()
     }
   }
   if (keys.includes('desktopLyric.enable') && isEnable != global.lx.appSetting['desktopLyric.enable']) {

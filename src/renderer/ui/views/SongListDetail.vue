@@ -19,7 +19,6 @@ import { sources, type ListDetailInfo } from '@renderer/store/songList/state'
 import { createUserList, getUserLists, setTempList } from '@renderer/store/list/action'
 import { userLists } from '@renderer/store/list/state'
 import { sourceNames } from '@renderer/store'
-import { assertApiSupport } from '@renderer/store/utils'
 import { toMD5 } from '@renderer/utils'
 import { LIST_IDS } from '@common/constants'
 import { playTrack } from '../services/music'
@@ -49,6 +48,7 @@ let requestId = 0
 let loadedKey = ''
 let collectionRevision = 0
 let active = true
+let autoPlayedRoute = ''
 const allTracks = ref<{ key: string, list: LX.Music.MusicInfoOnline[] } | null>(null)
 watch(() => route.fullPath, () => {
   if (route.path !== '/songList/detail') return
@@ -65,7 +65,13 @@ async function load(refresh = false) {
   try {
     if (!playlistId.value) throw new Error('缺少歌单链接或 ID，请返回精选歌单重新打开。')
     const result = await getListDetail(playlistId.value, source.value, page.value, refresh)
-    if (id === requestId) detail.value = result
+    if (id === requestId) {
+      detail.value = result
+      if (route.query.play === 'true' && result.list[0] && autoPlayedRoute !== route.fullPath) {
+        autoPlayedRoute = route.fullPath
+        void playCollection(result.list[0])
+      }
+    }
   } catch (err) { if (id === requestId) { detail.value = null; error.value = err instanceof Error ? err.message : '歌单读取失败，请重试。' } } finally { if (id === requestId) loading.value = false }
 }
 async function getCollection(sourceId: LX.OnlineSource, id: string) {
@@ -84,8 +90,17 @@ async function playCollection(selected?: LX.Music.MusicInfo) {
   busy.value = 'play'
   message.value = ''
   try {
-    if (!assertApiSupport(selected?.source ?? sourceId)) throw new Error('当前音源尚未启用。请在设置中导入支持此平台的音乐源后再播放。')
-    const tracks = await getCollection(sourceId, id)
+    // A single track is already available on this page. Do not make its
+    // playback wait for every remaining playlist page to finish downloading.
+    let tracks: LX.Music.MusicInfoOnline[]
+    if (selected) tracks = detail.value?.list ?? []
+    else {
+      try { tracks = await getCollection(sourceId, id) } catch (err) {
+        if (!detail.value?.list.length) throw err
+        tracks = detail.value.list
+        message.value = '完整歌单暂时无法读取，已播放当前页的歌曲。'
+      }
+    }
     if (!active || key !== loadedKey) return
     const target = selected ? tracks.find(track => track.id === selected.id) : tracks[0]
     if (!target) throw new Error('歌单中没有可播放的歌曲。')
@@ -109,7 +124,7 @@ async function importCollection() {
     message.value = `已将「${title}」的 ${tracks.length} 首歌曲加入音乐库。`
   } catch (err) { message.value = err instanceof Error ? err.message : '导入失败，请重试。' } finally { busy.value = '' }
 }
-function changePage(value: number) { void router.push({ path: '/songList/detail', query: { ...route.query, page: String(value), refresh: undefined } }) }
+function changePage(value: number) { void router.push({ path: '/songList/detail', query: { ...route.query, page: String(value), refresh: undefined, play: undefined } }) }
 function openAction(track: LX.Music.MusicInfo, value: 'add' | 'download') { actionTracks.value = [track]; action.value = value; actionOpen.value = true }
 function hideImage(event: Event) { (event.target as HTMLImageElement).style.display = 'none' }
 </script>

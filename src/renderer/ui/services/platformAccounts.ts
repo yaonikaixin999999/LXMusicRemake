@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { computed, ref, shallowRef } from 'vue'
-import type { PlatformId, PlatformLikeResult, PlatformSnapshot } from '@common/platformAccounts'
+import type { PlatformId, PlatformLikeResult, PlatformPlaylistDetail, PlatformSnapshot } from '@common/platformAccounts'
+import { platformNames } from '@common/platformAccounts'
 import { sameRecording } from '@common/platformMatching'
 import { addListMusics, getListMusics, removeListMusics } from '@renderer/store/list/action'
 import { loveList } from '@renderer/store/list/state'
@@ -20,6 +21,10 @@ export const favoriteTracks = ref<LX.Music.MusicInfo[]>([])
 export const favoritePending = ref(new Set<string>())
 export const favoriteNotice = ref<{ title: string, results: PlatformLikeResult[], error: string, pending: boolean, localUpdated: boolean } | null>(null)
 export const connectedPlatforms = computed(() => platformSnapshot.value.accounts.filter(account => account.connected))
+export const platformPlaylists = computed(() => platformSnapshot.value.playlists ?? [])
+export async function loadPlatformPlaylist(id: string, refresh = false): Promise<PlatformPlaylistDetail> {
+  return ipcRenderer.invoke('platform_accounts_playlist', { id, refresh })
+}
 
 let initialized: Promise<void> | null = null
 let stopped = false
@@ -156,7 +161,7 @@ export async function setFavorites(tracks: LX.Music.MusicInfo[], liked: boolean)
   }
   if (unique.length > 1) {
     const summary: PlatformLikeResult[] = []
-    for (const platform of ['qq', 'netease'] as const) {
+    for (const platform of Object.keys(platformNames) as PlatformId[]) {
       const items = results.filter(item => item.platform === platform)
       if (!items.length) continue
       const counts = (['success', 'unavailable', 'unmatched', 'ambiguous', 'failed'] as const).map(status => ({ status, count: items.filter(item => item.status === status).length })).filter(item => item.count)
@@ -168,4 +173,4 @@ export async function setFavorites(tracks: LX.Music.MusicInfo[], liked: boolean)
 }
 
 export const requestFavorite = (track: LX.Music.MusicInfo, liked: boolean) => { void setFavorite(track, liked).catch(() => {}) }
-export const platformName = (platform: PlatformId) => platform === 'qq' ? 'QQ 音乐' : '网易云音乐'
+export const platformName = (platform: PlatformId) => platformNames[platform] ?? platform

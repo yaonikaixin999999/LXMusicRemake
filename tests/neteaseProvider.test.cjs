@@ -11,6 +11,41 @@ vm.runInNewContext(code, { exports: target.exports, module: target, URLSearchPar
 const provider = target.exports.neteaseProvider
 const music = id => ({ id, name: '晴天', ar: [{ name: '周杰伦' }], dt: 269000, al: { id: 8, name: '叶惠美', picUrl: 'https://example.com/cover.jpg' } })
 const context = handler => ({ cookies: async() => ({ MUSIC_U: 'fixture', __csrf: 'csrf' }), session: { fetch: async(url, options) => ({ ok: true, json: async() => handler(url, JSON.parse(new URLSearchParams(options.body).get('data'))) }) } })
+const createdPlaylist = { id: 'netease:77', platform: 'netease', remoteId: '77', ownerId: '100', name: 'My Playlist' }
+
+test('created playlists paginate and exclude liked and other users playlists', async() => {
+  const offsets = []
+  const result = await provider.playlists(context((_url, data) => {
+    offsets.push(data.offset)
+    return data.offset === 0
+      ? { code: 200, more: true, playlist: [{ id: 1, name: 'Likes', specialType: 5, creator: { userId: 100 } }, { id: 2, name: 'Subscribed', creator: { userId: 101 } }] }
+      : { code: 200, more: false, playlist: [{ id: 77, name: 'My Playlist', creator: { userId: 100 }, trackCount: 1001, coverImgUrl: 'https://example.test/cover' }] }
+  }), { id: '100' })
+  assert.deepEqual(offsets, [0, 2])
+  assert.equal(result.length, 1)
+  assert.equal(result[0].id, 'netease:77')
+  assert.equal(result[0].count, 1001)
+  assert.equal(result[0].ownerId, '100')
+})
+
+test('created playlist loads every track ID in batches and preserves remote ordering', async() => {
+  const ids = Array.from({ length: 1001 }, (_, n) => n + 1).reverse()
+  const batches = []
+  const result = await provider.playlistTracks(context((url, data) => {
+    if (url.includes('/playlist/detail')) return { code: 200, playlist: { creator: { userId: 100 }, trackCount: ids.length, trackIds: ids.map(id => ({ id })) } }
+    const batch = JSON.parse(data.c).map(item => item.id)
+    batches.push(batch.length)
+    return { code: 200, songs: [...batch].reverse().map(music) }
+  }), { id: '100' }, createdPlaylist)
+  assert.deepEqual(batches, [500, 500, 1])
+  assert.equal(result.length, 1001)
+  assert.deepEqual(Array.from(result, item => item.meta.songId), ids)
+})
+
+test('created playlist rejects another identity and incomplete ID pages', async() => {
+  await assert.rejects(provider.playlistTracks(context(() => ({ code: 200, playlist: { creator: { userId: 101 }, trackIds: [] } })), { id: '100' }, createdPlaylist), /不属于/)
+  await assert.rejects(provider.playlistTracks(context(() => ({ code: 200, playlist: { creator: { userId: 100 }, trackCount: 2, trackIds: [{ id: 1 }] } })), { id: '100' }, createdPlaylist), /不完整/)
+})
 
 test('likes loads all IDs in batches and normalizes real SDK track identifiers', async() => {
   const calls = []
@@ -41,4 +76,29 @@ test('remote write uses target platform ID and propagates expired authentication
   assert.equal(sent.data.like, false)
   assert(sent.url.includes('/radio/like'))
   await assert.rejects(provider.like(context(() => ({ code: 301 })), {}, { meta: { songId: 42 } }, true), /登录已失效/)
+})
+
+test('music URL uses the platform session and returns the resolved stream type', async() => {
+  let sent
+  const track = { meta: { songId: 33894312 } }
+  const result = await provider.musicUrl(context((url, data) => {
+    sent = { url, data }
+    return { code: 200, data: [{ id: 33894312, level: 'exhigh', br: 320000, url: 'https://stream.example.test/song.mp3' }] }
+  }), track, '320k')
+  assert(sent.url.includes('/song/enhance/player/url/v1'))
+  assert.deepEqual(JSON.parse(sent.data.ids), [33894312])
+  assert.equal(sent.data.level, 'exhigh')
+  assert.equal(result.url, 'https://stream.example.test/song.mp3')
+  assert.equal(result.type, '320k')
+  assert.equal(result.quality, '320k')
+})
+
+test('highest quality reports actual platform downgrade and rejects previews', async() => {
+  const track = { meta: { songId: 33894312 } }
+  const result = await provider.musicUrl(context((_url, data) => {
+    assert.equal(data.level, 'jymaster')
+    return { code: 200, data: [{ id: 33894312, level: 'exhigh', br: 320000, url: 'https://stream.test/full.mp3' }] }
+  }), track, 'auto')
+  assert.equal(result.quality, '320k')
+  await assert.rejects(provider.musicUrl(context(() => ({ code: 200, data: [{ url: 'https://stream.test/trial.mp3', freeTrialInfo: { end: 30 } }] })), track, 'auto'), /试听/)
 })

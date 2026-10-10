@@ -1,4 +1,6 @@
-export type PlatformId = 'qq' | 'netease'
+export type PlatformId = 'qq' | 'netease' | 'kugou' | 'kuwo' | 'migu' | 'bilibili'
+
+export const platformNames: Record<PlatformId, string> = { qq: 'QQ 音乐', netease: '网易云音乐', kugou: '酷狗音乐', kuwo: '酷我音乐', migu: '咪咕音乐', bilibili: '哔哩哔哩' }
 
 export interface PlatformProfile {
   id: string
@@ -15,6 +17,8 @@ export interface PlatformAccount {
   lastSync: number | null
   count: number
   error: string
+  notice?: string
+  canSync?: boolean
 }
 
 export interface PlatformFavorite {
@@ -23,9 +27,28 @@ export interface PlatformFavorite {
   platforms: Array<{ platform: PlatformId, track: LX.Music.MusicInfoOnline }>
 }
 
+export interface PlatformPlaylist {
+  id: string
+  platform: PlatformId
+  ownerId: string
+  remoteId: string
+  name: string
+  cover: string
+  count: number
+  lastSync: number | null
+  loaded: boolean
+}
+
+export interface PlatformPlaylistDetail {
+  playlist: PlatformPlaylist
+  tracks: LX.Music.MusicInfoOnline[]
+  cached: boolean
+}
+
 export interface PlatformSnapshot {
   accounts: PlatformAccount[]
   favorites: PlatformFavorite[]
+  playlists?: PlatformPlaylist[]
 }
 
 export interface PlatformLikeResult {

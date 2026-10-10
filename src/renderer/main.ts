@@ -37,7 +37,7 @@ router.afterEach((to) => {
   }
 })
 
-void getSetting().then(setting => {
+void getSetting().then(async(setting) => {
   // window.lx.appSetting = setting
   // Set language automatically
   if (!setting['common.langId'] || !window.i18n.availableLocales.includes(setting['common.langId'])) {
@@ -66,7 +66,7 @@ void getSetting().then(setting => {
   }
 
   // store.commit('setSetting', setting)
-  initSetting(setting)
+  await initSetting(setting)
 
   const app = createApp(App)
   app

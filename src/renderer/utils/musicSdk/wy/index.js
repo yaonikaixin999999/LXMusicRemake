@@ -6,6 +6,7 @@ import musicSearch from './musicSearch'
 import songList from './songList'
 import hotSearch from './hotSearch'
 import comment from './comment'
+import { getPlatformMusicUrl } from '../platform'
 // import tipSearch from './tipSearch'
 
 const wy = {
@@ -16,7 +17,10 @@ const wy = {
   hotSearch,
   comment,
   getMusicUrl(songInfo, type) {
-    return apis('wy').getMusicUrl(songInfo, type)
+    return {
+      promise: getPlatformMusicUrl('wy', songInfo, type)
+        .catch(() => apis('wy').getMusicUrl(songInfo, type).promise),
+    }
   },
   getLyric(songInfo) {
     return getLyric(songInfo.songmid)

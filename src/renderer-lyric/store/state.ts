@@ -3,7 +3,7 @@ import { ref, shallowReactive } from '@common/utils/vueTools'
 export const setting = shallowReactive<LX.DesktopLyric.Config>({
   'desktopLyric.enable': false,
   'desktopLyric.isLock': false,
-  'desktopLyric.isAlwaysOnTop': false,
+  'desktopLyric.isAlwaysOnTop': true,
   'desktopLyric.isAlwaysOnTopLoop': false,
   'desktopLyric.isShowTaskbar': true,
   'desktopLyric.pauseHide': false,
@@ -26,6 +26,7 @@ export const setting = shallowReactive<LX.DesktopLyric.Config>({
   'desktopLyric.style.lineGap': 15,
   // 'desktopLyric.style.fontWeight': true,
   'desktopLyric.style.opacity': 95,
+  'desktopLyric.style.backgroundOpacity': 100,
   'desktopLyric.style.ellipsis': false,
   'desktopLyric.style.isFontWeightFont': false,
   'desktopLyric.style.isFontWeightLine': false,

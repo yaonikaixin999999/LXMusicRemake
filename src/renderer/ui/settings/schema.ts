@@ -1,6 +1,7 @@
 import defaultSetting from '@common/defaultSetting'
 import { windowSizeList } from '@common/config'
 import { langList } from '@root/lang'
+import { qualityLabels } from '@common/platformPlayback'
 import labels from './labels.json'
 
 export type SettingKey = keyof LX.AppSetting
@@ -18,8 +19,8 @@ export interface SettingField {
 }
 
 export const categories = [
-  { id: 'accounts', name: '平台账号与红心', description: 'QQ 音乐与网易云音乐', keywords: '登录 账号 密码 扫码 QR 红心 收藏 平台 同步 QQ 网易云' },
-  { id: 'general', name: '常规与外观', description: '窗口、字体、语言与主题，调整熟悉的音乐空间。', keywords: '主题 颜色 圆角 外观 窗口' },
+  { id: 'accounts', name: '平台账号与红心', description: '连接各平台账号，汇总红心与创建歌单。', keywords: '登录 账号 密码 扫码 QR 红心 收藏 歌单 平台 同步 QQ 网易云 酷狗 酷我 咪咕 哔哩哔哩 Bilibili' },
+  { id: 'general', name: '常规与外观', description: '窗口、字体、语言与主题，调整熟悉的音乐空间。', keywords: '主题 颜色 圆角 外观 窗口 间距 面板' },
   { id: 'sources', name: '音源管理', description: '导入并选择你使用的音乐接口，管理其更新提醒。', keywords: '接口 脚本 API 导入 音源' },
   { id: 'playback', name: '播放', description: '音质、播放顺序、恢复进度与定时停止。', keywords: '定时 睡眠 音质' },
   { id: 'audio', name: '声音与设备', description: '输出设备、音量、均衡器、空间音效与音高。', keywords: 'EQ 音效 环境 环绕 扬声器' },
@@ -32,7 +33,8 @@ export const categories = [
   { id: 'openAPI', name: '开放接口', description: '开启本地控制服务，查看实际连接状态。', keywords: 'HTTP API 接口 控制' },
   { id: 'hotkeys', name: '快捷键', description: '设置应用内和系统全局快捷键。', keywords: '热键 快捷键 键盘' },
   { id: 'data', name: '备份与数据', description: '导入、导出资料，管理缓存和数据。', keywords: '备份 导入 导出 缓存 数据' },
-  { id: 'about', name: '关于', description: '版本、开源项目、使用说明与更新状态。', keywords: '版本 更新 开源' },
+  { id: 'updates', name: '检查更新', description: '自动检查新版本，选择下载来源，查看更新日志与历史版本。', keywords: '版本 更新 日志 下载 GitHub Releases 自动 官方 国内 加速 镜像 安装包' },
+  { id: 'about', name: '关于', description: '版本、开源项目与使用说明。', keywords: '版本 开源 LinkLine LXMusic 源码 许可' },
 ]
 
 const choices = (values: Array<[string | number, string]>): Option[] => values.map(([value, label]) => ({ value, label }))
@@ -44,7 +46,7 @@ const enums: Partial<Record<SettingKey, Option[]>> = {
   'common.controlBtnPosition': choices([['left', '左侧'], ['right', '右侧']]),
   'common.playBarProgressStyle': choices([['mini', '简洁'], ['middle', '居中'], ['full', '完整宽度']]),
   'player.togglePlayMethod': choices([['listLoop', '列表循环'], ['random', '随机播放'], ['list', '顺序播放'], ['singleLoop', '单曲循环'], ['none', '播放一次']]),
-  'player.playQuality': choices(['128k', '192k', '320k', 'flac', 'flac24bit', 'wav', 'ape'].map(value => [value, value.toUpperCase()])),
+  'player.playQuality': choices(Object.entries(qualityLabels)),
   'playDetail.style.align': align,
   'desktopLyric.style.align': align,
   'desktopLyric.scrollAlign': choices([['top', '顶部'], ['center', '居中']]),
@@ -69,6 +71,7 @@ const bounds: Partial<Record<SettingKey, [number, number, number?]>> = {
   'desktopLyric.style.fontSize': [8, 120],
   'desktopLyric.style.lineGap': [0, 100],
   'desktopLyric.style.opacity': [0, 100],
+  'desktopLyric.style.backgroundOpacity': [0, 100],
   'desktopLyric.width': [100, 5000],
   'desktopLyric.height': [50, 3000],
   'download.maxDownloadNum': [1, 6],
@@ -79,9 +82,11 @@ const hints: Partial<Record<SettingKey, string>> = {
   'common.transparentWindow': '更改后重新启动应用生效。',
   'common.font': '选择系统字体，也可以手动填写字体家族列表。',
   'desktopLyric.style.font': '留空时使用系统默认字体。',
+  'desktopLyric.style.backgroundOpacity': '0% 为全透明，100% 为不透明；只调整背景，不影响歌词文字和工具栏。',
   'desktopLyric.x': '留空时由应用自动定位；支持负坐标。',
   'desktopLyric.y': '留空时由应用自动定位；支持负坐标。',
   'player.mediaDeviceId': '开启高级音效后，音频输出固定为系统默认设备。',
+  'player.playQuality': '与播放栏共享同一音质偏好，修改后会切换当前歌曲并保留进度。实际音质由平台、账号权限与歌曲版权决定。',
   'player.soundEffect.convolution.mainGain': '数值 10 表示原声增益 100%。',
   'player.soundEffect.convolution.sendGain': '数值 10 表示环境音增益 100%。',
   'player.waitPlayEndStopTime': '以分钟计，例如 30；点击启动定时按钮开始倒计时。',

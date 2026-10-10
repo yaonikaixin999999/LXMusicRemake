@@ -21,6 +21,8 @@
 
           <PlatformAccounts v-if="category.id === 'accounts'" />
 
+          <div v-if="category.id === 'lyrics'" class="studio-settings-feature"><div><h3>找回桌面歌词</h3><p>将歌词移回当前屏幕，恢复可见背景并解除锁定。</p></div><button type="button" class="studio-settings-button primary" :disabled="busy" @click="recoverDesktopLyrics"><UiIcon name="lyric" />找回桌面歌词</button></div>
+
           <template v-if="category.id === 'sources'">
             <div class="studio-settings-feature"><div><h3>{{ userApi.status ? '音源连接正常' : currentSource ? '音源连接状态' : '添加你的音乐音源' }}</h3><p>{{ currentSource ? `${currentSource.name} · ${sourceStatus}` : '导入已有的 LX 音源脚本后，即可使用对应接口播放音乐。' }}</p></div><button type="button" class="studio-settings-button primary" :disabled="busy" @click="importSource()">导入脚本</button></div>
             <div class="studio-settings-inline-form"><input v-model="sourceUrl" type="url" placeholder="https://… 音源脚本地址" aria-label="在线音源脚本地址"><button type="button" class="studio-settings-button" :disabled="busy || !sourceUrl" @click="importOnlineSource">从链接导入</button></div>
@@ -79,10 +81,12 @@
             <div class="studio-settings-feature danger"><div><h3>清空音乐库</h3><p>删除所有歌单、试听列表与收藏。清理前请导出备份。</p></div><button type="button" class="studio-settings-button danger" :disabled="busy" @click="clearData('lists')">清空音乐库</button></div>
           </template>
 
+          <UpdateCenterPanel v-if="category.id === 'updates'" />
+
           <template v-if="category.id === 'about'">
-            <div class="studio-settings-about"><span>LL</span><h2>LinkLine</h2><p>版本 {{ versionInfo.version }} · 独立桌面客户端</p><p>音乐无界，热爱不止。</p></div>
-            <p class="studio-settings-hint">LinkLine 基于落雪无痕的 LX Music 开源项目重新设计界面，保留其原生播放器和音乐服务。遵循 Apache-2.0 开源许可。本产品独立安装，不使用原项目的自动更新渠道。</p>
-            <div class="studio-settings-actions spaced"><button type="button" class="studio-settings-button" @click="openUrl('https://github.com/lyswhut/lx-music-desktop')">原项目源码<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="openUrl('https://lyswhut.github.io/lx-music-doc/desktop')">使用说明<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="licenseOpen = true">开源许可</button></div>
+            <div class="studio-settings-about"><img :src="linklineLogo" alt="LinkLine 标志"><h2>LinkLine</h2><p>版本 {{ versionInfo.version }} · 独立桌面客户端</p><p>音乐无界，热爱不止。</p></div>
+            <p class="studio-settings-hint">LinkLine 基于 LXMusic 开源项目再开发。遵循 Apache-2.0 开源许可。</p>
+            <div class="studio-settings-actions spaced"><button type="button" class="studio-settings-button" @click="openUrl(LINKLINE_REPOSITORY)">项目源码<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="openUrl(`${LINKLINE_REPOSITORY}#readme`)">使用说明<UiIcon name="arrowUpRight" /></button><button type="button" class="studio-settings-button" @click="licenseOpen = true">开源许可</button><button type="button" class="studio-settings-button" @click="openUpdateCenter"><UiIcon name="cloudDownload" />检查更新</button></div>
           </template>
         </section>
       </main>
@@ -108,6 +112,10 @@ import UiModal from '@renderer/ui/components/UiModal.vue'
 import UiSelect from '@renderer/ui/components/UiSelect.vue'
 import UiIcon from '@renderer/ui/components/UiIcon.vue'
 import PlatformAccounts from '@renderer/ui/components/PlatformAccounts.vue'
+import UpdateCenterPanel from '@renderer/ui/components/UpdateCenterPanel.vue'
+import linklineLogo from '@renderer/assets/images/linkline-logo.svg'
+import { LINKLINE_REPOSITORY } from '@common/appUpdate'
+import { openUpdateCenter } from '@renderer/ui/services/appUpdate'
 import { categories, settingFields, type Option, type SettingField } from '@renderer/ui/settings/schema'
 import { useSettings } from '@renderer/ui/settings/useSettings'
 import { useHotkeys } from '@renderer/ui/settings/useHotkeys'
@@ -166,6 +174,22 @@ function optionsFor(field: SettingField): Option[] {
 }
 function changeField(field: SettingField, event: Event) { void setPreference(field, (event.target as HTMLInputElement).value) }
 function changeChoice(field: SettingField, value: string | number) { void setPreference(field, String(value)) }
+async function recoverDesktopLyrics() {
+  await run('桌面歌词已移回当前屏幕', async() => {
+    await settings.saveRecord({
+      'desktopLyric.enable': true,
+      'desktopLyric.isLock': false,
+      'desktopLyric.isAlwaysOnTop': true,
+      'desktopLyric.style.opacity': 95,
+      'desktopLyric.style.backgroundOpacity': 100,
+      'desktopLyric.style.fontSize': 20,
+      'desktopLyric.width': 450,
+      'desktopLyric.height': 300,
+      'desktopLyric.x': null,
+      'desktopLyric.y': null,
+    })
+  })
+}
 async function importOnlineSource() {
   try {
     const url = new URL(sourceUrl.value.trim())
@@ -266,8 +290,8 @@ onMounted(() => { void getUserEQPresetList().then(list => { customEq.value = lis
 .studio-settings-device { padding: 14px 0; border-bottom: 1px solid var(--modern-border); display: flex; align-items: center; justify-content: space-between; font-size: 12px; small { display: block; color: var(--modern-muted); font-size: 10px; margin-top: 5px; } }
 .studio-settings-hotkeys { margin-top: 25px; > header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; h3 { font-size: 13px; font-weight: 550; } .studio-settings-check { margin: 0; } } }
 .studio-settings-hotkey-error { color: #c66666; font-size: 9px; white-space: nowrap; }
-.studio-settings-backups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; article { padding: 18px; border: 1px solid var(--modern-border); border-radius: var(--modern-radius-small); background: var(--modern-hover); > svg { width: 26px; height: 26px; color: var(--modern-accent-ink); } h3 { font-size: 13px; font-weight: 550; margin: 12px 0 7px; } p { font-size: 10px; color: var(--modern-muted); line-height: 1.7; margin-bottom: 16px; min-height: 34px; } .studio-settings-button { padding: 7px 10px; } } }
-.studio-settings-about { text-align: center; padding: 20px 0 35px; > span { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 18px; background: var(--modern-accent-soft); color: var(--modern-accent-ink); border-radius: 18px; font-size: 23px; font-weight: 700; } h2 { font-size: 24px; font-weight: 650; } p { color: var(--modern-muted); font-size: 11px; margin-top: 10px; } }
+.studio-settings-backups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--modern-panel-gap); article { padding: 18px; border: 1px solid var(--modern-border); border-radius: var(--modern-radius-small); background: var(--modern-hover); > svg { width: 26px; height: 26px; color: var(--modern-accent-ink); } h3 { font-size: 13px; font-weight: 550; margin: 12px 0 7px; } p { font-size: 10px; color: var(--modern-muted); line-height: 1.7; margin-bottom: 16px; min-height: 34px; } .studio-settings-button { padding: 7px 10px; } } }
+.studio-settings-about { text-align: center; padding: 20px 0 35px; > img { display: block; width: 64px; height: 64px; margin: 0 auto 18px; } h2 { font-size: 24px; font-weight: 650; } p { color: var(--modern-muted); font-size: 11px; margin-top: 10px; } }
 .studio-settings-license { margin: 16px 0; color: var(--modern-muted); }
 .studio-settings button:focus-visible, .studio-settings input:focus-visible, .studio-settings textarea:focus-visible { outline: 2px solid var(--modern-accent); outline-offset: 3px; }
 @media (max-width: 1100px) { .studio-settings-content { padding: 23px 22px 35px; } .studio-settings-control { width: 200px; } .studio-settings-layout { grid-template-columns: 145px minmax(0, 1fr); } }

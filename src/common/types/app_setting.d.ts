@@ -1,4 +1,5 @@
 import type { I18n } from '../../lang/i18n'
+import type { PlatformQuality } from '../platformPlayback'
 
 declare global {
 
@@ -96,7 +97,7 @@ declare global {
       /**
        * 优先播放的音质
        */
-      'player.playQuality': LX.Quality
+      'player.playQuality': PlatformQuality
 
       /**
        * 是否显示任务栏进度条
@@ -444,6 +445,11 @@ declare global {
        * 桌面歌词字体透明度
        */
       'desktopLyric.style.opacity': number
+
+      /**
+       * 桌面歌词背景不透明度：0 为透明，100 为不透明，不影响文字
+       */
+      'desktopLyric.style.backgroundOpacity': number
 
       /**
        * 桌面歌词是否允许换行

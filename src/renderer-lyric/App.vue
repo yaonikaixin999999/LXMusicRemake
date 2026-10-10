@@ -1,16 +1,17 @@
 <template>
-  <div class="lyric-window" :class="{ locked: setting['desktopLyric.isLock'], hidden: setting['desktopLyric.isLock'] && (isHide || isHoverHide) }">
+  <div class="lyric-window" :class="{ locked: setting['desktopLyric.isLock'], hidden: setting['desktopLyric.isLock'] && (isHide || isHoverHide) }" :style="backgroundStyle">
     <div class="lyric-window-card" @pointerdown="startDrag">
       <LyricSpectrum v-if="setting['desktopLyric.audioVisualization']" />
       <LyricStage />
       <LyricToolbar />
+      <div v-if="setting['desktopLyric.isLock'] && (isHide || isHoverHide)" class="lyric-window-hidden-status"><strong>桌面歌词</strong><span>{{ isHide ? '播放暂停，歌词已隐藏' : '鼠标经过，歌词暂时隐藏' }}</span><small>点击右上角锁形按钮解锁</small></div>
     </div>
     <template v-if="!setting['desktopLyric.isLock']"><div v-for="edge in edges" :key="edge" class="lyric-window-resize" :class="`lyric-window-resize-${edge}`" @pointerdown.self.stop.prevent="startResize(edge, $event)" /></template>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { setting } from '@lyric/store/state'
 import useWindowSize from '@lyric/useApp/useWindowSize'
 import useHoverHide from '@lyric/useApp/useHoverHide'
@@ -35,6 +36,10 @@ const isHide = usePauseHide()
 const startDrag = useDesktopDrag()
 const { startResize } = useWindowSize()
 const edges = ['left', 'right', 'top', 'bottom', 'top-left', 'top-right', 'bottom-left', 'bottom-right']
+const backgroundStyle = computed(() => {
+  const opacity = setting['desktopLyric.style.backgroundOpacity']
+  return { '--lyric-background-opacity': (Number.isFinite(opacity) ? Math.min(100, Math.max(0, opacity)) : 100) / 100 }
+})
 onMounted(() => { initLyricPlayer(); sendConnectMainWindowEvent() })
 </script>
 
@@ -44,8 +49,9 @@ html, body, #root { width: 100%; height: 100%; margin: 0; background: transparen
 body { user-select: none; font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; -webkit-font-smoothing: antialiased; }
 .lyric-window { height: 100%; box-sizing: border-box; padding: 7px; }
 .lyric-window.hidden .lyric-stage, .lyric-window.hidden .lyric-spectrum { opacity: 0 !important; }
-.lyric-window-card { height: 100%; position: relative; overflow: hidden; border-radius: var(--modern-radius, 18px); background: var(--modern-panel, #222525); border: 1px solid var(--modern-border, #ffffff20); box-shadow: 0 4px 18px rgba(0, 0, 0, .12); box-sizing: border-box; }
-.lyric-window.locked { padding: 0; .lyric-window-card { background: transparent; border-color: transparent; box-shadow: none; } }
+.lyric-window-card { height: 100%; position: relative; overflow: hidden; border-radius: var(--modern-radius, 18px); background: transparent; box-shadow: 0 4px 18px rgba(0, 0, 0, calc(.12 * var(--lyric-background-opacity, 1))); box-sizing: border-box; }
+.lyric-window-card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--modern-panel, #222525); border: 1px solid var(--modern-border, #ffffff20); opacity: var(--lyric-background-opacity, 1); box-sizing: border-box; pointer-events: none; }
+.lyric-window-hidden-status { position: absolute; inset: 42px 16px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; color: var(--modern-text); pointer-events: none; text-align: center; strong { font-size: 16px; font-weight: 500; } span { font-size: 13px; color: var(--modern-muted); } small { font-size: 11px; color: var(--modern-muted); } }
 .lyric-window-status { position: absolute; bottom: 10px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; color: rgba(255, 255, 255, .34); font-size: 7px; letter-spacing: 1.1px; opacity: 0; transition: opacity .18s; }
 .lyric-window-card:hover .lyric-window-status { opacity: 1; }
 .lyric-window-resize { position: absolute; z-index: 10; }

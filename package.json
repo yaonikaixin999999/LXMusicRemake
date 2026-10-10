@@ -1,7 +1,7 @@
 {
   "name": "linkline",
   "version": "1.0.0",
-  "description": "LinkLine — 全新音乐桌面前端，基于 LX Music 服务",
+  "description": "LinkLine — 多平台音乐桌面客户端，基于 LXMusic 开源项目再开发",
   "main": "./dist/main.js",
   "scripts": {
     "start": "electron .",
@@ -58,6 +58,7 @@
     "dev": "cross-env NODE_OPTIONS=--max-http-header-size=200000 node build-config/runner-dev.js",
     "build:theme": "node src/common/theme/createThemes.js",
     "build": "node build-config/pack.js",
+    "release:prepare": "node scripts/prepare-release.cjs",
     "build:main": "cross-env NODE_ENV=production webpack --config build-config/main/webpack.config.prod.js --progress",
     "build:renderer": "cross-env NODE_ENV=production webpack --config build-config/renderer/webpack.config.prod.js --progress",
     "build:renderer-lyric": "cross-env NODE_ENV=production webpack --config build-config/renderer-lyric/webpack.config.prod.js --progress",
@@ -99,9 +100,10 @@
     "vuejs3"
   ],
   "author": {
-    "name": "lyswhut",
-    "email": "lyswhut@qq.com"
+    "name": "yaonikaixin999999",
+    "email": "154858262+yaonikaixin999999@users.noreply.github.com"
   },
+  "contributors": [{ "name": "lyswhut", "url": "https://github.com/lyswhut" }],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/yaonikaixin999999/LXMusicRemake/issues"

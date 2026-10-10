@@ -392,19 +392,40 @@ export const setPitchShifter = (val: number) => {
 
 export const hasInitedAdvancedAudioFeatures = (): boolean => audioContext != null
 
-export const setResource = (src: string) => {
-  if (audio) audio.src = src
+let clearResourceRestore: (() => void) | null = null
+export const setResource = (src: string, options?: { time: number, autoplay: boolean }) => {
+  if (!audio) return
+  clearResourceRestore?.()
+  clearResourceRestore = null
+  audio.autoplay = options?.autoplay ?? true
+  if (options) {
+    const restore = () => {
+      if (!audio) return
+      audio.currentTime = Math.max(0, Math.min(options.time, Number.isFinite(audio.duration) ? audio.duration : options.time))
+      if (!audio.autoplay) audio.pause()
+      clearResourceRestore = null
+    }
+    audio.addEventListener('loadedmetadata', restore, { once: true })
+    clearResourceRestore = () => audio?.removeEventListener('loadedmetadata', restore)
+  }
+  audio.src = src
 }
 
 export const setPlay = () => {
+  if (audio) audio.autoplay = true
   void audio?.play()
 }
 
 export const setPause = () => {
+  if (audio) audio.autoplay = false
   audio?.pause()
 }
 
+export const getAutoplay = (): boolean => audio?.autoplay ?? false
+
 export const setStop = () => {
+  clearResourceRestore?.()
+  clearResourceRestore = null
   if (audio) {
     audio.src = ''
     audio.removeAttribute('src')

@@ -49,6 +49,8 @@ const winEvent = () => {
     clearInterval(lockedMouseTimer)
     lockedMouseTimer = undefined
     alwaysOnTopTools.clearLoop()
+    screen.removeListener('display-removed', recoverWindowPosition)
+    screen.removeListener('display-metrics-changed', recoverWindowPosition)
     browserWindow = null
   })
 
@@ -102,8 +104,13 @@ const winEvent = () => {
     //   browserWindow!.setAlwaysOnTop(global.lx.appSetting['desktopLyric.isAlwaysOnTop'], 'screen-saver')
     // }
     if (global.lx.appSetting['desktopLyric.isAlwaysOnTop'] && global.lx.appSetting['desktopLyric.isAlwaysOnTopLoop']) alwaysOnTopTools.startLoop()
-    browserWindow!.blur()
   })
+}
+
+const recoverWindowPosition = () => {
+  if (!browserWindow || browserWindow.isDestroyed()) return
+  const bounds = browserWindow.getBounds()
+  setBounds(initWindowSize(bounds.x, bounds.y, bounds.width, bounds.height))
 }
 
 export const createWindow = () => {
@@ -118,12 +125,17 @@ export const createWindow = () => {
   let isShowTaskbar = global.lx.appSetting['desktopLyric.isShowTaskbar']
   // let { width: screenWidth, height: screenHeight } = global.envParams.workAreaSize
   const winSize = initWindowSize(x, y, width, height)
-  global.lx.event_app.update_config({
+  const visibleConfig: Partial<LX.AppSetting> = {
     'desktopLyric.x': winSize.x,
     'desktopLyric.y': winSize.y,
     'desktopLyric.width': winSize.width,
     'desktopLyric.height': winSize.height,
-  })
+  }
+  const opacity = global.lx.appSetting['desktopLyric.style.opacity']
+  const fontSize = global.lx.appSetting['desktopLyric.style.fontSize']
+  if (!Number.isFinite(opacity) || opacity <= 0) visibleConfig['desktopLyric.style.opacity'] = 95
+  if (!Number.isFinite(fontSize) || fontSize <= 0) visibleConfig['desktopLyric.style.fontSize'] = 20
+  global.lx.event_app.update_config(visibleConfig)
 
   const { shouldUseDarkColors, theme } = global.lx.theme
 
@@ -168,6 +180,8 @@ export const createWindow = () => {
   void browserWindow.loadURL(winURL + `?os=${getPlatform()}&dark=${shouldUseDarkColors}&theme=${encodeURIComponent(JSON.stringify(theme))}`)
 
   winEvent()
+  screen.on('display-removed', recoverWindowPosition)
+  screen.on('display-metrics-changed', recoverWindowPosition)
   // browserWindow.webContents.openDevTools()
   global.lx.event_app.desktop_lyric_window_created(browserWindow)
 }
@@ -180,7 +194,9 @@ export const closeWindow = () => {
 
 export const showWindow = () => {
   if (!browserWindow) return
-  browserWindow.show()
+  recoverWindowPosition()
+  browserWindow.showInactive()
+  browserWindow.moveTop()
 }
 
 export const setResizeable = (isResizeable: boolean) => {

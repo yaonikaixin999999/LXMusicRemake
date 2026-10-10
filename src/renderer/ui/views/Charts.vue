@@ -21,7 +21,6 @@ import { getBoardsList, getListDetail, getListDetailAll } from '@renderer/store/
 import { createUserList, getUserLists, setTempList } from '@renderer/store/list/action'
 import { userLists } from '@renderer/store/list/state'
 import { sourceNames } from '@renderer/store'
-import { assertApiSupport } from '@renderer/store/utils'
 import { getLeaderboardSetting, setLeaderboardSetting } from '@renderer/utils/data'
 import { toMD5 } from '@renderer/utils'
 import { LIST_IDS } from '@common/constants'
@@ -125,8 +124,15 @@ async function playCollection(selected?: LX.Music.MusicInfo) {
   busy.value = 'play'
   message.value = ''
   try {
-    if (!assertApiSupport(selected?.source ?? selectedSource)) throw new Error('当前音源尚未启用。请在设置中导入支持此平台的音乐源后再播放。')
-    const list = await getCollection(id)
+    let list: LX.Music.MusicInfoOnline[]
+    if (selected) list = tracks.value
+    else {
+      try { list = await getCollection(id) } catch (err) {
+        if (!tracks.value.length) throw err
+        list = tracks.value
+        message.value = '完整榜单暂时无法读取，已播放当前页的歌曲。'
+      }
+    }
     if (!active || revision !== collectionRevision || source.value !== selectedSource || boardId.value !== id) return
     const target = selected ? list.find(track => track.id === selected.id) : list[0]
     if (!target) throw new Error('这个榜单暂时没有可播放的歌曲。')
@@ -160,7 +166,7 @@ function openAction(track: LX.Music.MusicInfo, value: 'add' | 'download') { acti
 
 <style lang="less">
 @import '../discovery.less';
-.ui-charts-picks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; margin: 6px 0 19px; button { position: relative; min-width: 0; padding: 18px; border: 1px solid var(--modern-border); border-radius: var(--modern-radius-small); background: var(--modern-panel); color: var(--modern-text); text-align: left; cursor: pointer; transition: background .15s, border-color .15s; &.active, &:hover { background: var(--modern-accent-soft); border-color: var(--modern-accent); } strong { display: block; overflow: hidden; margin: 17px 0 8px; font-family: inherit; font-size: 15px; font-weight: 500; white-space: nowrap; text-overflow: ellipsis; } small { color: var(--modern-muted); font-size: 9px; } } }
+.ui-charts-picks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--modern-panel-gap); margin: 6px 0 19px; button { position: relative; min-width: 0; padding: 18px; border: 1px solid var(--modern-border); border-radius: var(--modern-radius-small); background: var(--modern-panel); color: var(--modern-text); text-align: left; cursor: pointer; transition: background .15s, border-color .15s; &.active, &:hover { background: var(--modern-accent-soft); border-color: var(--modern-accent); } strong { display: block; overflow: hidden; margin: 17px 0 8px; font-family: inherit; font-size: 15px; font-weight: 500; white-space: nowrap; text-overflow: ellipsis; } small { color: var(--modern-muted); font-size: 9px; } } }
 .ui-charts-picks__number { color: var(--modern-accent-ink); font-size: 23px; font-weight: 400; letter-spacing: -1px; }
 .ui-charts .ui-heading-glyph .ui-svg-icon { width: 26px; height: 26px; }
 .ui-charts-picks__arrow { position: absolute; right: 14px; top: 17px; color: var(--modern-muted); font-size: 17px; .ui-svg-icon { width: 17px; height: 17px; } }

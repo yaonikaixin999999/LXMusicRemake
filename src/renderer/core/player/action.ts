@@ -1,4 +1,4 @@
-import { isEmpty, setPause, setPlay, setResource, setStop } from '@renderer/plugins/player'
+import { getAutoplay, getCurrentTime, isEmpty, setPause, setPlay, setResource, setStop } from '@renderer/plugins/player'
 import { isPlay, playedList, playInfo, playMusicInfo, tempPlayList, musicInfo as _musicInfo } from '@renderer/store/player/state'
 import {
   getList,
@@ -18,13 +18,15 @@ import { filterList } from './utils'
 import { requestMsg } from '@renderer/utils/message'
 import { getRandom } from '@renderer/utils/index'
 import { requestFavorite } from '@renderer/ui/services/platformAccounts'
+import { activeStream, commitStream, preferredQuality } from '@renderer/ui/services/platformPlayback'
 import { addDislikeInfo } from '@renderer/core/dislikeList'
 // import { checkMusicFileAvailable } from '@renderer/utils/music'
 
 let gettingUrlId = ''
+let resourceGeneration = 0
 const createGettingUrlId = (musicInfo: LX.Music.MusicInfo | LX.Download.ListItem) => {
   const tInfo = 'progress' in musicInfo ? musicInfo.metadata.musicInfo.meta.toggleMusicInfo : musicInfo.meta.toggleMusicInfo
-  return `${musicInfo.id}_${tInfo?.id ?? ''}`
+  return `${musicInfo.id}_${tInfo?.id ?? ''}_${preferredQuality.value}`
 }
 const createDelayNextTimeout = (delay: number) => {
   let timeout: NodeJS.Timeout | null
@@ -91,6 +93,7 @@ const getMusicPlayUrl = async(musicInfo: LX.Music.MusicInfo | LX.Download.ListIt
 
   // const type = getPlayType(appSetting['player.highQuality'], musicInfo)
   let toggleMusicInfo = ('progress' in musicInfo ? musicInfo.metadata.musicInfo : musicInfo).meta.toggleMusicInfo
+  if (!('progress' in musicInfo) && musicInfo.source !== 'local') toggleMusicInfo = null
 
   return (toggleMusicInfo ? getMusicUrl({
     musicInfo: toggleMusicInfo,
@@ -129,26 +132,53 @@ export const setMusicUrl = (musicInfo: LX.Music.MusicInfo | LX.Download.ListItem
   if (!diffCurrentMusicInfo(musicInfo)) return
   if (cancelDelayRetry) cancelDelayRetry()
   gettingUrlId = createGettingUrlId(musicInfo)
+  const generation = ++resourceGeneration
+  const requested = preferredQuality.value
   void getMusicPlayUrl(musicInfo, isRefresh).then((url) => {
-    if (!url) return
+    if (!url || generation !== resourceGeneration) return
+    commitStream(musicInfo, url, requested)
     setResource(url)
   }).catch((err: any) => {
+    if (generation !== resourceGeneration) return
     console.log(err)
     setAllStatus(err.message)
     window.app_event.error()
     if (appSetting['player.autoSkipOnError']) addDelayNextTimeout()
   }).finally(() => {
-    if (musicInfo === playMusicInfo.musicInfo) {
+    if (generation === resourceGeneration && musicInfo === playMusicInfo.musicInfo) {
       gettingUrlId = ''
       clearLoadTimeout()
     }
   })
 }
 
+export const reloadCurrentQuality = async(): Promise<void> => {
+  const track = playMusicInfo.musicInfo
+  if (!track || 'progress' in track || track.source === 'local') return
+  const generation = ++resourceGeneration
+  const quality = preferredQuality.value
+  setAllStatus('正在切换音质…')
+  try {
+    const url = await getMusicUrl({ musicInfo: track, isRefresh: true })
+    if (generation !== resourceGeneration || track.id !== playMusicInfo.musicInfo?.id || quality !== preferredQuality.value) return
+    const resume = getAutoplay()
+    const time = getCurrentTime()
+    setPause()
+    commitStream(track, url, quality)
+    setResource(url, { time, autoplay: resume })
+    if (!resume) setAllStatus('')
+  } catch (error) {
+    if (generation === resourceGeneration) setAllStatus(error instanceof Error ? error.message : '音质切换失败')
+    throw error
+  }
+}
+
 // 恢复上次播放的状态
 const handleRestorePlay = async(restorePlayInfo: LX.Player.SavedPlayInfo) => {
   const musicInfo = playMusicInfo.musicInfo
   if (!musicInfo) return
+
+  activeStream.value = null
 
   setImmediate(() => {
     if (musicInfo.id != playMusicInfo.musicInfo?.id) return
@@ -600,6 +630,12 @@ export const pause = () => {
  * 停止播放
  */
 export const stop = () => {
+  ++resourceGeneration
+  gettingUrlId = ''
+  cancelDelayRetry?.()
+  clearDelayNextTimeout()
+  clearLoadTimeout()
+  activeStream.value = null
   setStop()
   setTimeout(() => {
     window.app_event.stop()

@@ -58,7 +58,10 @@ function choose(index: number) {
   close(true)
 }
 function onKey(event: KeyboardEvent) {
-  if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(true); return }
+  if (event.key === 'Escape') {
+    if (open.value) { event.preventDefault(); event.stopPropagation(); close(true) }
+    return
+  }
   if (event.key === 'Tab') { close(true); return }
   if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
     event.preventDefault(); event.stopPropagation()

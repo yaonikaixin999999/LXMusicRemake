@@ -5,6 +5,7 @@ import musicSearch from './musicSearch'
 import { apis } from '../api-source'
 import hotSearch from './hotSearch'
 import comment from './comment'
+import { getPlatformMusicUrl } from '../platform'
 // import tipSearch from './tipSearch'
 
 const tx = {
@@ -16,7 +17,10 @@ const tx = {
   comment,
 
   getMusicUrl(songInfo, type) {
-    return apis('tx').getMusicUrl(songInfo, type)
+    return {
+      promise: getPlatformMusicUrl('tx', songInfo, type)
+        .catch(() => apis('tx').getMusicUrl(songInfo, type).promise),
+    }
   },
   getLyric(songInfo) {
     // let singer = songInfo.singer.indexOf('、') > -1 ? songInfo.singer.split('、')[0] : songInfo.singer

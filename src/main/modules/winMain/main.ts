@@ -112,7 +112,7 @@ export const createWindow = () => {
     transparent: !disableTransparent,
     hasShadow: disableTransparent,
     // enableRemoteModule: false,
-    // icon: join(global.__static, isWin ? 'icons/256x256.ico' : 'icons/512x512.png'),
+    icon: path.join(global.staticPath, 'images/linkline-icon.png'),
     resizable: true,
     maximizable: true,
     minWidth: 720,

@@ -1,2 +1,2 @@
-// This independent application must never install an upstream LX Music update.
-export default () => {}
+// LinkLine checks only its own releases. Downloads and installation stay user initiated.
+export { default } from '../appUpdate'

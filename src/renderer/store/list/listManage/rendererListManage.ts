@@ -19,6 +19,16 @@ import {
 } from './action'
 import { allMusicList } from './state'
 
+// Lists can contain Vue proxies even when their outer array is already raw
+// (for example after filter/map). Unwrap every level at the IPC boundary and
+// copy the payload so preparing it never mutates the caller's reactive state.
+const toListPayload = <T>(data: T): T => {
+  if (data === null || typeof data !== 'object') return data
+  const raw = toRaw(data)
+  if (Array.isArray(raw)) return raw.map(item => toListPayload(item)) as T
+  return Object.fromEntries(Object.entries(raw).map(([key, value]) => [key, toListPayload(value)])) as T
+}
+
 /**
  * 获取用户列表
  * @returns 所有用户列表
@@ -33,8 +43,7 @@ export const getUserLists = async() => {
  * @param data
  */
 export const createUserList = async(data: LX.List.ListActionAdd) => {
-  data.listInfos = data.listInfos.map(info => toRaw(info))
-  await rendererInvoke<LX.List.ListActionAdd>(PLAYER_EVENT_NAME.list_add, data)
+  await rendererInvoke<LX.List.ListActionAdd>(PLAYER_EVENT_NAME.list_add, toListPayload(data))
 }
 
 /**
@@ -42,7 +51,7 @@ export const createUserList = async(data: LX.List.ListActionAdd) => {
  * @param data
  */
 export const removeUserList = async(data: LX.List.ListActionRemove) => {
-  await rendererInvoke<LX.List.ListActionRemove>(PLAYER_EVENT_NAME.list_remove, data)
+  await rendererInvoke<LX.List.ListActionRemove>(PLAYER_EVENT_NAME.list_remove, toListPayload(data))
 }
 
 /**
@@ -50,8 +59,7 @@ export const removeUserList = async(data: LX.List.ListActionRemove) => {
  * @param data
  */
 export const updateUserList = async(data: LX.List.ListActionUpdate) => {
-  data = data.map(info => toRaw(info))
-  await rendererInvoke<LX.List.ListActionUpdate>(PLAYER_EVENT_NAME.list_update, data)
+  await rendererInvoke<LX.List.ListActionUpdate>(PLAYER_EVENT_NAME.list_update, toListPayload(data))
 }
 
 /**
@@ -59,7 +67,7 @@ export const updateUserList = async(data: LX.List.ListActionUpdate) => {
  * @param data
  */
 export const updateUserListPosition = async(data: LX.List.ListActionUpdatePosition) => {
-  await rendererInvoke<LX.List.ListActionUpdatePosition>(PLAYER_EVENT_NAME.list_update_position, data)
+  await rendererInvoke<LX.List.ListActionUpdatePosition>(PLAYER_EVENT_NAME.list_update_position, toListPayload(data))
 }
 
 /**
@@ -78,7 +86,7 @@ export const getListMusics = async(listId: string | null): Promise<LX.Music.Musi
  * @param data
  */
 export const addListMusics = async(data: LX.List.ListActionMusicAdd) => {
-  await rendererInvoke<LX.List.ListActionMusicAdd>(PLAYER_EVENT_NAME.list_music_add, data)
+  await rendererInvoke<LX.List.ListActionMusicAdd>(PLAYER_EVENT_NAME.list_music_add, toListPayload(data))
 }
 
 /**
@@ -86,7 +94,7 @@ export const addListMusics = async(data: LX.List.ListActionMusicAdd) => {
  * @param data
  */
 export const moveListMusics = async(data: LX.List.ListActionMusicMove) => {
-  await rendererInvoke<LX.List.ListActionMusicMove>(PLAYER_EVENT_NAME.list_music_move, data)
+  await rendererInvoke<LX.List.ListActionMusicMove>(PLAYER_EVENT_NAME.list_music_move, toListPayload(data))
 }
 
 /**
@@ -94,7 +102,7 @@ export const moveListMusics = async(data: LX.List.ListActionMusicMove) => {
  * @param data
  */
 export const removeListMusics = async(data: LX.List.ListActionMusicRemove) => {
-  await rendererInvoke<LX.List.ListActionMusicRemove>(PLAYER_EVENT_NAME.list_music_remove, data)
+  await rendererInvoke<LX.List.ListActionMusicRemove>(PLAYER_EVENT_NAME.list_music_remove, toListPayload(data))
 }
 
 /**
@@ -102,7 +110,7 @@ export const removeListMusics = async(data: LX.List.ListActionMusicRemove) => {
  * @param data
  */
 export const updateListMusics = async(data: LX.List.ListActionMusicUpdate) => {
-  await rendererInvoke<LX.List.ListActionMusicUpdate>(PLAYER_EVENT_NAME.list_music_update, data)
+  await rendererInvoke<LX.List.ListActionMusicUpdate>(PLAYER_EVENT_NAME.list_music_update, toListPayload(data))
 }
 
 /**
@@ -110,7 +118,7 @@ export const updateListMusics = async(data: LX.List.ListActionMusicUpdate) => {
  * @param data
  */
 export const updateListMusicsPosition = async(data: LX.List.ListActionMusicUpdatePosition) => {
-  await rendererInvoke<LX.List.ListActionMusicUpdatePosition>(PLAYER_EVENT_NAME.list_music_update_position, data)
+  await rendererInvoke<LX.List.ListActionMusicUpdatePosition>(PLAYER_EVENT_NAME.list_music_update_position, toListPayload(data))
 }
 
 /**
@@ -118,7 +126,7 @@ export const updateListMusicsPosition = async(data: LX.List.ListActionMusicUpdat
  * @param data
  */
 export const overwriteListMusics = async(data: LX.List.ListActionMusicOverwrite) => {
-  await rendererInvoke<LX.List.ListActionMusicOverwrite>(PLAYER_EVENT_NAME.list_music_overwrite, data)
+  await rendererInvoke<LX.List.ListActionMusicOverwrite>(PLAYER_EVENT_NAME.list_music_overwrite, toListPayload(data))
 }
 
 /**
@@ -126,7 +134,7 @@ export const overwriteListMusics = async(data: LX.List.ListActionMusicOverwrite)
  * @param ids
  */
 export const clearListMusics = async(ids: LX.List.ListActionMusicClear) => {
-  await rendererInvoke<LX.List.ListActionMusicClear>(PLAYER_EVENT_NAME.list_music_clear, ids)
+  await rendererInvoke<LX.List.ListActionMusicClear>(PLAYER_EVENT_NAME.list_music_clear, toListPayload(ids))
 }
 
 /**
@@ -134,19 +142,7 @@ export const clearListMusics = async(ids: LX.List.ListActionMusicClear) => {
  * @param data
  */
 export const overwriteListFull = async(data: LX.List.ListActionDataOverwrite) => {
-  data.defaultList = toRaw(data.defaultList)
-  data.loveList = toRaw(data.loveList)
-  if (data.tempList) {
-    data.tempList = toRaw(data.tempList)
-  }
-  data.userList = data.userList.map(info => {
-    return {
-      ...info,
-      list: toRaw(info.list),
-    }
-  })
-
-  await rendererInvoke<LX.List.ListActionDataOverwrite>(PLAYER_EVENT_NAME.list_data_overwire, data)
+  await rendererInvoke<LX.List.ListActionDataOverwrite>(PLAYER_EVENT_NAME.list_data_overwire, toListPayload(data))
 }
 
 /**

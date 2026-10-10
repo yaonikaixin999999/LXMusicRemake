@@ -22,7 +22,7 @@ let previousFocus: HTMLElement | null = null
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); emit('close'); return }
   if (event.key !== 'Tab') return
-  const elements = panel.value?.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]')
+  const elements = panel.value?.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, a[href], [tabindex="0"]')
   if (!elements?.length) return
   const first = elements[0]
   const last = elements[elements.length - 1]
@@ -44,7 +44,7 @@ onBeforeUnmount(() => previousFocus?.focus())
 .ui-dialog-backdrop { position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--modern-overlay); backdrop-filter: blur(6px); box-sizing: border-box; -webkit-app-region: no-drag; }
 .ui-dialog-panel { max-width: 100%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; color: var(--modern-text); background: var(--modern-panel); border: 1px solid var(--modern-border); border-radius: var(--modern-radius); box-shadow: 0 24px 90px rgba(0, 0, 0, .2); outline: none; font-family: inherit; }
 .ui-dialog-heading { padding: 22px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--modern-border); flex: none; h2 { font-size: 18px; font-weight: 600; line-height: 1.4; } p { margin-top: 5px; color: var(--modern-muted); font-size: 12px; line-height: 1.5; } }
-.ui-dialog-close { flex: none; border: 0; background: var(--modern-hover); color: var(--modern-muted); width: 28px; height: 28px; border-radius: 50%; font-size: 21px; cursor: pointer; line-height: 1; &:hover { color: var(--modern-text); } }
+.ui-dialog-close { display: grid; place-items: center; flex: none; border: 0; padding: 0; background: var(--modern-hover); color: var(--modern-muted); width: 28px; height: 28px; border-radius: 50%; font-size: 21px; cursor: pointer; line-height: 1; &:hover { color: var(--modern-text); } }
 .ui-dialog-content { padding: 24px; overflow: auto; min-height: 0; font-size: 13px; line-height: 1.6; }
 .ui-dialog-footer { padding: 16px 24px; display: flex; justify-content: flex-end; gap: 8px; flex: none; border-top: 1px solid var(--modern-border); }
 .ui-dialog-panel button:focus-visible, .ui-dialog-panel input:focus-visible { outline: 2px solid var(--modern-accent); outline-offset: 2px; }

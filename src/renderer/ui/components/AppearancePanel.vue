@@ -45,8 +45,14 @@
               <div class="appearance-range-labels"><span>利落</span><span>柔和</span></div>
             </div>
 
+            <div class="appearance-section">
+              <label class="appearance-label" for="appearance-panel-gap">浮动面板间距 <span class="appearance-value">{{ appearance.panelGap }} px</span></label>
+              <input id="appearance-panel-gap" :value="appearance.panelGap" class="appearance-range" type="range" min="4" max="32" step="1" @input="handlePanelGapInput">
+              <div class="appearance-range-labels"><span>紧密</span><span>宽松</span></div>
+            </div>
+
             <fieldset class="appearance-section">
-              <legend>内容间距</legend>
+              <legend>列表密度</legend>
               <div class="appearance-density">
                 <button type="button" :class="{ selected: appearance.density === 'comfortable' }" :aria-pressed="appearance.density === 'comfortable'" @click="appearance.density = 'comfortable'">舒适</button>
                 <button type="button" :class="{ selected: appearance.density === 'compact' }" :aria-pressed="appearance.density === 'compact'" @click="appearance.density = 'compact'">紧凑</button>
@@ -101,6 +107,10 @@ function handleAccentInput(event: Event) {
 function handleRadiusInput(event: Event) {
   const value = Number((event.target as HTMLInputElement).value)
   if (Number.isFinite(value)) appearance.radius = Math.max(8, Math.min(28, value))
+}
+function handlePanelGapInput(event: Event) {
+  const value = Number((event.target as HTMLInputElement).value)
+  if (Number.isFinite(value)) appearance.panelGap = Math.max(4, Math.min(32, Math.round(value)))
 }
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') {

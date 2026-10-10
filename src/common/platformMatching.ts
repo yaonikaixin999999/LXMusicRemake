@@ -11,6 +11,7 @@ export const recordingKey = (track: LX.Music.MusicInfo) => `${normalize(track.na
 export const sameRecording = (first: LX.Music.MusicInfo, second: LX.Music.MusicInfo) => {
   if (first.source === second.source && first.id === second.id) return true
   if (recordingKey(first) !== recordingKey(second)) return false
+  if (normalize(first.meta.recordingVersion ?? '') !== normalize(second.meta.recordingVersion ?? '')) return false
   const durationA = seconds(first)
   const durationB = seconds(second)
   return durationA > 0 && durationB > 0 ? Math.abs(durationA - durationB) <= 3 : normalize(first.meta.albumName) === normalize(second.meta.albumName) && Boolean(first.meta.albumName)

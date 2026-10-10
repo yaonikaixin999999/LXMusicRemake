@@ -10,7 +10,7 @@
     </template>
     <section v-else class="ui-search-results"><div class="ui-section-heading"><h2>“{{ keyword }}”<span v-if="!loading && !error"> · {{ total.toLocaleString() }} {{ kind === 'music' ? '首歌曲' : '份歌单' }}</span></h2><button v-if="kind === 'music' && tracks.length && !loading" type="button" @click="playPage"><UiIcon name="play" filled />播放本页</button></div><p v-if="partialFailure && !loading" class="ui-discovery-note">{{ partialFailure }}</p>
       <TrackTable v-if="kind === 'music'" :list="tracks" :loading="loading" :error="error" :offset="source === 'all' ? 0 : (page - 1) * limit" empty-title="没有找到这首歌" @play="playOne" @add="openAction($event, 'add')" @download="openAction($event, 'download')" @retry="load" />
-      <template v-else><UiEmpty v-if="loading || error || !playlists.length" :title="loading ? '正在寻找歌单…' : error ? '搜索暂时失败' : '没有找到相关歌单'" :description="error || (loading ? '正在读取所选平台的结果。' : '试试更简短的关键词，或切换音源。')" :retry="Boolean(error)" @retry="load" /><PlaylistGrid v-else :list="playlists" @open="openPlaylist" /></template>
+      <template v-else><UiEmpty v-if="loading || error || !playlists.length" :title="loading ? '正在寻找歌单…' : error ? '搜索暂时失败' : '没有找到相关歌单'" :description="error || (loading ? '正在读取所选平台的结果。' : '试试更简短的关键词，或切换音源。')" :retry="Boolean(error)" @retry="load" /><PlaylistGrid v-else :list="playlists" @open="openPlaylist" @play="openPlaylist($event, true)" /></template>
       <UiPagination v-if="!error" :page="page" :pages="pages" :loading="loading" @change="changePage" />
     </section>
     <TrackActionModal :show="actionOpen" :tracks="actionTracks" :action="action" @close="actionOpen = false" @success="message = $event" />
@@ -144,7 +144,7 @@ function changePage(value: number) { navigate(keyword.value, kind.value, source.
 async function playOne(track: LX.Music.MusicInfo) { try { await playTrack(track) } catch (err) { message.value = err instanceof Error ? err.message : '暂时无法播放。' } }
 async function playPage() { try { await playTracks(tracks.value) } catch (err) { message.value = err instanceof Error ? err.message : '暂时无法播放。' } }
 function openAction(track: LX.Music.MusicInfo, value: 'add' | 'download') { actionTracks.value = [track]; action.value = value; actionOpen.value = true }
-function openPlaylist(item: ListInfoItem) { void router.push({ path: '/songList/detail', query: { source: item.source, id: item.id, name: item.name, picUrl: item.img } }) }
+function openPlaylist(item: ListInfoItem, play = false) { void router.push({ path: '/songList/detail', query: { source: item.source, id: item.id, name: item.name, picUrl: item.img, play: play ? 'true' : undefined } }) }
 </script>
 
 <style lang="less">

@@ -4,6 +4,7 @@ export interface Appearance {
   mode: 'light' | 'dark' | 'system'
   accent: string
   radius: number
+  panelGap: number
   density: 'comfortable' | 'compact'
   showExplore: boolean
 }
@@ -13,6 +14,7 @@ const defaults: Appearance = {
   mode: 'light',
   accent: '#638575',
   radius: 20,
+  panelGap: 12,
   density: 'comfortable',
   showExplore: true,
 }
@@ -24,6 +26,7 @@ export function validateAppearance(value: unknown): Appearance {
     mode: input.mode === 'dark' || input.mode === 'system' ? input.mode : 'light',
     accent: typeof input.accent === 'string' && /^#[\da-f]{6}$/i.test(input.accent) ? input.accent.toLowerCase() : defaults.accent,
     radius: typeof input.radius === 'number' && Number.isFinite(input.radius) ? Math.min(28, Math.max(8, Math.round(input.radius))) : defaults.radius,
+    panelGap: typeof input.panelGap === 'number' && Number.isFinite(input.panelGap) ? Math.min(32, Math.max(4, Math.round(input.panelGap))) : defaults.panelGap,
     density: input.density === 'compact' ? 'compact' : 'comfortable',
     showExplore: typeof input.showExplore === 'boolean' ? input.showExplore : defaults.showExplore,
   }
@@ -87,6 +90,7 @@ function applyAppearance() {
     '--modern-hover': color(hover),
     '--modern-radius': `${appearance.radius}px`,
     '--modern-radius-small': `${Math.round(appearance.radius * 0.6)}px`,
+    '--modern-panel-gap': `${appearance.panelGap}px`,
     '--modern-shadow': dark ? '0 8px 32px rgba(0, 0, 0, 0.18)' : '0 4px 24px rgba(28, 42, 34, 0.04)',
     '--modern-row-height': appearance.density === 'compact' ? '36px' : '46px',
     '--modern-gap': appearance.density === 'compact' ? '10px' : '16px',

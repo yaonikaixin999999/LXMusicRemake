@@ -1,7 +1,7 @@
 import { onBeforeUnmount } from '@common/utils/vueTools'
 import { useI18n } from '@renderer/plugins/i18n'
-import { musicInfo, playMusicInfo } from '@renderer/store/player/state'
-import { setStop, isEmpty } from '@renderer/plugins/player'
+import { isPlay, musicInfo, playMusicInfo } from '@renderer/store/player/state'
+import { getAutoplay, setStop, isEmpty } from '@renderer/plugins/player'
 import { playNext, setMusicUrl } from '@renderer/core/player'
 import { setAllStatus } from '@renderer/store/player/action'
 import { appSetting } from '@renderer/store/setting'
@@ -17,7 +17,7 @@ export default () => {
     // console.log('start load timeout')
     clearLoadingTimeout()
     loadingTimeout = setTimeout(() => {
-      if (window.lx.isPlayedStop) {
+      if (window.lx.isPlayedStop || !getAutoplay()) {
         prevTimeoutId = null
         setAllStatus('')
         return
@@ -49,7 +49,7 @@ export default () => {
   const addDelayNextTimeout = () => {
     clearDelayNextTimeout()
     delayNextTimeout = setTimeout(() => {
-      if (window.lx.isPlayedStop) {
+      if (window.lx.isPlayedStop || !getAutoplay()) {
         setAllStatus('')
         return
       }
@@ -59,7 +59,7 @@ export default () => {
 
   const handleLoadstart = () => {
     if (window.lx.isPlayedStop) return
-    if (appSetting['player.autoSkipOnError']) startLoadingTimeout()
+    if (appSetting['player.autoSkipOnError'] && getAutoplay()) startLoadingTimeout()
     setAllStatus(t('player__loading'))
   }
 
@@ -70,6 +70,18 @@ export default () => {
   const handlePlaying = () => {
     setAllStatus('')
     clearLoadingTimeout()
+  }
+
+  const handleCanplay = () => {
+    clearLoadingTimeout()
+    clearDelayNextTimeout()
+    if (!isPlay.value) setAllStatus('')
+  }
+
+  const handlePause = () => {
+    if (getAutoplay()) return
+    clearLoadingTimeout()
+    clearDelayNextTimeout()
   }
 
   const handleEmpied = () => {
@@ -85,7 +97,9 @@ export default () => {
     if (!musicInfo.id) return
     clearLoadingTimeout()
     if (window.lx.isPlayedStop) return
+    const resume = getAutoplay()
     if (!isEmpty()) setStop()
+    if (!resume) { setAllStatus(t('player__error')); return }
     if (playMusicInfo.musicInfo && errCode !== 1 && retryNum < 2) { // 若音频URL无效则尝试刷新2次URL
       // console.log(this.retryNum)
       retryNum++
@@ -121,6 +135,8 @@ export default () => {
   window.app_event.on('playerLoadstart', handleLoadstart)
   window.app_event.on('playerLoadeddata', handleLoadeddata)
   window.app_event.on('playerPlaying', handlePlaying)
+  window.app_event.on('playerCanplay', handleCanplay)
+  window.app_event.on('playerPause', handlePause)
   window.app_event.on('playerWaiting', handleWating)
   window.app_event.on('playerEmptied', handleEmpied)
   window.app_event.on('playerError', handleError)
@@ -130,6 +146,8 @@ export default () => {
     window.app_event.off('playerLoadstart', handleLoadstart)
     window.app_event.off('playerLoadeddata', handleLoadeddata)
     window.app_event.off('playerPlaying', handlePlaying)
+    window.app_event.off('playerCanplay', handleCanplay)
+    window.app_event.off('playerPause', handlePause)
     window.app_event.off('playerWaiting', handleWating)
     window.app_event.off('playerEmptied', handleEmpied)
     window.app_event.off('playerError', handleError)

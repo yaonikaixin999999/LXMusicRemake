@@ -51,5 +51,8 @@ exports.copyLib = async(arch = process.arch, replaceLocal = false) => {
     return
   }
   const targetPath = path.join(__dirname, '../node_modules/better-sqlite3/build/Release/better_sqlite3.node')
+  // A running development app may have this native library loaded on Windows.
+  // Keep the already-correct binary instead of trying to unlink a locked file.
+  if (fs.existsSync(targetPath) && (await fs.promises.readFile(libPath)).equals(await fs.promises.readFile(targetPath))) return
   await fs.promises.cp(libPath, targetPath, { recursive: true, force: true })
 }
